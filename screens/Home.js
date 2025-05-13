@@ -8,10 +8,10 @@ export default function Home() {
     const navigation = useNavigation();
 
     return (
-        <ImageBackground source={require('../assets/background-mobile-glamsync.png')} style={styles.background}>
+        <ImageBackground source={require('../assets/img/background-mobile-glamsync.png')} style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.title}>WELCOME!</Text>
-                <Image source={require('../assets/logoComEscrita.png')} style={styles.logo} />
+                <Image source={require('../assets/img/logoComEscrita.png')} style={styles.logo} />
                 <View style={styles.sloganContainer}>
                     <Text style={styles.slogan}>Fashion that conects</Text>
                     <Text style={styles.slogan}>Style that impacts</Text>
