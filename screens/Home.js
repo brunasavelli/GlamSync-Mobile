@@ -3,9 +3,31 @@ import { View, Text, Image, ImageBackground, TouchableOpacity, StyleSheet } from
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import * as Font from "expo-font";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const navigation = useNavigation();
+    const [fontsLoaded, setFontsLoaded] = useState(false);
+    
+        useEffect(() => {
+            async function loadFonts() {
+                await Font.loadAsync({
+                    "Montserrat-MediumItalic": require("../assets/fonts/Montserrat-MediumItalic.ttf"),
+                    "Montserrat-Bold": require("../assets/fonts/Montserrat-Bold.ttf"),
+                    "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
+                    "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
+                    "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
+                    "Montserrat-SemiBoldItalic": require("../assets/fonts/Montserrat-SemiBoldItalic.ttf"),
+                });
+                setFontsLoaded(true);
+            }
+            loadFonts();
+        }, []);
+    
+        if (!fontsLoaded) {
+            return null;
+        }
 
     return (
         <ImageBackground source={require('../assets/img/background-mobile-glamsync.png')} style={styles.background}>
@@ -44,7 +66,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 50,
         color: 'white',
-        fontWeight: 'bold',
+        fontFamily: 'Montserrat-Bold',
         marginTop: 50,
     },
     logo: {
@@ -60,7 +82,7 @@ const styles = StyleSheet.create({
     slogan: {
         fontSize: 20,
         color: 'white',
-        fontStyle: 'italic',
+        fontFamily: 'Montserrat-SemiBoldItalic',
     },
     button: {
         flexDirection: 'row',
@@ -76,5 +98,6 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 20,
         color: 'black',
+        fontFamily: 'Montserrat-SemiBold',
     },
 });

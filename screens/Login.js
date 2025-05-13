@@ -1,8 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, ImageBackground } from "react-native";
-import { CheckBox } from "react-native-web";
 import { useEffect, useState } from "react";
-import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
 
@@ -18,6 +16,7 @@ export default function Login() {
                 "Montserrat-Bold": require("../assets/fonts/Montserrat-Bold.ttf"),
                 "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
                 "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
+                "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
             });
             setFontsLoaded(true);
         }
@@ -46,11 +45,19 @@ export default function Login() {
                     <View style={styles.inputs}>
                         <View style={styles.input}>
                             <Image source={require("../assets/img/user.png")} style={{ width: 20, height: 20 }} />
-                            <TextInput placeholder="Usename" style={styles.label} />
+                            <TextInput
+                                placeholder="Username"
+                                placeholderTextColor="#A4A4A4"
+                                style={{ fontSize: 14, fontFamily: "Montserrat-Bold", width: 250 }}
+                            />
                         </View>
                         <View style={styles.input}>
-                            <Image source={require("../assets/img/cad.png")} style={{ width: 20, height: 20 }} />
-                            <TextInput placeholder="Password" style={styles.label} />
+                            <Image source={require("../assets/img/cad.png")} style={{ width: 18, height: 18 }} />
+                            <TextInput
+                                placeholder="Password"
+                                placeholderTextColor="#A4A4A4"
+                                style={{ fontSize: 14, fontFamily: "Montserrat-Bold", width: 250 }}
+                            />
                         </View>
 
                         <View style={styles.checkboxContainer}>
@@ -151,18 +158,18 @@ const styles = StyleSheet.create({
         gap: 10
     },
     input: {
-        width: 300,
-        height: 50,
-        backgroundColor: "#F1F3F4",
-        borderRadius: 50,
-        padding: 15,
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
-        color: "#CDCDCD",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        gap: "0.5rem",
-        fontSize: 20,
+        width: 300,
+        height: 50,
+        backgroundColor: "#F1F3F4",
+        color: "#F1F3F4",
+        paddingLeft: 15,
+        fontSize: 14,
+        borderRadius: 50,
+        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+        gap: 1,
     },
     checkboxContainer: {
         flexDirection: 'row',
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
     label: {
         marginLeft: 8,
         fontSize: 12,
-        color: "#CDCDCD",
+        color: "#A4A4A4",
         fontFamily: "Montserrat-Bold",
     },
     login: {
@@ -198,7 +205,7 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-Regular",
     },
     forgotPassword: {
-        marginLeft: 80,
+        marginLeft: 60,
         fontSize: 12,
         color: "#DD776C",
         fontFamily: "Montserrat-SemiBold",
@@ -231,6 +238,8 @@ const styles = StyleSheet.create({
     span: {
         color: "#5F5F5F",
         fontFamily: "Montserrat-Regular",
+        fontWeight: "bold",
+        textDecorationLine: "underline",
         marginLeft: 5,
     },
     lines: {
