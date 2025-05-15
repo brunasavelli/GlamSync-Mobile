@@ -10,6 +10,13 @@ export default function Notifications() {
             source={require("../assets/img/background2-mobile-glamsync.png")}
             style={styles.background}>
                 <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Image source={require("../assets/img/GlamSyncHeader.png")} style={styles.logo} />
+                        <View style={styles.icons}>
+                            <Image source={require("../assets/img/bell.png")} style={styles.icon} />
+                            <Image source={require("../assets/img/menuDots.png")} style={styles.icon} />
+                        </View>
+                    </View>
                     <View style={styles.main}>
                         <Text style={styles.h1}>Notifications Center</Text>
                         <View style={styles.cards}>
@@ -38,6 +45,36 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+    },
+    header: {
+        flex: 0.5,
+        backgroundColor: "#fff",
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+    },
+    logo: {
+        width: 160,
+        height: 45,
+        resizeMode: "contain",
+        marginTop: 20,
+    },
+    icons: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        width: 100,
+        marginTop: 20,
+    },
+    icon: {
+        width: 25,
+        height: 25,
+        marginLeft: 20,
     },
     h1: {
         fontSize: 20,
