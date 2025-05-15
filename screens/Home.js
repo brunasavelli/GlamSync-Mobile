@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
-        fontSize: 50,
+        fontSize: 40,
         color: 'white',
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'Montserrat-Black',
         marginTop: 50,
     },
     logo: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     slogan: {
-        fontSize: 20,
+        fontSize: 15,
         color: 'white',
         fontFamily: 'Montserrat-SemiBoldItalic',
     },
@@ -90,13 +90,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#fff',
         width: 215,
+        height: 42,
         paddingVertical: 8,
         paddingHorizontal: 30,
         borderRadius: 50,
         marginTop: 15,
     },
     buttonText: {
-        fontSize: 20,
+        fontSize: 15,
         color: 'black',
         fontFamily: 'Montserrat-SemiBold',
     },

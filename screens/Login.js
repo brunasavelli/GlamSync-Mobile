@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, ImageBackground, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -44,7 +44,7 @@ export default function Login() {
 
                     <View style={styles.inputs}>
                         <View style={styles.input}>
-                            <Image source={require("../assets/img/user.png")} style={{ width: 20, height: 20 }} />
+                            <Image source={require("../assets/img/user.png")} style={{ width: 25, height: 25 }} />
                             <TextInput
                                 placeholder="Username"
                                 placeholderTextColor="#A4A4A4"
@@ -52,7 +52,7 @@ export default function Login() {
                             />
                         </View>
                         <View style={styles.input}>
-                            <Image source={require("../assets/img/cad.png")} style={{ width: 18, height: 18 }} />
+                            <Image source={require("../assets/img/cad.png")} style={{ width: 22, height: 22 }} />
                             <TextInput
                                 placeholder="Password"
                                 placeholderTextColor="#A4A4A4"
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: 50,
     },
     logo: {
         width: 250,
@@ -135,8 +136,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        gap: "2rem",
+        gap: 8,
+        paddingTop: 45,
     },
     h1: {
         fontSize: 40,
@@ -155,21 +156,21 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         height: 250,
         width: "90%",
-        gap: 10
+        gap: 15,
     },
     input: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         width: 300,
-        height: 50,
+        height: 45,
         backgroundColor: "#F1F3F4",
         color: "#F1F3F4",
         paddingLeft: 15,
-        fontSize: 14,
         borderRadius: 50,
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
-        gap: 1,
+        borderWidth: 1,
+        borderColor: "#DCDCDC",
+        gap: 16,
     },
     checkboxContainer: {
         flexDirection: 'row',
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 250,
-        height: 50,
+        height: 40,
         marginTop: 20,
         backgroundColor: "#F79489",
         borderRadius: 50,
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        fontSize: 20,
+        fontSize: 16,
         fontFamily: "Montserrat-Bold",
     },
     textArea: {
@@ -237,8 +238,7 @@ const styles = StyleSheet.create({
     },
     span: {
         color: "#5F5F5F",
-        fontFamily: "Montserrat-Regular",
-        fontWeight: "bold",
+        fontFamily: "Montserrat-Bold",
         textDecorationLine: "underline",
         marginLeft: 5,
     },
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     icons: {
         display: "flex",
         flexDirection: "row",
-        gap: 5,
+        gap: 50,
         alignItems: "center",
         justifyContent: "center",
         width: 90,
