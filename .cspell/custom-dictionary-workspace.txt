@@ -1,3 +1,6 @@
 # Custom Dictionary Words
+começou
+Emblema
 glamsync
+seguir
 Usename
