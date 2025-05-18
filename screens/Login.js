@@ -1,10 +1,34 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, ImageBackground, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
+import { Ionicons } from '@expo/vector-icons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Login() {
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
+
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isPhoneValid, setIsPhoneValid] = useState(false);
+
+    const validateEmail = (text) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setEmail(text);
+        setIsEmailValid(emailRegex.test(text));
+    };
+
+    const validatePhone = (text) => {
+        const phoneRegex = /^\d{10,}$/;
+        setPhoneNumber(text);
+        setIsPhoneValid(phoneRegex.test(text));
+    };
+
     const [isChecked, setIsChecked] = useState(false);
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -28,68 +52,89 @@ export default function Login() {
     }
 
     return (
-        <ImageBackground
-            source={require("../assets/img/background-mobile-glamsync.png")}
-            style={styles.background}>
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
-                <Image source={require("../assets/img/back.png")} style={{ width: 50, height: 50 }}/>
-                </TouchableOpacity>
-                <View style={styles.top}>
-                    <Image source={require("../assets/img/logoComEscrita.png")} style={styles.logo} />
-                </View>
-                <View style={styles.main}>
-                    <Text style={styles.h1}>Welcome Back!</Text>
-                    <Text style={styles.logAccount}>Log in to your account</Text>
-
-                    <View style={styles.inputs}>
-                        <View style={styles.input}>
-                            <Image source={require("../assets/img/user.png")} style={{ width: 25, height: 25 }} />
-                            <TextInput
-                                placeholder="Username"
-                                placeholderTextColor="#A4A4A4"
-                                style={{ fontSize: 14, fontFamily: "Montserrat-Bold", width: 250 }}
-                            />
-                        </View>
-                        <View style={styles.input}>
-                            <Image source={require("../assets/img/cad.png")} style={{ width: 22, height: 22 }} />
-                            <TextInput
-                                placeholder="Password"
-                                placeholderTextColor="#A4A4A4"
-                                style={{ fontSize: 14, fontFamily: "Montserrat-Bold", width: 250 }}
-                            />
-                        </View>
-
-                        <View style={styles.checkboxContainer}>
-                            <TouchableOpacity style={[styles.checkbox, isChecked && styles.checked]}
-                                onPress={() => setIsChecked(!isChecked)} />
-                            <Text style={styles.label}>Remember Me</Text>
-                            <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                        </View>
-
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Log In</Text>
+        <SafeAreaView style={styles.container}>
+            <StatusBar style="auto" />
+            <ImageBackground
+                source={require("../assets/img/background-mobile-glamsync.png")}
+                style={styles.background}>
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <View style={styles.container}>
+                        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
+                            <Ionicons name="chevron-back" size={24} color="pink" />
                         </TouchableOpacity>
-                    </View>
+                        <View style={styles.top}>
+                            <Image source={require("../assets/img/logoComEscrita.png")} style={styles.logo} />
+                        </View>
+                        <View style={styles.main}>
+                            <Text style={styles.h1}>Welcome Back!</Text>
+                            <Text style={styles.logAccount}>Log in to your account</Text>
 
-                    <View style={styles.textArea}>
-                        <Text style={styles.p}>Don't have an account?</Text>
-                        <Text style={styles.span}>Sign Up</Text>
-                    </View>
+                            <View style={styles.form}>
+                                <View style={styles.inputContainer}>
+                                    <FontAwesome name="user-circle-o" size={20} color="pink" style={styles.inputIcon} />
+                                    <TextInput
+                                        placeholder="Username"
+                                        placeholderTextColor="#A4A4A4"
+                                        style={styles.input}
+                                        value={fullName}
+                                        onChange={setFullName}
+                                    />
+                                </View>
+                                <View style={styles.inputContainer}>
+                                    <Ionicons name="lock-closed" size={20} color="pink" style={styles.inputIcon} />
+                                    <TextInput
+                                        placeholder="Password"
+                                        placeholderTextColor="#A4A4A4"
+                                        style={styles.input}
+                                        secureTextEntry={!showPassword}
+                                        value={password}
+                                        onChange={setPassword}
+                                    />
+                                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.validationIcon}>
+                                        <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#999" />
+                                    </TouchableOpacity>
+                                </View>
 
-                    <View style={styles.lines}>
-                        <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                        <Text style={styles.login}>Log In with</Text>
-                        <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                    </View>
+                                <View style={styles.checkboxContainer}>
+                                    <TouchableOpacity style={styles.checkbox}
+                                        onPress={() => setRememberMe(!rememberMe)} >
+                                            {rememberMe ? (
+                                                <Ionicons name="checkmark-circle" size={20} color="#F08080" />
+                                            ) : (
+                                                <Ionicons name="ellipse-outline" size={20} color="#F08080" />
+                                            )}
+                                        </TouchableOpacity>
+                                    <Text style={styles.label}>Remember Me</Text>
+                                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                                </View>
 
-                    <View style={styles.icons}>
-                        <Image source={require('../assets/img/google.png')} style={styles.icon} />
-                        <Image source={require('../assets/img/apple.png')} style={styles.icon} />
+                                <TouchableOpacity style={styles.button}>
+                                    <Text style={styles.buttonText}>Log In</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.textArea}>
+                                <Text style={styles.p}>Don't have an account?</Text>
+                                <Text style={styles.span} onPress={() =>
+                                    navigation.navigate('SignUp')
+                                }>Sign Up</Text>
+                            </View>
+
+                            <View style={styles.lines}>
+                                <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                <Text style={styles.login}>Log In with</Text>
+                                <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                            </View>
+
+                            <View style={styles.icons}>
+                                <Image source={require('../assets/img/google.png')} style={styles.icon} />
+                                <Image source={require('../assets/img/apple.png')} style={styles.icon} />
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
-        </ImageBackground>
+                </ScrollView>
+            </ImageBackground>
+        </SafeAreaView>
     );
 }
 
@@ -106,9 +151,16 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: "absolute",
-        top: 50,
-        left: 20,
+        top: 40,
+        left: 10,
         zIndex: 1,
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: '#f5f5f5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     top: {
         display: "flex",
@@ -127,17 +179,15 @@ const styles = StyleSheet.create({
     },
     main: {
         backgroundColor: "white",
-        width: "100vw",
         height: 600,
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
-        position: "fixed",
-        bottom: 0,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: 8,
-        paddingTop: 45,
+        paddingTop: 30,
+        marginTop: 53,
     },
     h1: {
         fontSize: 40,
@@ -149,45 +199,41 @@ const styles = StyleSheet.create({
         color: "#A4A4A4",
         fontFamily: "Montserrat-Bold",
     },
-    inputs: {
+    form: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         height: 250,
-        width: "90%",
+        width: "100%",
         gap: 15,
     },
-    input: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        width: 300,
-        height: 45,
-        backgroundColor: "#F1F3F4",
-        color: "#F1F3F4",
-        paddingLeft: 15,
-        borderRadius: 50,
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         borderWidth: 1,
-        borderColor: "#DCDCDC",
-        gap: 16,
+        borderColor: '#eee',
+        borderRadius: 30,
+        marginBottom: 15,
+        paddingHorizontal: 15,
+        height: 50,
+        width: 330,
+        backgroundColor: '#f9f9f9',
+        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+    },
+    inputIcon: {
+        marginRight: 10,
+    },
+    input: {
+        flex: 1,
+        height: 50,
+        fontSize: 16,
     },
     checkboxContainer: {
         flexDirection: 'row',
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-    },
-    checkbox: {
-        width: 15,
-        height: 15,
-        backgroundColor: "#E4E4E4",
-        borderRadius: 10,
-        borderWidth: 1.5,
-        borderColor: "#A4A4A4",
-        backgroundColor: "white",
-        justifyContent: "center",
-        alignItems: "center",
     },
     checked: {
         backgroundColor: "#DD776C",
@@ -231,6 +277,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: 10,
     },
     p: {
         color: "#5F5F5F",
@@ -257,7 +304,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: 90,
-        height: 50,
+        height: 30,
     },
     icon: {
         width: 30,
