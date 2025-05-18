@@ -8,25 +8,17 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Login() {
     const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
 
-    const [isEmailValid, setIsEmailValid] = useState(false);
-    const [isPhoneValid, setIsPhoneValid] = useState(false);
+    const [isUsernameValid, setIsUsernameValid] = useState(false);
 
-    const validateEmail = (text) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        setEmail(text);
-        setIsEmailValid(emailRegex.test(text));
-    };
-
-    const validatePhone = (text) => {
-        const phoneRegex = /^\d{10,}$/;
-        setPhoneNumber(text);
-        setIsPhoneValid(phoneRegex.test(text));
+    const validateUsername = (text) => {
+        const userRegex = /^[a-zA-Z0-9._]{3,}$/;
+        setUsername(text);
+        setIsUsernameValid(userRegex.test(text));
     };
 
     const [isChecked, setIsChecked] = useState(false);
@@ -70,15 +62,25 @@ export default function Login() {
                             <Text style={styles.logAccount}>Log in to your account</Text>
 
                             <View style={styles.form}>
+                                { }
                                 <View style={styles.inputContainer}>
                                     <FontAwesome name="user-circle-o" size={20} color="pink" style={styles.inputIcon} />
                                     <TextInput
+                                        style={styles.input}
                                         placeholder="Username"
                                         placeholderTextColor="#A4A4A4"
-                                        style={styles.input}
-                                        value={fullName}
-                                        onChange={setFullName}
+                                        value={username}
+                                        onChangeText={validateUsername}
+                                        autoCapitalize="none"
                                     />
+                                    {username.length > 0 && (
+                                        <Ionicons
+                                            name={isUsernameValid ? "checkmark-circle" : "close-circle"}
+                                            size={20}
+                                            color={isUsernameValid ? "green" : "#F08080"}
+                                            style={styles.validationIcon}
+                                        />
+                                    )}
                                 </View>
                                 <View style={styles.inputContainer}>
                                     <Ionicons name="lock-closed" size={20} color="pink" style={styles.inputIcon} />
@@ -89,6 +91,9 @@ export default function Login() {
                                         secureTextEntry={!showPassword}
                                         value={password}
                                         onChange={setPassword}
+                                        autoCapitalize="none"
+                                        autoCorrect={false}
+                                        textContentType="password"
                                     />
                                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.validationIcon}>
                                         <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#999" />
@@ -98,12 +103,12 @@ export default function Login() {
                                 <View style={styles.checkboxContainer}>
                                     <TouchableOpacity style={styles.checkbox}
                                         onPress={() => setRememberMe(!rememberMe)} >
-                                            {rememberMe ? (
-                                                <Ionicons name="checkmark-circle" size={20} color="#F08080" />
-                                            ) : (
-                                                <Ionicons name="ellipse-outline" size={20} color="#F08080" />
-                                            )}
-                                        </TouchableOpacity>
+                                        {rememberMe ? (
+                                            <Ionicons name="checkmark-circle" size={20} color="#F08080" />
+                                        ) : (
+                                            <Ionicons name="ellipse-outline" size={20} color="#F08080" />
+                                        )}
+                                    </TouchableOpacity>
                                     <Text style={styles.label}>Remember Me</Text>
                                     <Text style={styles.forgotPassword}>Forgot Password?</Text>
                                 </View>
