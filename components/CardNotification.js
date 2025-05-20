@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, ImageBackground } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import * as Font from "expo-font";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+
 
 export default function CardNotification({ username, content, date }) {
     return (
@@ -19,6 +20,7 @@ export default function CardNotification({ username, content, date }) {
     )
 }
 
+
 const styles = StyleSheet.create({
     cardContainer: {
         display: "flex",
@@ -26,22 +28,22 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 5,
-        width: "100%",
+        width: "99%",
     },
     cards: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-center",
+        justifyContent: "space-between",
         gap: 15,
         padding: 15,
-        width: "95%"
+        width: "95%",
     },
     texts: {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        width: "70%"
+        width: "70%",
     },
     title: {
         fontSize: 14,
@@ -54,5 +56,7 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 12,
         fontFamily: "Montserrat-Regular",
+        width: "15%",
+        textAlign: "right"
     }
 })
