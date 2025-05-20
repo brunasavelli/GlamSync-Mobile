@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useEffect, useState } from "react";
 import * as Font from "expo-font";
+import { FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default function Header() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -21,11 +23,15 @@ export default function Header() {
     }
     return (
         <View style={styles.header}>
-            <View style={styles.logoContainer}>
-                <Image style={styles.logo} source={require('../assets/img/logoGlamSync.png')} />
-                <Text style={styles.title}>Glam</Text>
-                <Text style={styles.title2}>Sync</Text>
-            </View>
+                <View style={styles.logoContainer}>
+                    <Image style={styles.logo} source={require('../assets/img/logoGlamSync.png')} />
+                    <Text style={styles.title}>Glam</Text>
+                    <Text style={styles.title2}>Sync</Text>
+                </View>
+                <View style={styles.iconsContainer}>
+                    <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
+                    <Entypo name="dots-three-horizontal" size={20} color="brown" style={styles.icon} />
+                </View>
         </View>
     )
 }
@@ -36,9 +42,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: '#fff',
-        height: 90,
+        height: 100,
         width: '100%',
-        paddingTop: 30,
+        paddingTop: 40,
         paddingLeft: 20,
         paddingRight: 20,
         borderBottomLeftRadius: 20,
@@ -65,5 +71,10 @@ const styles = StyleSheet.create({
         color: 'brown',
         fontFamily: 'Montserrat-SemiBold',
         marginTop: 1,
+    },
+    iconsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 20,
     },
 })
