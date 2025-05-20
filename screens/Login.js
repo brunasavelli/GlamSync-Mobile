@@ -62,7 +62,7 @@ export default function Login() {
                             <View style={styles.form}>
                                 { }
                                 <View style={styles.inputContainer}>
-                                    <FontAwesome name="user-circle-o" size={20} color="pink" style={styles.inputIcon} />
+                                    <FontAwesome name="user-circle-o" size={20} color="#BC7D7C" style={styles.inputIcon} />
                                     <TextInput
                                         style={styles.input}
                                         placeholder="Username"
@@ -81,7 +81,7 @@ export default function Login() {
                                     )}
                                 </View>
                                 <View style={styles.inputContainer}>
-                                    <Ionicons name="lock-closed" size={20} color="pink" style={styles.inputIcon} />
+                                    <Ionicons name="lock-closed" size={20} color="#BC7D7C" style={styles.inputIcon} />
                                     <TextInput
                                         placeholder="Password"
                                         placeholderTextColor="#A4A4A4"
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 250,
         height: 250,
+        marginTop: 40,
     },
     text: {
         color: "white",
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         height: 250,
         width: "100%",
-        gap: 15,
+        gap: 5,
     },
     inputContainer: {
         flexDirection: 'row',
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 10,
+        marginTop: 1,
     },
     p: {
         color: "#5F5F5F",
@@ -293,7 +294,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     lines: {
-        marginTop: 20,
+        marginTop: 10,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",

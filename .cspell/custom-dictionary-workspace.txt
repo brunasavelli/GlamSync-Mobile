@@ -1,3 +1,10 @@
 # Custom Dictionary Words
+<<<<<<< HEAD
+brunasavelli
+=======
+começou
+Emblema
+>>>>>>> cbb59bdc981e472b2dee887eeb9b7f6ccf8991b3
 glamsync
+seguir
 Usename
