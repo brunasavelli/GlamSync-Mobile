@@ -7,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Login() {
-    const [fullName, setFullName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +20,6 @@ export default function Login() {
         setIsUsernameValid(userRegex.test(text));
     };
 
-    const [isChecked, setIsChecked] = useState(false);
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
