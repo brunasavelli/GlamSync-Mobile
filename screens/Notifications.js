@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Image, ImageBackground, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
-import CardNotification from "../components/CardNotification";
 import { useEffect, useState } from "react";
+import CardNotification from "../components/CardNotification";
+import Header from "../components/Header";
 
 export default function Notifications() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -30,13 +31,7 @@ export default function Notifications() {
             source={require("../assets/img/background2-mobile-glamsync.png")}
             style={styles.background}>
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <View style={styles.logoContainer}>
-                        <Image style={styles.logo} source={require('../assets/img/logoGlamSync.png')} />
-                        <Text style={styles.title}>Glam</Text>
-                        <Text style={styles.title2}>Sync</Text>
-                    </View>
-                </View>
+                <Header />
                 <ScrollView style={{ flex: 1 }}>
                 <View style={styles.main}>
                     <Text style={styles.h1}>Notifications Center</Text>
@@ -73,23 +68,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        flex: 0.5,
-        backgroundColor: "#fff",
-        borderBottomLeftRadius: 25,
-        borderBottomRightRadius: 25,
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-    logo: {
-        width: 160,
-        height: 45,
-        resizeMode: "contain",
-        marginTop: 20,
-    },
     icons: {
         display: "flex",
         flexDirection: "row",
@@ -115,41 +93,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#fff',
-        height: 90,
-        width: '100%',
-        paddingTop: 30,
-        paddingLeft: 20,
-        paddingRight: 20,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        borderWidth: 1,
-        borderColor: '#dcdcdc',
-    },
-    logoContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    logo: {
-        width: 30,
-        height: 30,
-        marginRight: 5,
-    },
-    title: {
-        fontSize: 12,
-        color: 'brown',
-        fontFamily: 'EmblemaOne-Regular'
-    },
-    title2: {
-        fontSize: 12,
-        color: 'brown',
-        fontFamily: 'Montserrat-SemiBold',
-        marginTop: 1,
     },
     iconsContainer: {
         flexDirection: 'row',
