@@ -1,62 +1,46 @@
-import { StyleSheet, Text, View, Image, ImageBackground, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, ImageBackground, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
-import { useEffect, useState } from "react";
 import CardNotification from "../components/CardNotification";
-import Header from "../components/Header";
+import Header from "../components/Header"
+
 
 export default function Notifications() {
-    const [fontsLoaded, setFontsLoaded] = useState(false);
-
-    useEffect(() => {
-            async function loadFonts() {
-                await Font.loadAsync({
-                    "Montserrat-MediumItalic": require("../assets/fonts/Montserrat-MediumItalic.ttf"),
-                    "Montserrat-Bold": require("../assets/fonts/Montserrat-Bold.ttf"),
-                    "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
-                    "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
-                    "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
-                    "EmblemaOne-Regular": require("../assets/fonts/EmblemaOne-Regular.ttf"),
-                });
-                setFontsLoaded(true);
-            }
-            loadFonts();
-        }, []);
-
-    if (!fontsLoaded) {
-        return null;
-    }
-    return (
+    return(
         <ImageBackground
             source={require("../assets/img/background2-mobile-glamsync.png")}
             style={styles.background}>
-            <View style={styles.container}>
-                <Header />
-                <ScrollView style={{ flex: 1 }}>
-                <View style={styles.main}>
-                    <Text style={styles.h1}>Notifications Center</Text>
-                    <View style={styles.cards}>
-                        <CardNotification username="@username" content="start following you" date="2 min" />
-                        <CardNotification username="@username" content="start following you" date="10 min" />
-                        <CardNotification username="@username" content="send you a message" date="50 min" />
-                        <CardNotification username="@username" content="send you a message" date="1 h" />
-                        <CardNotification username="@username" content="comment in your post" date="1 h" />
-                        <CardNotification username="@username" content="comment in your post" date="2 h" />
-                        <CardNotification username="@username" content="shared your profile" date="2 h" />
-                        <CardNotification username="@username" content="shared your profile" date="2 h" />
-                        <CardNotification username="@username" content="visited your profile" date="3 h" />
-                        <CardNotification username="@username" content="visited your profile" date="3 h" />
-                        <CardNotification username="@username" content="visited your profile" date="5 h" />
-                        <CardNotification username="@username" content="visited your profile" date="5 h" />
-                        <CardNotification username="@username" content="start following you" date="1 day" />
-                        <CardNotification username="@username" content="start following you" date="2 days" />
+                <ScrollView>
+                    <View style={styles.container}>
+                    <Header />
+                    <View style={styles.main}>
+                        <Text style={styles.h1}>Notifications Center</Text>
+                        <View style={styles.cards}>
+                            <CardNotification username="@username" content="start following you" date="2 min"/>
+                            <CardNotification username="@username" content="start following you" date="5 min"/>
+                            <CardNotification username="@username" content="start following you" date="10 min"/>
+                            <CardNotification username="@username" content="start following you" date="20 min"/>
+                            <CardNotification username="@username" content="start following you" date="30 min"/>
+                            <CardNotification username="@username" content="start following you" date="40 min"/>
+                            <CardNotification username="@username" content="start following you" date="45 min"/>
+                            <CardNotification username="@username" content="start following you" date="50 min"/>
+                            <CardNotification username="@username" content="start following you" date="1h"/>
+                            <CardNotification username="@username" content="start following you" date="2h"/>
+                            <CardNotification username="@username" content="start following you" date="2h"/>
+                            <CardNotification username="@username" content="start following you" date="4h"/>
+                            <CardNotification username="@username" content="start following you" date="5h"/>
+                            <CardNotification username="@username" content="start following you" date="6h"/>
+                        </View>
                     </View>
                 </View>
                 </ScrollView>
-            </View>
         </ImageBackground>
-    )
+    );
 }
+
+
+
 
 const styles = StyleSheet.create({
     background: {
@@ -67,36 +51,80 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-    },
-    icons: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        width: 100,
-        marginTop: 20,
-    },
-    icon: {
-        width: 25,
-        height: 25,
-        marginLeft: 20,
-    },
-    h1: {
-        fontSize: 20,
-        fontFamily: "Montserrat-Bold",
-        color: "#000",
-        marginTop: 20,
-        marginLeft: 20,
-    },
-    cards: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
     },
+    header: {
+        flex: 0.5,
+        backgroundColor: "#fff",
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+    },
+    logo: {
+        width: 160,
+        height: 45,
+        resizeMode: "contain",
+        marginTop: 20,
+    },
+    icons: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    logoContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 25,
+        marginLeft: 20,
+    },
+    logo: {
+        width: 30,
+        height: 30,
+        marginRight: 5,
+    },
+    title: {
+        fontSize: 12,
+        color: 'brown',
+        fontFamily: "EmblemaOne-Regular",
+    },
+    title2: {
+        fontSize: 12,
+        color: 'brown',
+        fontFamily: "Montserrat-SemiBold",
+        marginTop: 2,
+    },
     iconsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 20,
+        gap: 15,
+        marginTop: 20,
+        marginRight: 20,
     },
+    h1: {
+        fontSize: 20,
+        fontFamily: "Montserrat-Bold",
+        color: "#000",
+        padding: 20,
+    },
+    notificationsContainer: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "70%"
+    },
+    notification: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    }
 })
