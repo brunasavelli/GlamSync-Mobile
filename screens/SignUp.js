@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View, TextInput, Image, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard,
+import {
+  StyleSheet, Text, View, TextInput, Image, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SignUp({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -11,7 +12,7 @@ export default function SignUp({ navigation }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  
+
 
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPhoneValid, setIsPhoneValid] = useState(false);
@@ -37,16 +38,16 @@ export default function SignUp({ navigation }) {
           style={styles.keyboardAvoidingView}
         >
           <ScrollView contentContainerStyle={styles.scrollView}>
-          
-          <View style={styles.header}>
-  <TouchableOpacity 
-    style={styles.backButton} 
-    onPress={() => navigation.navigate('Home')}
-  >
-    <Ionicons name="chevron-back" size={24} color="pink"/>
-  </TouchableOpacity>
-</View>
-          
+
+            <View style={styles.header}>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate('Home')}
+              >
+                <Ionicons name="chevron-back" size={24} color="pink" />
+              </TouchableOpacity>
+            </View>
+
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Sign Up</Text>
               <Text style={styles.subtitle}>Create your new account</Text>
@@ -54,7 +55,7 @@ export default function SignUp({ navigation }) {
 
 
             <View style={styles.form}>
-             
+
               <View style={styles.inputContainer}>
                 <Ionicons name="person" size={20} color="pink" style={styles.inputIcon} />
                 <TextInput
@@ -65,7 +66,7 @@ export default function SignUp({ navigation }) {
                 />
               </View>
 
-              {}
+              { }
               <View style={styles.inputContainer}>
                 <Ionicons name="mail" size={20} color="pink" style={styles.inputIcon} />
                 <TextInput
@@ -77,16 +78,16 @@ export default function SignUp({ navigation }) {
                   autoCapitalize="none"
                 />
                 {email.length > 0 && (
-                  <Ionicons 
-                    name={isEmailValid ? "checkmark-circle" : "close-circle"} 
-                    size={20} 
-                    color={isEmailValid ? "green" : "#F08080"} 
-                    style={styles.validationIcon} 
+                  <Ionicons
+                    name={isEmailValid ? "checkmark-circle" : "close-circle"}
+                    size={20}
+                    color={isEmailValid ? "green" : "#F08080"}
+                    style={styles.validationIcon}
                   />
                 )}
               </View>
 
-              {}
+              { }
               <View style={styles.inputContainer}>
                 <Ionicons name="call" size={20} color="pink" style={styles.inputIcon} />
                 <TextInput
@@ -97,16 +98,16 @@ export default function SignUp({ navigation }) {
                   onChangeText={validatePhone}
                 />
                 {phoneNumber.length > 0 && (
-                  <Ionicons 
-                    name={isPhoneValid ? "checkmark-circle" : "close-circle"} 
-                    size={20} 
-                    color={isPhoneValid ? "green" : "#F08080"} 
-                    style={styles.validationIcon} 
+                  <Ionicons
+                    name={isPhoneValid ? "checkmark-circle" : "close-circle"}
+                    size={20}
+                    color={isPhoneValid ? "green" : "#F08080"}
+                    style={styles.validationIcon}
                   />
                 )}
               </View>
 
-              {}
+              { }
               <View style={styles.inputContainer}>
                 <Ionicons name="lock-closed" size={20} color="pink" style={styles.inputIcon} />
                 <TextInput
@@ -116,27 +117,27 @@ export default function SignUp({ navigation }) {
                   value={password}
                   onChangeText={setPassword}
                 />
-                <TouchableOpacity 
+                <TouchableOpacity
                   onPress={() => setShowPassword(!showPassword)}
                   style={styles.validationIcon}
                 >
-                  <Ionicons 
-                    name={showPassword ? "eye-off" : "eye"} 
-                    size={20} 
-                    color="#999" 
+                  <Ionicons
+                    name={showPassword ? "eye-off" : "eye"}
+                    size={20}
+                    color="#999"
                   />
                 </TouchableOpacity>
               </View>
 
-              {}
+              { }
               <TouchableOpacity style={styles.signUpButton}>
                 <Text style={styles.signUpButtonText}>Sign Up</Text>
               </TouchableOpacity>
 
-              {}
+              { }
               <View style={styles.rememberMeContainer}>
-                <TouchableOpacity 
-                  style={styles.checkbox} 
+                <TouchableOpacity
+                  style={styles.checkbox}
                   onPress={() => setRememberMe(!rememberMe)}
                 >
                   {rememberMe ? (
@@ -148,28 +149,28 @@ export default function SignUp({ navigation }) {
                 <Text style={styles.rememberMeText}>Remember Me</Text>
               </View>
 
-              {}
+              { }
               <View style={styles.dividerContainer}>
                 <View style={styles.divider} />
                 <Text style={styles.dividerText}>Or continue with</Text>
                 <View style={styles.divider} />
               </View>
 
-              {}
+              { }
               <View style={styles.socialContainer}>
                 <TouchableOpacity style={styles.socialButton}>
-                <Image source={require('../assets/img/google.png')} style={{ width: 24, height: 24 }} />
+                  <Image source={require('../assets/img/google.png')} style={{ width: 24, height: 24 }} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.socialButton}>
-                <Image source={require('../assets/img/apple.png')} style={{ width: 24, height: 24 }} />
+                  <Image source={require('../assets/img/apple.png')} style={{ width: 24, height: 24 }} />
                 </TouchableOpacity>
               </View>
 
-              {}
+              { }
               <View style={styles.loginContainer}>
                 <Text style={styles.loginText}>Already have an account? </Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                 <Text style={styles.loginLink}>Log In</Text>
+                  <Text style={styles.loginLink}>Log In</Text>
                 </TouchableOpacity>
 
               </View>
@@ -195,6 +196,7 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
     paddingHorizontal: 20,
+    height: '100%',
   },
   header: {
     marginTop: 20,
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
-    
+
   },
   backButton: {
     width: 40,
@@ -319,12 +321,12 @@ const styles = StyleSheet.create({
   loginText: {
     color: '#999',
     fontSize: 14,
-     fontStyle: 'underline'
+    fontStyle: 'underline'
   },
   loginLink: {
     color: '#F08080',
     fontSize: 15,
     fontWeight: '600',
-   fontStyle: "underline",
+    fontStyle: "underline",
   },
 });
