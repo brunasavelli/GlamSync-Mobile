@@ -12,7 +12,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function MaquiagemFeed() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
-    
+    const [liked, setLiked] = useState(false);
+
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -35,8 +36,8 @@ export default function MaquiagemFeed() {
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
             <ImageBackground
-            source={require("../assets/img/background.png")}
-            style={styles.background}>
+                source={require("../assets/img/background.png")}
+                style={styles.background}>
                 <ScrollView contentContainerStyle={styles.scrollView}>
                     <Header />
                     <View style={styles.main}>
@@ -49,21 +50,36 @@ export default function MaquiagemFeed() {
                             <AntDesign name="search1" size={20} color="#8B2E0B" />
                         </View>
                         <View style={styles.categoriasButtons}>
-                            <TouchableOpacity style={styles.categoriasButton}>
-                                <FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.categoriasButton}>
-                                <FontAwesome6 name="hat-cowboy" size={24} color="#8B2E0B" style={styles.iconCategoria} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.categoriasButton}>
-                                <MaterialCommunityIcons name="shoe-ballet" size={24} color="#8B2E0B" style={styles.iconCategoria} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.categoriasButton}>
-                                <MaterialCommunityIcons name="lipstick" size={24} color="#8B2E0B" style={styles.iconCategoria} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.categoriasButton}>
-                                <MaterialCommunityIcons name="ring" size={24} color="#8B2E0B" style={styles.iconCategoria} />
-                            </TouchableOpacity>
+                            <View style={styles.buttonArea}>
+                                <TouchableOpacity style={styles.categoriasButton}>
+                                    <FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />
+                                </TouchableOpacity>
+                                <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 10, marginTop: 3 }}>Dress</Text>
+                            </View>
+                            <View style={styles.buttonArea}>
+                                <TouchableOpacity style={styles.categoriasButton}>
+                                    <FontAwesome6 name="hat-cowboy" size={24} color="#8B2E0B" style={styles.iconCategoria} />
+                                </TouchableOpacity>
+                                <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 10, marginTop: 3 }}>Hat</Text>
+                            </View>
+                            <View style={styles.buttonArea}>
+                                <TouchableOpacity style={styles.categoriasButton}>
+                                    <MaterialCommunityIcons name="shoe-ballet" size={24} color="#8B2E0B" style={styles.iconCategoria} />
+                                </TouchableOpacity>
+                                <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 10, marginTop: 3 }}>Shoes</Text>
+                            </View>
+                            <View style={styles.buttonArea}>
+                                <TouchableOpacity style={styles.categoriasButton}>
+                                    <MaterialCommunityIcons name="lipstick" size={24} color="#8B2E0B" style={styles.iconCategoria} />
+                                </TouchableOpacity>
+                                <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 10, marginTop: 3 }}>Make Up</Text>
+                            </View>
+                            <View style={styles.buttonArea}>
+                                <TouchableOpacity style={styles.categoriasButton}>
+                                    <MaterialCommunityIcons name="ring" size={24} color="#8B2E0B" style={styles.iconCategoria} />
+                                </TouchableOpacity>
+                                <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 10, marginTop: 3 }}>Accessory</Text>
+                            </View>
                         </View>
                         <View style={styles.feed}>
                             <Text style={styles.title}>Feed</Text>
@@ -80,6 +96,14 @@ export default function MaquiagemFeed() {
                                                 <AntDesign name="plus" size={14} color="#F08080" />
                                             </TouchableOpacity>
                                         </View>
+                                    </View>
+                                    <View style={styles.postContent}>
+                                        <Image source={require("../assets/img/postImage.png")} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                    </View>
+                                    <View style={styles.interactions}>
+                                        <TouchableOpacity onPress={() => setLiked(!liked)} style={styles.validationIcon}>
+                                            <AntDesign name={liked ? "heart" : "hearto"} size={24} color={liked ? "#F08080" : "#999"} />
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
@@ -130,7 +154,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        gap: 10,
+        gap: 13,
     },
     categoriasButton: {
         backgroundColor: "#FFFFFF",
@@ -142,14 +166,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
         boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
     },
+    buttonArea: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     feed: {
         flex: 1,
         margin: 10,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "116%",
-        height: "100vh"
+        width: "114%",
+        height: "100vh",
     },
     title: {
         fontFamily: "Montserrat-SemiBold",
@@ -164,6 +194,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
+        backgroundColor: "#099"
     },
     post: {
         display: "flex",
@@ -171,6 +202,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5,
         width: "99%",
+        backgroundColor: "green",
     },
     headerPost: {
         display: "flex",
@@ -199,5 +231,12 @@ const styles = StyleSheet.create({
         gap: 5,
         borderColor: "#F08080",
         borderWidth: 2,
-    }
+    },
+    postContent: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+    },
 })
