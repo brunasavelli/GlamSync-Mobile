@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
 import Header from "../components/Header";
@@ -9,10 +9,37 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Feather from '@expo/vector-icons/Feather';
 
 export default function MaquiagemFeed() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [liked, setLiked] = useState(false);
+    const [likesCount, setLikesCount] = useState(0);
+
+    const [posts, setPosts] = useState([
+    {
+        id: 1,
+        username: "@username",
+        legend: "Legenda do post 1 muito longa para quebrar em várias linhas.",
+        liked: false,
+        likesCount: 0,
+        image: require("../assets/img/postImage.png"),
+    },
+]);
+
+    const handleLike = (index) => {
+        setPosts((prev) =>
+            prev.map((post, i) =>
+                i === index
+                    ? {
+                        ...post,
+                        liked: !post.liked,
+                        likesCount: post.liked ? post.likesCount - 1 : post.likesCount + 1,
+                    }
+                    : post
+            )
+        );
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -84,6 +111,53 @@ export default function MaquiagemFeed() {
                         <View style={styles.feed}>
                             <Text style={styles.title}>Feed</Text>
                             <View style={styles.postsContainer}>
+                                {posts.map((post, index) => (
+                                    <View style={styles.post}>
+                                        <View style={styles.headerPost}>
+                                            <View style={styles.userArea}>
+                                                <FontAwesome name="user-circle-o" size={20} color="gray" style={styles.inputIcon} />
+                                                <Text style={styles.username}>@username</Text>
+                                            </View>
+                                            <View style={styles.followButtonArea}>
+                                                <TouchableOpacity style={styles.followButton}>
+                                                    <Text style={{ fontFamily: "Montserrat-SemiBold", color: "#F08080", fontSize: 10 }}>Follow</Text>
+                                                    <AntDesign name="plus" size={14} color="#F08080" />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                        <View style={styles.postContent}>
+                                            <Image source={require("../assets/img/postImage.png")} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                        </View>
+                                        <View style={styles.interactions}>
+                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
+                                                <TouchableOpacity
+                                                    onPress={() => handleLike(index)}
+                                                    style={styles.validationIcon}>
+                                                    <AntDesign
+                                                    name={liked ? "heart" : "hearto"}
+                                                    size={22}
+                                                    color={liked ? "#F08080" : "#000"} />
+                                                </TouchableOpacity>
+                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
+                                                <TouchableOpacity onPress={() => setLiked(!liked)} style={styles.validationIcon}>
+                                                    <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View style={styles.save}>
+                                                <TouchableOpacity>
+                                                    <Feather name="bookmark" size={22} color="black" />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                        <View style={styles.legend}>
+                                            <Text>
+                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.username}</Text>
+                                                Iluminador líquido rare beauty positive light
+                                            </Text>
+                                        </View>
+                                    </View>
+                                ))}
+
                                 <View style={styles.post}>
                                     <View style={styles.headerPost}>
                                         <View style={styles.userArea}>
@@ -98,12 +172,86 @@ export default function MaquiagemFeed() {
                                         </View>
                                     </View>
                                     <View style={styles.postContent}>
-                                        <Image source={require("../assets/img/postImage.png")} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                        <Image source={require("../assets/img/postImage2.png")} style={{ width: "100%", height: 400, marginTop: 10 }} />
                                     </View>
                                     <View style={styles.interactions}>
-                                        <TouchableOpacity onPress={() => setLiked(!liked)} style={styles.validationIcon}>
-                                            <AntDesign name={liked ? "heart" : "hearto"} size={24} color={liked ? "#F08080" : "#999"} />
-                                        </TouchableOpacity>
+                                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    if (liked) {
+                                                        setLikesCount(likesCount - 1);
+                                                    } else {
+                                                        setLikesCount(likesCount + 1);
+                                                    }
+                                                    setLiked(!liked);
+                                                }}
+                                                style={styles.validationIcon}>
+                                                <AntDesign name={liked ? "heart" : "hearto"} size={22} color={liked ? "#F08080" : "#000"} />
+                                            </TouchableOpacity>
+                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{likesCount}</Text>
+                                            <TouchableOpacity onPress={() => setLiked(!liked)} style={styles.validationIcon}>
+                                                <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.save}>
+                                            <TouchableOpacity>
+                                                <Feather name="bookmark" size={22} color="black" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={styles.legend}>
+                                        <Text>
+                                            <Text style={{ fontFamily: "Montserrat-SemiBold" }}>@username{" "}</Text>
+                                            Gloss preenchedor - efeito volume instantâneo
+                                        </Text>
+                                    </View>
+                                </View>
+                                <View style={styles.post}>
+                                    <View style={styles.headerPost}>
+                                        <View style={styles.userArea}>
+                                            <FontAwesome name="user-circle-o" size={20} color="gray" style={styles.inputIcon} />
+                                            <Text style={styles.username}>@username</Text>
+                                        </View>
+                                        <View style={styles.followButtonArea}>
+                                            <TouchableOpacity style={styles.followButton}>
+                                                <Text style={{ fontFamily: "Montserrat-SemiBold", color: "#F08080", fontSize: 10 }}>Follow</Text>
+                                                <AntDesign name="plus" size={14} color="#F08080" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={styles.postContent}>
+                                        <Image source={require("../assets/img/postImage3.png")} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                    </View>
+                                    <View style={styles.interactions}>
+                                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    if (liked) {
+                                                        setLikesCount(likesCount - 1);
+                                                    } else {
+                                                        setLikesCount(likesCount + 1);
+                                                    }
+                                                    setLiked(!liked);
+                                                }}
+                                                style={styles.validationIcon}>
+                                                <AntDesign name={liked ? "heart" : "hearto"} size={22} color={liked ? "#F08080" : "#000"} />
+                                            </TouchableOpacity>
+                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{likesCount}</Text>
+                                            <TouchableOpacity onPress={() => setLiked(!liked)} style={styles.validationIcon}>
+                                                <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.save}>
+                                            <TouchableOpacity>
+                                                <Feather name="bookmark" size={22} color="black" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={styles.legend}>
+                                        <Text>
+                                            <Text style={{ fontFamily: "Montserrat-SemiBold" }}>@username{" "}</Text>
+                                            Dior Forever Glow Luminizer
+                                        </Text>
                                     </View>
                                 </View>
                             </View>
@@ -194,7 +342,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-        backgroundColor: "#099"
+        gap: 10,
     },
     post: {
         display: "flex",
@@ -202,7 +350,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5,
         width: "99%",
-        backgroundColor: "green",
     },
     headerPost: {
         display: "flex",
@@ -239,4 +386,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "100%",
     },
+    interactions: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+        gap: 10,
+        padding: 5,
+    },
+    legend: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        width: "100%",
+        padding: 5,
+        gap: 5,
+    }
 })
