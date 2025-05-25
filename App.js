@@ -2,12 +2,12 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
 import HomeStackNavigator from "./navigation/HomeStackNavigator";
-import MakeUpFeed from "./screens/MakeUpFeed"
+import InitialFeed from "./screens/InitialFeed"
 
 export default function App() {
     return (
         <NavigationContainer>
-            <MakeUpFeed />
+            <InitialFeed />
         </NavigationContainer>
     );
 }
