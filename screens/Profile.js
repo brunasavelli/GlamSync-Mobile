@@ -2,10 +2,11 @@ import * as Font from "expo-font";
 import { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 export default function Profile() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -43,8 +44,28 @@ export default function Profile() {
                 <FontAwesome name="user-circle-o" size={100} color="black" />
                 <View style={styles.middleRight}>
                     <Text style={styles.username}>Your Name</Text>
+                    <View style={styles.section}>
+                        <View style={styles.sectionItem}>
+                            <Text style={styles.text}>18</Text>
+                            <Text style={styles.text}>Following</Text>
+                        </View>
+                        <View style={styles.divisor}></View>
+                        <View style={styles.sectionItem}>
+                            <Text style={styles.text}>20</Text>
+                            <Text style={styles.text}>Followers</Text>
+                        </View>
+                    </View>
                 </View>
             </View>
+            <View style={styles.desc}>
+                <Text style={styles.descText1}>About</Text>
+                <Text style={styles.descText2}>"Viver é a coisa mais rara do mundo. A maioria das pessoas apenas existe."</Text>
+            </View>
+            <View style={styles.postSection}>
+                <Text style={styles.postSectionText}>Posts</Text>
+                <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+            </View>
+            <Footer />
         </ImageBackground>
     );
 }
@@ -97,5 +118,62 @@ const styles = StyleSheet.create({
     middleRight: {
         display: 'flex',
         flexDirection: 'column',
+    },
+    section: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 30,
+        marginTop: 20,
+    },
+    sectionItem: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: 12,
+        fontFamily: 'Montserrat-SemiBold',
+    },
+    divisor: {
+        width: 1,
+        height: 25,
+        backgroundColor: 'black',
+    },
+    desc: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        paddingHorizontal: 30,
+        marginTop: 20,
+        gap: 10,
+    },
+    descText1: {
+        fontSize: 15,
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'black',
+    },
+    descText2: {
+        fontSize: 14,
+        fontFamily: 'Montserrat-Regular',
+        color: 'black',
+        textAlign: 'center',
+        marginTop: 10,
+    },
+    postSection: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: 20,
+        width: '100%',
+        paddingHorizontal: 30,
+        paddingVertical: 20,
+        marginTop: 35,
+        backgroundColor: 'white',
+    },
+    postSectionText: {
+        fontSize: 16,
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'black',
     },
 });
