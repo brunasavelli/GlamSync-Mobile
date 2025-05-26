@@ -10,7 +10,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
-import CategoriaButton from "../components/CategoriaButton";
+import CategoriaButton from "../components/CircleButton";
+import SearchInput from "../components/SearchInput";
 
 export default function MakeUpFeed() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -85,14 +86,7 @@ export default function MakeUpFeed() {
                 <ScrollView contentContainerStyle={styles.scrollView}>
                     <Header />
                     <View style={styles.main}>
-                        <View style={styles.searchArea}>
-                            <TextInput
-                                style={styles.searchInput}
-                                placeholder="Pesquisar"
-                                placeholderTextColor="#A4A4A4"
-                            />
-                            <AntDesign name="search1" size={20} color="#8B2E0B" />
-                        </View>
+                        <SearchInput />
                         <View style={styles.categoriasButtons}>
                             <CategoriaButton
                                 icon={<FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />}
@@ -189,21 +183,6 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-    },
-    searchArea: {
-        width: "100%",
-        backgroundColor: "#FFFFFF",
-        borderRadius: 30,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingLeft: 10,
-        paddingRight: 10,
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
-    },
-    searchInput: {
-        fontFamily: "Montserrat-Regular",
     },
     categoriasButtons: {
         marginTop: 30,
