@@ -14,7 +14,9 @@ import CategoriaButton from "../components/CircleButton";
 import { Entypo } from '@expo/vector-icons';
 import SearchInput from "../components/SearchInput";
 
+
 export default function MakeUpFeed() {
+    const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const cardWidth = Dimensions.get("window").width * 0.75;
 
@@ -41,7 +43,23 @@ export default function MakeUpFeed() {
             liked: false,
             likesCount: 0,
             image: require("../assets/img/initialPost2.png"),
-        }
+        },
+        {
+            id: 3,
+            username: "@username",
+            legend: "A beleza está nos detalhes. ✨💖 #DetalhesQueEncantam #BelezaNatural",
+            liked: false,
+            likesCount: 0,
+            image: require("../assets/img/initialPost3.png"),
+        },
+        {
+            id: 4,
+            username: "@username",
+            legend: "A moda é uma forma de expressão. Deixe sua marca! 💃✨ #ModaComAtitude #EstiloÚnico",
+            liked: false,
+            likesCount: 0,
+            image: require("../assets/img/initialPost4.png"),
+        },
     ]);
 
     const handleLike = (index) => {
@@ -98,7 +116,7 @@ export default function MakeUpFeed() {
             <StatusBar style="auto" />
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
-                <Image source={require("../assets/img/logoComEscrita.png")} style={styles.logo} />
+                <Image source={require("../assets/img/logoComEscrita2.png")} style={styles.logo} />
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity style={styles.button}>
                         <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
@@ -112,19 +130,24 @@ export default function MakeUpFeed() {
                     <View style={styles.categoriasButtons}>
                         <CategoriaButton
                             icon={<FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />}
-                            categoria="Dress" />
+                            categoria="Dress" 
+                            onPress={() => navigation.navigate('DressFeed')}/>
                         <CategoriaButton
                             icon={<FontAwesome6 name="hat-cowboy" size={24} color="#8B2E0B" />}
-                            categoria="Hat" />
+                            categoria="Hat"
+                            onPress={() => navigation.navigate('HatFeed')}/>
                         <CategoriaButton
                             icon={<MaterialCommunityIcons name="shoe-ballet" size={24} color="#8B2E0B" />}
-                            categoria="Shoes" />
+                            categoria="Shoes"
+                            onPress={() => navigation.navigate('ShoesFeed')} />
                         <CategoriaButton
                             icon={<MaterialCommunityIcons name="lipstick" size={24} color="#8B2E0B" />}
-                            categoria="Make Up" />
+                            categoria="Make Up" 
+                            onPress={() => navigation.navigate('MakeUpFeed')}/>
                         <CategoriaButton
                             icon={<MaterialCommunityIcons name="ring" size={24} color="#8B2E0B" />}
-                            categoria="Accessory" />
+                            categoria="Accessory"
+                            onPress={() => navigation.navigate('AccessoryFeed')}/>
                     </View>
                     <View style={styles.carroussel}>
                         <TouchableOpacity style={styles.arrowButton} onPress={handlePrev}>
@@ -216,20 +239,15 @@ const styles = StyleSheet.create({
     scrollView: {
         flexGrow: 1,
         paddingBottom: 20,
-        display: "flex",
         justifyContent: "center",
         alignItems: "center",
     },
     container: {
         flex: 1,
-        height: 100,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
     },
     background: {
         width: "100%",
-        height: "50%",
+        height: 470,
         position: "absolute",
         top: 0,
         left: 0,
@@ -271,7 +289,7 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
+        width: "103%",
     },
     categoriasButtons: {
         marginTop: 30,
