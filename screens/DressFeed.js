@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, SafeAreaView, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -23,26 +23,18 @@ export default function MakeUpFeed() {
         {
             id: 1,
             username: "@username",
-            legend: "Iluminador líquido rare beauty positive light",
+            legend: "Vestido GUMMY - Fiozato",
             liked: false,
             likesCount: 0,
-            image: require("../assets/img/postImage.png"),
+            image: require("../assets/img/dressPost.png"),
         },
         {
             id: 2,
             username: "@username",
-            legend: "Gloss preenchedor - efeito volume instantâneo",
+            legend: "Vestido FLORAL - Fiozato",
             liked: false,
             likesCount: 0,
-            image: require("../assets/img/postImage2.png"),
-        },
-        {
-            id: 3,
-            username: "@username",
-            legend: "Dior Forever Glow Luminizer",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/postImage3.png"),
+            image: require("../assets/img/dressPost2.png"),
         },
     ]);
 
