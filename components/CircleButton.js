@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function CategoriaButton({ categoria, icon }) {
+export default function CategoriaButton({ categoria, icon, onPress }) {
     return (
         <View style={styles.buttonArea}>
-            <TouchableOpacity style={styles.categoriasButton}>
+            <TouchableOpacity style={styles.categoriasButton} onPress={onPress}>
                 {icon}
             </TouchableOpacity>
             <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 10, marginTop: 3 }}>{categoria}</Text>
