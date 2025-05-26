@@ -19,6 +19,7 @@ export default function Home() {
                     "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
                     "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
                     "Montserrat-SemiBoldItalic": require("../assets/fonts/Montserrat-SemiBoldItalic.ttf"),
+                    "EmblemaOne-Regular": require("../assets/fonts/EmblemaOne-Regular.ttf"),
                 });
                 setFontsLoaded(true);
             }
@@ -33,7 +34,12 @@ export default function Home() {
         <ImageBackground source={require('../assets/img/background-mobile-glamsync.png')} style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.title}>WELCOME!</Text>
-                <Image source={require('../assets/img/logoComEscrita.png')} style={styles.logo} />
+                <ImageBackground source={require('../assets/img/logoGlamSync.png')} style={styles.logo}>
+                    <View style={styles.logoOverlay}>
+                        <Text style={styles.titleOverlay1}>Glam</Text>
+                        <Text style={styles.titleOverlay2}>Sync</Text>
+                    </View>
+                </ImageBackground>
                 <View style={styles.sloganContainer}>
                     <Text style={styles.slogan}>Fashion that conects</Text>
                     <Text style={styles.slogan}>Style that impacts</Text>
@@ -70,9 +76,25 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     logo: {
-        width: 400,
-        height: 400,
+        width: 370,
+        height: 370,
         marginTop: 20,
+    },
+    logoOverlay: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
+    titleOverlay1: {
+        fontSize: 60,
+        color: 'white',
+        fontFamily: 'EmblemaOne-Regular',
+    },
+    titleOverlay2: {
+        fontSize: 50,
+        color: 'white',
+        fontFamily: 'Montserrat-MediumItalic',
     },
     sloganContainer: {
         alignItems: 'center',
