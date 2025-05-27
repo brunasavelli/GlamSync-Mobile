@@ -7,6 +7,12 @@ import Header from "../components/Header"
 
 
 export default function Notifications() {
+    const notificacoes = [
+        { id: 1, image: require("../assets/img/usergray.png"), username: "@username", content: "start following you", date: "1h ago", unread: true },
+        { id: 2, image: require("../assets/img/usergray.png"), username: "@username", content: "Quais peças de roupas você mais...", date: "2h ago", unread: true },
+        { id: 3, image: require("../assets/img/usergray.png"), username: "@username", content: "Comprei recentemente uma bota...", date: "5h ago", unread: false },
+    ];
+
     return(
         <ImageBackground
             source={require("../assets/img/background2-mobile-glamsync.png")}

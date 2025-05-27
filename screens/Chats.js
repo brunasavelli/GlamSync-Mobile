@@ -2,11 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, ImageBackground, Image, StyleSheet } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import * as Font from "expo-font";
 
 import Header from '../components/Header';
 import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/onlineContactCard";
+import CardNotification from "../components/CardNotification";
 
 export default function Chats() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -39,6 +41,12 @@ export default function Chats() {
         { id: 6, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
     ]
 
+    const recentContacts = [
+        { id: 1, image: require("../assets/img/usergray.png"), username: "@username", content: "Sent you a post by @cocojones", date: "1h ago", unread: true },
+        { id: 2, image: require("../assets/img/usergray.png"), username: "@username", content: "Quais peças de roupas você mais...", date: "2h ago", unread: true },
+        { id: 3, image: require("../assets/img/usergray.png"), username: "@username", content: "Comprei recentemente uma bota...", date: "5h ago", unread: false },
+    ];
+
     return (
         <ImageBackground source={require('../assets/img/background2-mobile-glamsync.png')} style={styles.background}>
             <Header />
@@ -52,7 +60,7 @@ export default function Chats() {
                 <View style={styles.inputSection}>
                     <SearchInput />
                 </View>
-                <View style={styles.onlineSection}>
+                <View style={styles.section}>
                     <View style={styles.textSection}>
                         <Text style={styles.subtitle}>Online Contacts</Text>
                         <View style={styles.greenDot}></View>
@@ -66,6 +74,22 @@ export default function Chats() {
                         ))}
                     </ScrollView>
                 </View>
+                <View style={styles.section}>
+                    <View style={styles.textSection}>
+                        <Text style={styles.subtitle}>Recent Contacts</Text>
+                        <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+                    </View>
+                    {recentContacts.map(contact => (
+                        <CardNotification
+                            key={contact.id}
+                            image={contact.image}
+                            username={contact.username}
+                            content={contact.content}
+                            date={contact.date}
+                            unread={contact.unread}
+                        />
+                    ))}
+                </View>
             </ScrollView>
         </ImageBackground>
     );
@@ -78,6 +102,7 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         flexDirection: 'column',
+        marginBottom: 70,
     },
     top: {
         width: '100%',
@@ -115,7 +140,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    onlineSection: {
+    section: {
         marginHorizontal: 15,
         marginVertical: 20,
         paddingVertical: 20,
