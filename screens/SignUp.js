@@ -31,7 +31,7 @@ export default function SignUp({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <StatusBar style="auto" />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -44,7 +44,7 @@ export default function SignUp({ navigation }) {
                 style={styles.backButton}
                 onPress={() => navigation.navigate('Home')}
               >
-                <Ionicons name="chevron-back" size={24} color="pink" />
+                <Ionicons name="chevron-back" size={24} color="white" />
               </TouchableOpacity>
             </View>
 
@@ -57,7 +57,7 @@ export default function SignUp({ navigation }) {
             <View style={styles.form}>
 
               <View style={styles.inputContainer}>
-                <Ionicons name="person" size={20} color="pink" style={styles.inputIcon} />
+                <Ionicons name="person" size={20} color="rgb(184, 184, 184)" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Full Name"
@@ -68,7 +68,7 @@ export default function SignUp({ navigation }) {
 
               { }
               <View style={styles.inputContainer}>
-                <Ionicons name="mail" size={20} color="pink" style={styles.inputIcon} />
+                <Ionicons name="mail" size={20} color="rgb(184, 184, 184)" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   placeholder="user@gmail.com"
@@ -89,7 +89,7 @@ export default function SignUp({ navigation }) {
 
               { }
               <View style={styles.inputContainer}>
-                <Ionicons name="call" size={20} color="pink" style={styles.inputIcon} />
+                <Ionicons name="call" size={20} color="rgb(184, 184, 184)" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Phone number"
@@ -101,7 +101,7 @@ export default function SignUp({ navigation }) {
                   <Ionicons
                     name={isPhoneValid ? "checkmark-circle" : "close-circle"}
                     size={20}
-                    color={isPhoneValid ? "green" : "#F08080"}
+                    color={isPhoneValid ? "green" : "#E04C3B"}
                     style={styles.validationIcon}
                   />
                 )}
@@ -109,7 +109,7 @@ export default function SignUp({ navigation }) {
 
               { }
               <View style={styles.inputContainer}>
-                <Ionicons name="lock-closed" size={20} color="pink" style={styles.inputIcon} />
+                <Ionicons name="lock-closed" size={20} color="rgb(184, 184, 184)" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   placeholder="••••••••"
@@ -177,7 +177,7 @@ export default function SignUp({ navigation }) {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-      </SafeAreaView>
+      </View>
     </TouchableWithoutFeedback>
   );
 }
@@ -210,27 +210,30 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F79489',
     justifyContent: 'center',
     alignItems: 'center',
   },
   titleContainer: {
     alignItems: 'center',
-    marginVertical: 30,
+    marginTop: 15,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '600',
     color: '#F08080',
     marginBottom: 8,
-    fontStyle: 'italic',
+    fontFamily: 'Montserrat-SemiBoldItalic',
   },
   subtitle: {
     fontSize: 16,
     color: '#999',
+    fontFamily: 'Montserrat-SemiBold',
   },
   form: {
     width: '100%',
+    alignItems: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -255,9 +258,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   signUpButton: {
+    width: '90%',
     backgroundColor: '#F08080',
     borderRadius: 30,
-    height: 50,
+    height: 45,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
@@ -294,9 +298,8 @@ const styles = StyleSheet.create({
   dividerText: {
     marginHorizontal: 10,
     color: '#999',
-    fontSize: 14,
-    fontStyle: 'italic',
-    fontWeight: '600',
+    fontSize: 11,
+    fontFamily: 'Montserrat-SemiBoldItalic',
   },
   socialContainer: {
     flexDirection: 'row',
@@ -321,12 +324,13 @@ const styles = StyleSheet.create({
   loginText: {
     color: '#999',
     fontSize: 14,
-    fontStyle: 'underline'
+    fontFamily: 'Montserrat-SemiBold',
   },
   loginLink: {
     color: '#F08080',
     fontSize: 15,
     fontWeight: '600',
-    fontStyle: "underline",
+    fontFamily: 'Montserrat-SemiBold',
+    textDecorationLine: 'underline',
   },
 });
