@@ -2,17 +2,13 @@
 
 import * as Font from "expo-font";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, Text, Image, StyleSheet, ImageBackground, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 export default function Profile() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
-    const [selected, setSelected] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -39,10 +35,6 @@ export default function Profile() {
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
             <View style={styles.top}>
                 <Text style={styles.username}>@username</Text>
-                <TouchableOpacity style={[styles.followButton, selected && styles.selected]} onPress={() => setSelected(!selected)}>
-                    <Text style={[styles.followBT, selected && styles.bTSelected]}>{selected ? 'Following' : 'Follow'}</Text>
-                    {selected ? <AntDesign name="checkcircle" size={14} color="white" /> : <AntDesign name="plus" size={14} color="#F79489" />}
-                </TouchableOpacity>
             </View>
             <View style={styles.middle}>
                 <Image source={require('../assets/img/profile-user.png')} style={{ width: 120, height: 120 }} />
@@ -82,7 +74,6 @@ export default function Profile() {
                 </View>
             </View>
             </ScrollView>
-            <Footer />
         </ImageBackground>
     );
 }
@@ -107,29 +98,6 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 22,
         fontFamily: 'Montserrat-Bold',
-    },
-    followButton: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        borderWidth: 2,
-        borderRadius: 50,
-        borderColor: '#F79489',
-        width: 100,
-        height: 25,
-    },
-    selected: {
-        backgroundColor: '#F79489',
-    },
-    bTSelected: {
-        color: 'white',
-    },
-    followBT: {
-        fontSize: 12,
-        fontWeight: 600,
-        fontFamily: 'Montserrat-SemiBold',
-        color: '#F79489',
     },
     middle: {
         display: 'flex',

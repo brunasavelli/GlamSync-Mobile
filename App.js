@@ -5,12 +5,13 @@ import { NavigationContainer } from "@react-navigation/native";
 //import Profile from "./screens/Profile";
 //import HomeStackNavigator from "./navigation/HomeStackNavigator";
 //import FeedStackNavigator from "./navigation/FeedStackNavigator";
-import Chats from "./screens/Chats";
+//import Chats from "./screens/Chats";
+import TabNavigator from "./navigation/TabNavigator";
 
 export default function App() {
     return (
         <NavigationContainer>
-            <Chats />
+            <TabNavigator />
         </NavigationContainer>
     );
 }
