@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useEffect, useState } from "react";
 import * as Font from "expo-font";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -8,7 +8,7 @@ export default function CardNotification({ username, content, date }) {
     return (
         <View style={styles.cardContainer}>
             <View style={styles.cards}>
-                <FontAwesome name="user-circle-o" size={30} color="gray" style={styles.inputIcon} />
+                <Image source={require("../assets/img/usergray.png")} style={styles.userPhoto} />
                 <View style={styles.texts}>
                     <Text style={styles.title}>{username}</Text>
                     <Text style={styles.content}>{content}</Text>
@@ -28,16 +28,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 5,
-        width: "99%",
+        width: "100%",
     },
     cards: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
         gap: 15,
         padding: 15,
         width: "95%",
+    },
+    userPhoto: {
+        width: 50,
+        height: 50,
+        resizeMode: "cover",
     },
     texts: {
         display: "flex",
