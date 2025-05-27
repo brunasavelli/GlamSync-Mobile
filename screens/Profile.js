@@ -1,6 +1,8 @@
+"use client";
+
 import * as Font from "expo-font";
-import { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, StyleSheet, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -10,6 +12,7 @@ import Footer from '../components/Footer';
 
 export default function Profile() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
+    const [selected, setSelected] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -33,15 +36,16 @@ export default function Profile() {
     return (
         <ImageBackground source={require('../assets/img/background2-mobile-glamsync.png')} style={styles.background}>
             <Header />
+            <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
             <View style={styles.top}>
                 <Text style={styles.username}>@username</Text>
-                <TouchableOpacity style={styles.followButton}>
-                    <Text style={styles.followBT}>Follow</Text>
-                    <AntDesign name="plus" size={14} color="pink" />
+                <TouchableOpacity style={[styles.followButton, selected && styles.selected]} onPress={() => setSelected(!selected)}>
+                    <Text style={[styles.followBT, selected && styles.bTSelected]}>{selected ? 'Following' : 'Follow'}</Text>
+                    {selected ? <AntDesign name="checkcircle" size={14} color="white" /> : <AntDesign name="plus" size={14} color="#F79489" />}
                 </TouchableOpacity>
             </View>
             <View style={styles.middle}>
-                <FontAwesome name="user-circle-o" size={100} color="black" />
+                <Image source={require('../assets/img/profile-user.png')} style={{ width: 120, height: 120 }} />
                 <View style={styles.middleRight}>
                     <Text style={styles.username}>Your Name</Text>
                     <View style={styles.section}>
@@ -62,9 +66,22 @@ export default function Profile() {
                 <Text style={styles.descText2}>"Viver é a coisa mais rara do mundo. A maioria das pessoas apenas existe."</Text>
             </View>
             <View style={styles.postSection}>
-                <Text style={styles.postSectionText}>Posts</Text>
-                <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+                <View style={styles.section}>
+                    <Text style={styles.postSectionText}>Posts</Text>
+                    <MaterialIcons name="keyboard-arrow-down" size={24} color="black" marginRight={15} marginBottom={10} />
+                </View>
+                <View style={styles.photoSection}>
+                    <Image source={require('../assets/img/profile-photo1.png')} style={{ width: 131, height: 220 }} />
+                    <Image source={require('../assets/img/profile-photo2.png')} style={{ width: 131, height: 220 }} />
+                    <Image source={require('../assets/img/profile-photo3.png')} style={{ width: 131, height: 220 }} />
+                </View>
+                <View style={styles.photoSection}>
+                    <Image source={require('../assets/img/profile-photo4.png')} style={{ width: 131, height: 220 }} />
+                    <Image source={require('../assets/img/profile-photo5.png')} style={{ width: 131, height: 220 }} />
+                    <Image source={require('../assets/img/profile-photo6.png')} style={{ width: 131, height: 220 }} />
+                </View>
             </View>
+            </ScrollView>
             <Footer />
         </ImageBackground>
     );
@@ -98,22 +115,30 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 2,
         borderRadius: 50,
-        borderColor: 'pink',
+        borderColor: '#F79489',
         width: 100,
         height: 25,
+    },
+    selected: {
+        backgroundColor: '#F79489',
+    },
+    bTSelected: {
+        color: 'white',
     },
     followBT: {
         fontSize: 12,
         fontWeight: 600,
         fontFamily: 'Montserrat-SemiBold',
-        color: 'pink',
+        color: '#F79489',
     },
     middle: {
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingHorizontal: 30,
-        gap: 50,
+        marginBottom: 20,
     },
     middleRight: {
         display: 'flex',
@@ -122,6 +147,7 @@ const styles = StyleSheet.create({
     section: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
         flexDirection: 'row',
         gap: 30,
         marginTop: 20,
@@ -162,12 +188,9 @@ const styles = StyleSheet.create({
     },
     postSection: {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: 20,
+        flexDirection: 'column',
+        height: 590,
         width: '100%',
-        paddingHorizontal: 30,
-        paddingVertical: 20,
         marginTop: 35,
         backgroundColor: 'white',
     },
@@ -175,5 +198,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'Montserrat-SemiBold',
         color: 'black',
+        marginLeft: 30,
+        marginBottom: 10,
+    },
+    photoSection: {
+        display: 'flex',
+        flexDirection: 'row',
     },
 });
