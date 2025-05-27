@@ -5,12 +5,16 @@ import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
 import { Ionicons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const [isUsernameValid, setIsUsernameValid] = useState(false);
 
@@ -22,6 +26,31 @@ export default function Login() {
 
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
+
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/login', {
+                email,
+                senha: password,
+            });
+            const { token } = response.data;
+            if (!token) {
+                throw new Error('Token não enontrado na resposta');
+            }
+
+            await AsyncStorage.setItem('token', token);
+
+            console.log('Login bem-sucedido:', response.data);
+            setError(null);
+            setSuccess('Login realizado com sucesso!');
+
+            navigation.navigate('InitialFeed');
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
+            setError(errorMessage);
+            setSuccess(null);
+        }
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -44,7 +73,7 @@ export default function Login() {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <StatusBar style="auto" />
             <ImageBackground
                 source={require("../assets/img/background-mobile-glamsync.png")}
@@ -53,102 +82,111 @@ export default function Login() {
                     style={{ flex: 1 }}
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                 >
-                    <ScrollView contentContainerStyle={styles.scrollView}>
-                        <View style={[styles.container, { justifyContent: "flex-end "}]}>
-                            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
-                                <Ionicons name="chevron-back" size={24} color="pink" />
-                            </TouchableOpacity>
-                            <View style={styles.top}>
-                                <Image source={require("../assets/img/logoGlamSync.png")} style={styles.logo} />
-                                <View style={styles.logoText}>
-                                    <Text style={{ fontFamily: "EmblemaOne-Regular", fontSize: 50, color: "white" }}>Glam</Text>
-                                    <Text style={{ fontFamily: "Montserrat-SemiBoldItalic", fontSize: 40, color: "white", marginTop: 9 }}>sync</Text>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <ScrollView contentContainerStyle={styles.scrollView}>
+                            <View style={[styles.container, { justifyContent: "flex-end " }]}>
+                                <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
+                                    <Ionicons name="chevron-back" size={24} color="pink" />
+                                </TouchableOpacity>
+                                <View style={styles.top}>
+                                    <Image source={require("../assets/img/logoGlamSync.png")} style={styles.logo} />
+                                    <View style={styles.logoText}>
+                                        <Text style={{ fontFamily: "EmblemaOne-Regular", fontSize: 50, color: "white" }}>Glam</Text>
+                                        <Text style={{ fontFamily: "Montserrat-SemiBoldItalic", fontSize: 40, color: "white", marginTop: 9 }}>sync</Text>
+                                    </View>
                                 </View>
-                            </View>
-                            <View style={styles.main}>
-                                <Text style={styles.h1}>Welcome Back!</Text>
-                                <Text style={styles.logAccount}>Log in to your account</Text>
+                                <View style={styles.main}>
+                                    <Text style={styles.h1}>Welcome Back!</Text>
+                                    <Text style={styles.logAccount}>Log in to your account</Text>
 
-                                <View style={styles.form}>
-                                    { }
-                                    <View style={styles.inputContainer}>
-                                        <FontAwesome name="user-circle-o" size={20} color="#BC7D7C" style={styles.inputIcon} />
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder="Username"
-                                            placeholderTextColor="#A4A4A4"
-                                            value={username}
-                                            onChangeText={validateUsername}
-                                            autoCapitalize="none"
-                                        />
-                                        {username.length > 0 && (
-                                            <Ionicons
-                                                name={isUsernameValid ? "checkmark-circle" : "close-circle"}
-                                                size={20}
-                                                color={isUsernameValid ? "green" : "#F08080"}
-                                                style={styles.validationIcon}
+                                    <View style={styles.form}>
+                                        { }
+                                        <View style={styles.inputContainer}>
+                                            <FontAwesome name="user-circle-o" size={20} color="#BC7D7C" style={styles.inputIcon} />
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder="Username"
+                                                placeholderTextColor="#A4A4A4"
+                                                value={username}
+                                                onChangeText={text => {
+                                                    setUsername(text);
+                                                    validateUsername(text);
+                                                }}
+                                                keyboardType="username"
+                                                autoCapitalize="none"
                                             />
-                                        )}
-                                    </View>
-                                    <View style={styles.inputContainer}>
-                                        <Ionicons name="lock-closed" size={20} color="#BC7D7C" style={styles.inputIcon} />
-                                        <TextInput
-                                            placeholder="Password"
-                                            placeholderTextColor="#A4A4A4"
-                                            style={styles.input}
-                                            secureTextEntry={!showPassword}
-                                            value={password}
-                                            onChange={setPassword}
-                                            autoCapitalize="none"
-                                            autoCorrect={false}
-                                            textContentType="password"
-                                        />
-                                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.validationIcon}>
-                                            <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#999" />
-                                        </TouchableOpacity>
-                                    </View>
-
-                                    <View style={styles.checkboxContainer}>
-                                        <TouchableOpacity style={styles.checkbox}
-                                            onPress={() => setRememberMe(!rememberMe)} >
-                                            {rememberMe ? (
-                                                <Ionicons name="checkmark-circle" size={20} color="#F08080" />
-                                            ) : (
-                                                <Ionicons name="ellipse-outline" size={20} color="#F08080" />
+                                            {username.length > 0 && (
+                                                <Ionicons
+                                                    name={isUsernameValid ? "checkmark-circle" : "close-circle"}
+                                                    size={20}
+                                                    color={isUsernameValid ? "green" : "#F08080"}
+                                                    style={styles.validationIcon}
+                                                />
                                             )}
+                                        </View>
+                                        <View style={styles.inputContainer}>
+                                            <Ionicons name="lock-closed" size={20} color="#BC7D7C" style={styles.inputIcon} />
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder="Password"
+                                                placeholderTextColor="#A4A4A4"
+                                                secureTextEntry={!showPassword}
+                                                value={password}
+                                                onChange={setPassword}
+                                                onChangeText={setPassword}
+                                                autoCapitalize="none"
+                                                autoCorrect={false}
+                                                textContentType="password"
+                                            />
+
+                                            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.validationIcon}>
+                                                <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#999" />
+                                            </TouchableOpacity>
+                                        </View>
+                                        {error && <Text style={styles.error}>{error}</Text>}
+                                        {success && <Text style={styles.success}>{success}</Text>}
+                                        <View style={styles.checkboxContainer}>
+                                            <TouchableOpacity style={styles.checkbox}
+                                                onPress={() => setRememberMe(!rememberMe)} >
+                                                {rememberMe ? (
+                                                    <Ionicons name="checkmark-circle" size={20} color="#F08080" />
+                                                ) : (
+                                                    <Ionicons name="ellipse-outline" size={20} color="#F08080" />
+                                                )}
+                                            </TouchableOpacity>
+                                            <Text style={styles.label}>Remember Me</Text>
+                                            <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                                        </View>
+
+                                        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                                            <Text style={styles.buttonText}>Log In</Text>
                                         </TouchableOpacity>
-                                        <Text style={styles.label}>Remember Me</Text>
-                                        <Text style={styles.forgotPassword}>Forgot Password?</Text>
                                     </View>
 
-                                    <TouchableOpacity style={styles.button}>
-                                        <Text style={styles.buttonText}>Log In</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    <View style={styles.textArea}>
+                                        <Text style={styles.p}>Don't have an account?</Text>
+                                        <Text style={styles.span} onPress={() =>
+                                            navigation.navigate('SignUp')
+                                        }>Sign Up</Text>
+                                    </View>
 
-                                <View style={styles.textArea}>
-                                    <Text style={styles.p}>Don't have an account?</Text>
-                                    <Text style={styles.span} onPress={() =>
-                                        navigation.navigate('SignUp')
-                                    }>Sign Up</Text>
-                                </View>
+                                    <View style={styles.lines}>
+                                        <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                        <Text style={styles.login}>Log In with</Text>
+                                        <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                    </View>
 
-                                <View style={styles.lines}>
-                                    <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                                    <Text style={styles.login}>Log In with</Text>
-                                    <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                                </View>
-
-                                <View style={styles.icons}>
-                                    <Image source={require('../assets/img/google.png')} style={styles.icon} />
-                                    <Image source={require('../assets/img/apple.png')} style={styles.icon} />
+                                    <View style={styles.icons}>
+                                        <Image source={require('../assets/img/google.png')} style={styles.icon} />
+                                        <Image source={require('../assets/img/apple.png')} style={styles.icon} />
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </ScrollView>
+                        </ScrollView>
+                    </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -189,7 +227,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         position: "relative",
     },
-    logoText:{
+    logoText: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -250,6 +288,20 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         fontSize: 16,
+    },
+    error: {
+        color: "red",
+        fontSize: 14,
+        fontFamily: "Montserrat-SemiBold",
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    success: {
+        color: "green",
+        fontSize: 14,
+        fontFamily: "Montserrat-SemiBold",
+        marginBottom: 10,
+        textAlign: "center",
     },
     checkboxContainer: {
         flexDirection: 'row',
