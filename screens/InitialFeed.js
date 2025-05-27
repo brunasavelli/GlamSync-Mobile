@@ -14,6 +14,7 @@ import CategoriaButton from "../components/CircleButton";
 import { Entypo } from '@expo/vector-icons';
 import SearchInput from "../components/SearchInput";
 import { Carousel } from "antd";
+import FolowButton from "../components/FollowButton";
 
 
 export default function MakeUpFeed() {
@@ -196,10 +197,7 @@ export default function MakeUpFeed() {
                                                 <Text style={styles.username}>@username</Text>
                                             </View>
                                             <View style={styles.followButtonArea}>
-                                                <TouchableOpacity style={styles.followButton}>
-                                                    <Text style={{ fontFamily: "Montserrat-SemiBold", color: "#F08080", fontSize: 10 }}>Follow</Text>
-                                                    <AntDesign name="plus" size={14} color="#F08080" />
-                                                </TouchableOpacity>
+                                                <FolowButton />
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
