@@ -12,6 +12,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
 import CategoriaButton from "../components/CircleButton";
 import SearchInput from "../components/SearchInput";
+import FollowButton from "../components/FollowButton";
 
 export default function AccessoryFeed() {
     const navigation = useNavigation();
@@ -94,10 +95,8 @@ export default function AccessoryFeed() {
     return (
         <SafeAreaView style={styles.container}>
                     <StatusBar style="auto" />
-                    <ImageBackground
-                        source={require("../assets/img/background.png")}
-                        style={styles.background}>
                         <ScrollView contentContainerStyle={styles.scrollView}>
+                            <Image source={require("../assets/img/background2.png")} style={styles.backgroundImage} />
                             <Header />
                             <View style={styles.main}>
                                 <SearchInput />
@@ -135,10 +134,7 @@ export default function AccessoryFeed() {
                                                             <Text style={styles.username}>@username</Text>
                                                         </View>
                                                         <View style={styles.followButtonArea}>
-                                                            <TouchableOpacity style={styles.followButton}>
-                                                                <Text style={{ fontFamily: "Montserrat-SemiBold", color: "#F08080", fontSize: 10 }}>Follow</Text>
-                                                                <AntDesign name="plus" size={14} color="#F08080" />
-                                                            </TouchableOpacity>
+                                                            <FollowButton />
                                                         </View>
                                                     </View>
                                                     <View style={styles.postContent}>
@@ -184,7 +180,6 @@ export default function AccessoryFeed() {
                                 </View>
                             </View>
                         </ScrollView>
-                    </ImageBackground>
                 </SafeAreaView>
     )
 }
@@ -192,7 +187,19 @@ export default function AccessoryFeed() {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
+        width: "100%",
+        height: "100%",
         resizeMode: "cover",
+    },
+    backgroundImage: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "350",
+    },
+    scrollView:{
+        backgroundColor: "#fff",
     },
     container: {
         flex: 1,
@@ -261,6 +268,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5,
         width: "99%",
+        marginBottom: 20,
     },
     headerPost: {
         display: "flex",
