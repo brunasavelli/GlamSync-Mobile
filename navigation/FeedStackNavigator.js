@@ -7,6 +7,7 @@ import HatFeed from "../screens/HatFeed";
 import ShoesFeed from "../screens/ShoesFeed";
 import MakeUpFeed from "../screens/MakeUpFeed";
 import AccessoryFeed from '../screens/AccessoryFeed';
+import Notifications from "../screens/Notifications";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function FeedStackNavigator() {
             <Stack.Screen name="ShoesFeed" component={ShoesFeed} />
             <Stack.Screen name="MakeUpFeed" component={MakeUpFeed} />
             <Stack.Screen name="AccessoryFeed" component={AccessoryFeed} />
+            <Stack.Screen name="Notifications" component={Notifications} />
         </Stack.Navigator>
     );
 }

@@ -36,6 +36,14 @@ export default function MakeUpFeed() {
             likesCount: 0,
             image: require("../assets/img/dressPost2.png"),
         },
+        {
+            id: 3,
+            username: "@username",
+            legend: "Elegância que não precisa de palavras. Um vestido, mil olhares.",
+            liked: false,
+            likesCount: 0,
+            image: require("../assets/img/dressPost3.png"),
+        },
     ]);
 
     const handleLike = (index) => {
@@ -46,6 +54,19 @@ export default function MakeUpFeed() {
                         ...post,
                         liked: !post.liked,
                         likesCount: post.liked ? post.likesCount - 1 : post.likesCount + 1,
+                    }
+                    : post
+            )
+        );
+    };
+
+    const handleSave = (index) => {
+        setPosts((prev) =>
+            prev.map((post, i) =>
+                i === index
+                    ? {
+                        ...post,
+                        saved: !post.saved,
                     }
                     : post
             )
@@ -106,7 +127,7 @@ export default function MakeUpFeed() {
                             <Text style={styles.title}>Feed</Text>
                             <View style={styles.postsContainer}>
                                 {posts.map((post, index) => (
-                                    <View style={styles.post}>
+                                    <View style={styles.post} key={post.id}>
                                         <View style={styles.post}>
                                             <View style={styles.headerPost}>
                                                 <View style={styles.userArea}>
@@ -139,8 +160,13 @@ export default function MakeUpFeed() {
                                                     </TouchableOpacity>
                                                 </View>
                                                 <View style={styles.save}>
-                                                    <TouchableOpacity>
-                                                        <Feather name="bookmark" size={22} color="black" />
+                                                    <TouchableOpacity
+                                                        onPress={() => handleSave(index)}
+                                                    >
+                                                        <FontAwesome
+                                                            name={post.saved ? "bookmark" : "bookmark-o"}
+                                                            size={24}
+                                                            color={post.saved ? "#FFD53D" : "black"} />
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>

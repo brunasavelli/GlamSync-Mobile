@@ -60,6 +60,19 @@ export default function MakeUpFeed() {
         );
     };
 
+    const handleSave = (index) => {
+        setPosts((prev) =>
+            prev.map((post, i) =>
+                i === index
+                    ? {
+                        ...post,
+                        saved: !post.saved,
+                    }
+                    : post
+            )
+        );
+    };
+
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -114,7 +127,7 @@ export default function MakeUpFeed() {
                             <Text style={styles.title}>Feed</Text>
                             <View style={styles.postsContainer}>
                                 {posts.map((post, index) => (
-                                    <View style={styles.post}>
+                                    <View style={styles.post} key={post.id}>
                                         <View style={styles.post}>
                                             <View style={styles.headerPost}>
                                                 <View style={styles.userArea}>
@@ -147,8 +160,13 @@ export default function MakeUpFeed() {
                                                     </TouchableOpacity>
                                                 </View>
                                                 <View style={styles.save}>
-                                                    <TouchableOpacity>
-                                                        <Feather name="bookmark" size={22} color="black" />
+                                                    <TouchableOpacity
+                                                        onPress={() => handleSave(index)}
+                                                    >
+                                                        <FontAwesome
+                                                            name={post.saved ? "bookmark" : "bookmark-o"}
+                                                            size={24}
+                                                            color={post.saved ? "#FFD53D" : "black"} />
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>

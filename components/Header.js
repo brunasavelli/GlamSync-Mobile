@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import * as Font from "expo-font";
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Header() {
+    const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     useEffect(() => {
@@ -23,15 +25,17 @@ export default function Header() {
     }
     return (
         <View style={styles.header}>
-                <View style={styles.logoContainer}>
-                    <Image style={styles.logo} source={require('../assets/img/logoGlamSync.png')} />
-                    <Text style={styles.title}>Glam</Text>
-                    <Text style={styles.title2}>Sync</Text>
-                </View>
-                <View style={styles.iconsContainer}>
+            <TouchableOpacity style={styles.logoContainer} onPress={() => navigation.navigate('InitialFeed')}>
+                <Image style={styles.logo} source={require('../assets/img/logoGlamSync.png')} />
+                <Text style={styles.title}>Glam</Text>
+                <Text style={styles.title2}>Sync</Text>
+            </TouchableOpacity>
+            <View style={styles.iconsContainer}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Notifications')}>
                     <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
-                    <Entypo name="dots-three-horizontal" size={20} color="brown" style={styles.icon} />
-                </View>
+                </TouchableOpacity>
+                <Entypo name="dots-three-horizontal" size={20} color="brown" style={styles.icon} />
+            </View>
         </View>
     )
 }
