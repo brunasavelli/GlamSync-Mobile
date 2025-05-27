@@ -13,6 +13,7 @@ export default function CardNotification({ image, username, content, date, unrea
                 <Text style={styles.date}>{date}</Text>
                 {unread && <View style={styles.unreadDot}></View>}
             </View>
+
         </View>
     );
 }
