@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
 import CardNotification from "../components/CardNotification";
 import Header from "../components/Header"
+import Footer from "../components/Footer";
 
 
 export default function Notifications() {
@@ -35,6 +36,7 @@ export default function Notifications() {
                     </View>
                 </View>
                 </ScrollView>
+                <Footer />
         </ImageBackground>
     );
 }

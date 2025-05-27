@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     postSection: {
         display: 'flex',
         flexDirection: 'column',
-        height: 590,
+        height: 490,
         width: '100%',
         marginTop: 35,
         backgroundColor: 'white',
