@@ -12,10 +12,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
 import CategoriaButton from "../components/CircleButton";
 import { Entypo } from '@expo/vector-icons';
-import SearchInput from "../components/SearchInput";
-import { Carousel } from "antd";
+import SearchInput from "../components/SearchInput"
 import FolowButton from "../components/FollowButton";
-
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
