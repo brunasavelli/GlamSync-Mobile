@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, ImageBackground, Image, StyleSheet } from 'react-native';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import * as Font from "expo-font";
 
 export default function Chats() {
@@ -37,7 +36,6 @@ export default function Chats() {
                     <Image source={require('../assets/img/chats-adduser.png')} style={styles.circleImage} />
                 </View>
             </View>
-            <Footer />
         </ImageBackground>
     );
 }
