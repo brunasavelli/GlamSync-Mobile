@@ -1,67 +1,65 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import { useEffect, useState } from "react";
-import * as Font from "expo-font";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import React from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
 
-
-export default function CardNotification({ username, content, date }) {
+export default function CardNotification({ image, username, content, date, unread }) {
     return (
-        <View style={styles.cardContainer}>
-            <View style={styles.cards}>
-                <Image source={require("../assets/img/usergray.png")} style={styles.userPhoto} />
-                <View style={styles.texts}>
-                    <Text style={styles.title}>{username}</Text>
-                    <Text style={styles.content}>{content}</Text>
-                </View>
-                <Text style={styles.date}>{date}</Text>
+        <View style={styles.card}>
+            <Image source={image} style={styles.image} />
+            <View style={styles.textContainer}>
+                <Text style={styles.username}>{username}</Text>
+                <Text style={styles.content}>{content}</Text>
             </View>
-            <View style={{ height: 2, backgroundColor: "#EDEDED", width: "80%", borderRadius: 50 }} />
+            <View style={styles.dateContainer}>
+                <Text style={styles.date}>{date}</Text>
+                {unread && <View style={styles.unreadDot}></View>}
+            </View>
         </View>
-    )
+    );
 }
 
-
 const styles = StyleSheet.create({
-    cardContainer: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 5,
-        width: "100%",
-    },
-    cards: {
-        display: "flex",
+    card: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
-        gap: 15,
-        padding: 15,
-        width: "95%",
+        justifyContent: "space-between",
+        padding: 10,
+        marginBottom: 10,
+        gap: 30,
+        borderBottomWidth: 1,
+        borderBottomColor: "#cdcdcd",
     },
-    userPhoto: {
-        width: 50,
-        height: 50,
-        resizeMode: "cover",
+    textContainer: {
+        flex: 1,
+        gap: 5,
     },
-    texts: {
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        width: "70%",
-    },
-    title: {
-        fontSize: 14,
+    username: {
         fontFamily: "Montserrat-Bold",
+        fontSize: 14,
     },
     content: {
-        fontSize: 12,
         fontFamily: "Montserrat-Regular",
+        fontSize: 12,
+        color: "#555",
+    },
+    image: {
+        width: 60,
+        height: 60,
+        borderRadius: 20,
+    },
+    dateContainer: {
+        height: "100%",
+        gap: 10,
     },
     date: {
-        fontSize: 12,
         fontFamily: "Montserrat-Regular",
-        width: "15%",
-        textAlign: "right"
-    }
-})
+        fontSize: 10,
+        color: "#999",
+    },
+    unreadDot: {
+        width: 15,
+        height: 15,
+        borderRadius: 10,
+        backgroundColor: "#009DFF",
+        marginLeft: 10,
+    },
+});
