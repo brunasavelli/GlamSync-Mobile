@@ -13,7 +13,6 @@ import Feather from '@expo/vector-icons/Feather';
 import CategoriaButton from "../components/CircleButton";
 import { Entypo } from '@expo/vector-icons';
 import SearchInput from "../components/SearchInput";
-import { Carousel } from "antd";
 
 
 export default function MakeUpFeed() {
