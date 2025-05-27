@@ -6,6 +6,7 @@ import { View, Text, Image, StyleSheet, ImageBackground, ScrollView } from 'reac
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Header from '../components/Header';
+import FollowButton from '../components/FollowButton';
 
 export default function Profile() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -35,6 +36,7 @@ export default function Profile() {
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
             <View style={styles.top}>
                 <Text style={styles.username}>@username</Text>
+                <FollowButton />
             </View>
             <View style={styles.middle}>
                 <Image source={require('../assets/img/profile-user.png')} style={{ width: 120, height: 120 }} />
