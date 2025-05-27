@@ -1,7 +1,8 @@
 "use client";
 
+import { View, Text, ScrollView, ImageBackground, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, ImageBackground, Image, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Font from "expo-font";
 
@@ -11,6 +12,7 @@ import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
 export default function Chats() {
+    const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     useEffect(() => {
@@ -67,10 +69,14 @@ export default function Chats() {
                     </View>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         {onlineContacts.map(contact => (
-                            <OnlineContactCard
+                            <TouchableOpacity onPress={() => navigation.navigate('Message')} key={contact.id}>
+                                <OnlineContactCard
                                 key={contact.id}
                                 image={contact.image}
-                                username={contact.username} />
+                                username={contact.username}
+                                onPress={() => navigation.navigate('Message')}
+                            />
+                            </TouchableOpacity>
                         ))}
                     </ScrollView>
                 </View>
@@ -80,7 +86,8 @@ export default function Chats() {
                         <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
                     </View>
                     {recentContacts.map(contact => (
-                        <CardNotification
+                        <TouchableOpacity onPress={() => navigation.navigate('Message')} style={styles.touch} key={contact.id}>   
+                            <CardNotification
                             key={contact.id}
                             image={contact.image}
                             username={contact.username}
@@ -88,6 +95,7 @@ export default function Chats() {
                             date={contact.date}
                             unread={contact.unread}
                         />
+                        </TouchableOpacity>
                     ))}
                 </View>
             </ScrollView>
@@ -181,5 +189,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 15,
+    },
+    touch: {
+        width: '100%',
     },
 });

@@ -16,5 +16,3 @@ export default function HomeStackNavigator() {
         </Stack.Navigator>
     );
 }
-
-//Deixei a header para poder navegar de volta para a home

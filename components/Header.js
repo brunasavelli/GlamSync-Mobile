@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Header() {
+export default function Header({ height=100 }) {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -24,7 +24,7 @@ export default function Header() {
         return null;
     }
     return (
-        <View style={styles.header}>
+        <View style={[styles.header, { height }]}>
             <TouchableOpacity style={styles.logoContainer} onPress={() => navigation.navigate('InitialFeed')}>
                 <Image style={styles.logo} source={require('../assets/img/logoGlamSync.png')} />
                 <Text style={styles.title}>Glam</Text>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: '#fff',
-        height: 100,
         width: '100%',
         paddingTop: 40,
         paddingHorizontal: 20,

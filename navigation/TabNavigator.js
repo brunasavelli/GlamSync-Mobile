@@ -4,7 +4,7 @@ import { Image } from "react-native";
 
 import Profile from "../screens/Profile";
 import FeedStackNavigator from "../navigation/FeedStackNavigator";
-import Chats from "../screens/Chats";
+import ChatStackNavigator from "../navigation/ChatStackNavigator";
 import Post from "../screens/Post";
 
 const Tab = createBottomTabNavigator();
@@ -38,7 +38,7 @@ export default function TabNavigator() {
                     <Image source={require('../assets/img/plus-icon.png')} style={{ width: 35, height: 35 }} />
                 ),
             }} />
-            <Tab.Screen name="Chats" component={Chats} options={{
+            <Tab.Screen name="ChatStack" component={ChatStackNavigator} options={{
                 tabBarIcon: ({ color, size }) => (
                     <Image source={require('../assets/img/chat-icon.png')} style={{ width: 35, height: 35 }} />
                 ),
