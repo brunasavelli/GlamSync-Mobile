@@ -4,13 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 //import InitialFeed from "./screens/InitialFeed"
 //import Profile from "./screens/Profile";
 //import HomeStackNavigator from "./navigation/HomeStackNavigator";
-//import FeedStackNavigator from "./navigation/FeedStackNavigator";
-import Chats from "./screens/Chats";
+import FeedStackNavigator from "./navigation/FeedStackNavigator";
+// import Chats from "./screens/Chats";
 
 export default function App() {
     return (
         <NavigationContainer>
-            <Chats />
+            <FeedStackNavigator />
         </NavigationContainer>
     );
 }

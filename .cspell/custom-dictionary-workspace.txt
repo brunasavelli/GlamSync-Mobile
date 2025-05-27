@@ -1,10 +1,41 @@
 # Custom Dictionary Words
 <<<<<<< HEAD
-brunasavelli
 =======
-começou
-Emblema
 >>>>>>> cbb59bdc981e472b2dee887eeb9b7f6ccf8991b3
+alcance
+além
+Atitude
+beleza
+Beleza
+brunasavelli
+cada
+carroussel
+categoria
+Categoria
+categorias
+começou
+Deixe
+detalhe
+Elegância
+Emblema
+Encantam
+enxerga
+está
+Estilo
+expressão
 glamsync
+hearto
+marca
+Misteriosa
+moda
+Moda
+nunca
+óbvio
+olhar
+Poder
+poderoso
 seguir
+tshirt
+Único
 Usename
+Visão

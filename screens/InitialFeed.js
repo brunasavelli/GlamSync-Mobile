@@ -13,18 +13,21 @@ import Feather from '@expo/vector-icons/Feather';
 import CategoriaButton from "../components/CircleButton";
 import { Entypo } from '@expo/vector-icons';
 import SearchInput from "../components/SearchInput";
+import { Carousel } from "antd";
 
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
-    const cardWidth = Dimensions.get("window").width * 0.75;
+    const cardWidth = Dimensions.get("window").width * 0.85;
+    const flatListRef = useRef(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const posters = [
         { id: 1, image: require("../assets/img/poster.png") },
         { id: 2, image: require("../assets/img/poster2.png") },
         { id: 3, image: require("../assets/img/poster3.png") },
-        { id: 4, image: require("../assets/img/poster4.png") },
+        { id: 4, image: require("../assets/img/poster4.jpg") },
     ]
 
     const [posts, setPosts] = useState([
@@ -77,34 +80,29 @@ export default function MakeUpFeed() {
     };
 
     const handleSave = (index) => {
-            setPosts((prev) =>
-                prev.map((post, i) =>
-                    i === index
-                        ? {
-                            ...post,
-                            saved: !post.saved,
-                        }
-                        : post
-                )
-            );
-        }
+        setPosts((prev) =>
+            prev.map((post, i) =>
+                i === index
+                    ? {
+                        ...post,
+                        saved: !post.saved,
+                    }
+                    : post
+            )
+        );
+    }
 
-    const flatListRef = useRef(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => {
+                const nextIndex = prevIndex + 1 < posters.length ? prevIndex + 1 : 0;
+                flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+                return nextIndex;
+            });
+        }, 3000);
 
-    const handleNext = () => {
-        if (currentIndex < posters.length - 1) {
-            flatListRef.current.scrollToIndex({ index: currentIndex + 1, animated: true });
-            setCurrentIndex(currentIndex + 1);
-        }
-    };
-
-    const handlePrev = () => {
-        if (currentIndex > 0) {
-            flatListRef.current.scrollToIndex({ index: currentIndex - 1, animated: true });
-            setCurrentIndex(currentIndex - 1);
-        }
-    };
+        return () => clearInterval(interval);
+    }, [posters.length]);
 
     useEffect(() => {
         async function loadFonts() {
@@ -163,9 +161,6 @@ export default function MakeUpFeed() {
                             onPress={() => navigation.navigate('AccessoryFeed')} />
                     </View>
                     <View style={styles.carroussel}>
-                        <TouchableOpacity style={styles.arrowButton} onPress={handlePrev}>
-                            <AntDesign name="left" size={24} color="#F79489" />
-                        </TouchableOpacity>
                         <FlatList
                             ref={flatListRef}
                             style={styles.horizontalList}
@@ -183,10 +178,11 @@ export default function MakeUpFeed() {
                                 </View>
                             )}
                             contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
+                            onMomentumScrollEnd={e => {
+                                const index = Math.round(e.nativeEvent.contentOffset.x / (cardWidth + 16));
+                                setCurrentIndex(index);
+                            }}
                         />
-                        <TouchableOpacity style={styles.arrowButton} onPress={handleNext}>
-                            <AntDesign name="right" size={24} color="#F79489" />
-                        </TouchableOpacity>
                     </View>
                     <View style={styles.feed}>
                         <Text style={styles.title}>Feed</Text>
@@ -308,7 +304,7 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "103%",
+        width: "100%",
     },
     categoriasButtons: {
         marginTop: 30,
@@ -319,7 +315,7 @@ const styles = StyleSheet.create({
     },
     carroussel: {
         marginTop: 30,
-        height: 170,
+        height: 220,
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
@@ -340,7 +336,7 @@ const styles = StyleSheet.create({
     },
     posterImage: {
         width: "100%",
-        height: 150,
+        height: 200,
         borderRadius: 16,
     },
     horizontalList: {

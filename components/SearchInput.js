@@ -16,8 +16,9 @@ export default function SearchInput() {
 
 const styles = StyleSheet.create({
     searchArea: {
-        width: "100%",
-        backgroundColor: "#FFFFFF",
+        width: 320,
+        height: 40,
+        backgroundColor: "#fff",
         borderRadius: 30,
         display: "flex",
         flexDirection: "row",
