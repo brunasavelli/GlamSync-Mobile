@@ -76,6 +76,19 @@ export default function MakeUpFeed() {
         );
     };
 
+    const handleSave = (index) => {
+            setPosts((prev) =>
+                prev.map((post, i) =>
+                    i === index
+                        ? {
+                            ...post,
+                            saved: !post.saved,
+                        }
+                        : post
+                )
+            );
+        }
+
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -118,7 +131,7 @@ export default function MakeUpFeed() {
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
                 <Image source={require("../assets/img/logoComEscrita2.png")} style={styles.logo} />
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Notifications')}>
                         <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>
@@ -130,24 +143,24 @@ export default function MakeUpFeed() {
                     <View style={styles.categoriasButtons}>
                         <CategoriaButton
                             icon={<FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />}
-                            categoria="Dress" 
-                            onPress={() => navigation.navigate('DressFeed')}/>
+                            categoria="Dress"
+                            onPress={() => navigation.navigate('DressFeed')} />
                         <CategoriaButton
                             icon={<FontAwesome6 name="hat-cowboy" size={24} color="#8B2E0B" />}
                             categoria="Hat"
-                            onPress={() => navigation.navigate('HatFeed')}/>
+                            onPress={() => navigation.navigate('HatFeed')} />
                         <CategoriaButton
                             icon={<MaterialCommunityIcons name="shoe-ballet" size={24} color="#8B2E0B" />}
                             categoria="Shoes"
                             onPress={() => navigation.navigate('ShoesFeed')} />
                         <CategoriaButton
                             icon={<MaterialCommunityIcons name="lipstick" size={24} color="#8B2E0B" />}
-                            categoria="Make Up" 
-                            onPress={() => navigation.navigate('MakeUpFeed')}/>
+                            categoria="Make Up"
+                            onPress={() => navigation.navigate('MakeUpFeed')} />
                         <CategoriaButton
                             icon={<MaterialCommunityIcons name="ring" size={24} color="#8B2E0B" />}
                             categoria="Accessory"
-                            onPress={() => navigation.navigate('AccessoryFeed')}/>
+                            onPress={() => navigation.navigate('AccessoryFeed')} />
                     </View>
                     <View style={styles.carroussel}>
                         <TouchableOpacity style={styles.arrowButton} onPress={handlePrev}>
@@ -212,8 +225,13 @@ export default function MakeUpFeed() {
                                                 </TouchableOpacity>
                                             </View>
                                             <View style={styles.save}>
-                                                <TouchableOpacity>
-                                                    <Feather name="bookmark" size={22} color="black" />
+                                                <TouchableOpacity
+                                                    onPress={() => handleSave(index)}
+                                                >
+                                                    <FontAwesome
+                                                        name={post.saved ? "bookmark" : "bookmark-o"}
+                                                        size={24}
+                                                        color={post.saved ? "#FFD53D" : "black"} />
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -244,6 +262,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        backgroundColor: "#fff",
     },
     background: {
         width: "100%",
@@ -305,7 +324,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        width: "95%",
+        width: "100%",
     },
     cardContainer: {
         borderRadius: 16,
