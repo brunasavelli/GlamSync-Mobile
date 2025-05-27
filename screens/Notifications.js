@@ -12,45 +12,37 @@ export default function Notifications() {
         { id: 2, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "30min ago", unread: false },
         { id: 3, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "50min ago", unread: false },
         { id: 4, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "1h ago", unread: false },
-        { id: 5, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "1h30 ago", unread: false },
-        { id: 6, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "2h ago", unread: false },
-        { id: 7, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "2h ago", unread: false },
-        { id: 8, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "3h ago", unread: false },
-        { id: 9, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "3h ago", unread: false },
-        { id: 10, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "4h ago", unread: false },
-        { id: 11, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "4h ago", unread: false },
     ];
 
     return (
         <ImageBackground
             source={require("../assets/img/background2-mobile-glamsync.png")}
             style={styles.background}>
-            <ScrollView>
+            <Header />
+            <ScrollView showsVerticalScrollIndicator={false} style={{ width: "100%" }}>
                 <View style={styles.container}>
-                    <Header />
                     <View style={styles.main}>
                         <Text style={styles.h1}>Notifications Center</Text>
-                            <View style={styles.cards}>
+                        <View style={styles.cards}>
+                            <View style={styles.section}>
                                 {notificacoes.map((notificacao) => (
-                                    <CardNotification
-                                        key={notificacao.id}
-                                        username={notificacao.username}
-                                        content={notificacao.content}
-                                        date={notificacao.date}
-                                        image={notificacao.image}
-                                        unread={notificacao.unread}
-                                    />
-                                ))}
+                                <CardNotification
+                                    key={notificacao.id}
+                                    username={notificacao.username}
+                                    content={notificacao.content}
+                                    date={notificacao.date}
+                                    image={notificacao.image}
+                                    unread={notificacao.unread}
+                                />
+                            ))}
                             </View>
+                        </View>
                     </View>
                 </View>
             </ScrollView>
         </ImageBackground>
     );
 }
-
-
-
 
 const styles = StyleSheet.create({
     cards: {
@@ -60,7 +52,24 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingBottom: 80,
+    },
+    section: {
+        marginHorizontal: 15,
+        marginVertical: 10,
+        paddingVertical: 18,
         paddingHorizontal: 20,
+        gap: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        shadowColor: '#1C1C1C',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
     },
     background: {
         flex: 1,
@@ -76,9 +85,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     h1: {
-        fontSize: 20,
+        fontSize: 24,
         fontFamily: "Montserrat-Bold",
         color: "#000",
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 30,
     },
 })
