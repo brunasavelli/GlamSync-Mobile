@@ -7,7 +7,7 @@ import * as Font from "expo-font";
 
 import Header from '../components/Header';
 import SearchInput from "../components/SearchInput";
-import OnlineContactCard from "../components/onlineContactCard";
+import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
 export default function Chats() {
