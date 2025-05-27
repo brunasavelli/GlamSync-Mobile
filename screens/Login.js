@@ -31,6 +31,8 @@ export default function Login() {
                 "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
                 "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
                 "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
+                "EmblemaOne-Regular": require("../assets/fonts/EmblemaOne-Regular.ttf"),
+                "Montserrat-SemiBoldItalic": require("../assets/fonts/Montserrat-SemiBoldItalic.ttf"),
             });
             setFontsLoaded(true);
         }
@@ -47,95 +49,104 @@ export default function Login() {
             <ImageBackground
                 source={require("../assets/img/background-mobile-glamsync.png")}
                 style={styles.background}>
-                <ScrollView contentContainerStyle={styles.scrollView}>
-                    <View style={styles.container}>
-                        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
-                            <Ionicons name="chevron-back" size={24} color="pink" />
-                        </TouchableOpacity>
-                        <View style={styles.top}>
-                            <Image source={require("../assets/img/logoComEscrita.png")} style={styles.logo} />
-                        </View>
-                        <View style={styles.main}>
-                            <Text style={styles.h1}>Welcome Back!</Text>
-                            <Text style={styles.logAccount}>Log in to your account</Text>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
+                    <ScrollView contentContainerStyle={styles.scrollView}>
+                        <View style={[styles.container, { justifyContent: "flex-end "}]}>
+                            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
+                                <Ionicons name="chevron-back" size={24} color="pink" />
+                            </TouchableOpacity>
+                            <View style={styles.top}>
+                                <Image source={require("../assets/img/logoGlamSync.png")} style={styles.logo} />
+                                <View style={styles.logoText}>
+                                    <Text style={{ fontFamily: "EmblemaOne-Regular", fontSize: 50, color: "white" }}>Glam</Text>
+                                    <Text style={{ fontFamily: "Montserrat-SemiBoldItalic", fontSize: 40, color: "white", marginTop: 9 }}>sync</Text>
+                                </View>
+                            </View>
+                            <View style={styles.main}>
+                                <Text style={styles.h1}>Welcome Back!</Text>
+                                <Text style={styles.logAccount}>Log in to your account</Text>
 
-                            <View style={styles.form}>
-                                { }
-                                <View style={styles.inputContainer}>
-                                    <FontAwesome name="user-circle-o" size={20} color="#BC7D7C" style={styles.inputIcon} />
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Username"
-                                        placeholderTextColor="#A4A4A4"
-                                        value={username}
-                                        onChangeText={validateUsername}
-                                        autoCapitalize="none"
-                                    />
-                                    {username.length > 0 && (
-                                        <Ionicons
-                                            name={isUsernameValid ? "checkmark-circle" : "close-circle"}
-                                            size={20}
-                                            color={isUsernameValid ? "green" : "#F08080"}
-                                            style={styles.validationIcon}
+                                <View style={styles.form}>
+                                    { }
+                                    <View style={styles.inputContainer}>
+                                        <FontAwesome name="user-circle-o" size={20} color="#BC7D7C" style={styles.inputIcon} />
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Username"
+                                            placeholderTextColor="#A4A4A4"
+                                            value={username}
+                                            onChangeText={validateUsername}
+                                            autoCapitalize="none"
                                         />
-                                    )}
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Ionicons name="lock-closed" size={20} color="#BC7D7C" style={styles.inputIcon} />
-                                    <TextInput
-                                        placeholder="Password"
-                                        placeholderTextColor="#A4A4A4"
-                                        style={styles.input}
-                                        secureTextEntry={!showPassword}
-                                        value={password}
-                                        onChange={setPassword}
-                                        autoCapitalize="none"
-                                        autoCorrect={false}
-                                        textContentType="password"
-                                    />
-                                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.validationIcon}>
-                                        <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#999" />
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View style={styles.checkboxContainer}>
-                                    <TouchableOpacity style={styles.checkbox}
-                                        onPress={() => setRememberMe(!rememberMe)} >
-                                        {rememberMe ? (
-                                            <Ionicons name="checkmark-circle" size={20} color="#F08080" />
-                                        ) : (
-                                            <Ionicons name="ellipse-outline" size={20} color="#F08080" />
+                                        {username.length > 0 && (
+                                            <Ionicons
+                                                name={isUsernameValid ? "checkmark-circle" : "close-circle"}
+                                                size={20}
+                                                color={isUsernameValid ? "green" : "#F08080"}
+                                                style={styles.validationIcon}
+                                            />
                                         )}
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Ionicons name="lock-closed" size={20} color="#BC7D7C" style={styles.inputIcon} />
+                                        <TextInput
+                                            placeholder="Password"
+                                            placeholderTextColor="#A4A4A4"
+                                            style={styles.input}
+                                            secureTextEntry={!showPassword}
+                                            value={password}
+                                            onChange={setPassword}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            textContentType="password"
+                                        />
+                                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.validationIcon}>
+                                            <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#999" />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <View style={styles.checkboxContainer}>
+                                        <TouchableOpacity style={styles.checkbox}
+                                            onPress={() => setRememberMe(!rememberMe)} >
+                                            {rememberMe ? (
+                                                <Ionicons name="checkmark-circle" size={20} color="#F08080" />
+                                            ) : (
+                                                <Ionicons name="ellipse-outline" size={20} color="#F08080" />
+                                            )}
+                                        </TouchableOpacity>
+                                        <Text style={styles.label}>Remember Me</Text>
+                                        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                                    </View>
+
+                                    <TouchableOpacity style={styles.button}>
+                                        <Text style={styles.buttonText}>Log In</Text>
                                     </TouchableOpacity>
-                                    <Text style={styles.label}>Remember Me</Text>
-                                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
                                 </View>
 
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={styles.buttonText}>Log In</Text>
-                                </TouchableOpacity>
-                            </View>
+                                <View style={styles.textArea}>
+                                    <Text style={styles.p}>Don't have an account?</Text>
+                                    <Text style={styles.span} onPress={() =>
+                                        navigation.navigate('SignUp')
+                                    }>Sign Up</Text>
+                                </View>
 
-                            <View style={styles.textArea}>
-                                <Text style={styles.p}>Don't have an account?</Text>
-                                <Text style={styles.span} onPress={() =>
-                                    navigation.navigate('SignUp')
-                                }>Sign Up</Text>
-                            </View>
+                                <View style={styles.lines}>
+                                    <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                    <Text style={styles.login}>Log In with</Text>
+                                    <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                </View>
 
-                            <View style={styles.lines}>
-                                <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                                <Text style={styles.login}>Log In with</Text>
-                                <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                            </View>
-
-                            <View style={styles.icons}>
-                                <Image source={require('../assets/img/google.png')} style={styles.icon} />
-                                <Image source={require('../assets/img/apple.png')} style={styles.icon} />
+                                <View style={styles.icons}>
+                                    <Image source={require('../assets/img/google.png')} style={styles.icon} />
+                                    <Image source={require('../assets/img/apple.png')} style={styles.icon} />
+                                </View>
                             </View>
                         </View>
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </ImageBackground>
         </SafeAreaView>
     );
@@ -150,7 +161,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        height: 100,
     },
     backButton: {
         position: "absolute",
@@ -175,7 +185,16 @@ const styles = StyleSheet.create({
     logo: {
         width: 250,
         height: 250,
-        marginTop: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+    },
+    logoText:{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
     },
     text: {
         color: "white",
@@ -183,7 +202,6 @@ const styles = StyleSheet.create({
     },
     main: {
         backgroundColor: "white",
-        height: 600,
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
         display: "flex",
@@ -191,7 +209,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 8,
         paddingTop: 30,
-        marginTop: 53,
+        height: 500,
     },
     h1: {
         fontSize: 40,
