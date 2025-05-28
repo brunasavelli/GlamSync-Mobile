@@ -20,7 +20,7 @@ export default function MakeUpFeed() {
     const [liked, setLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
     const scrollRef = useRef(null);
-        const [showScrollTop, setShowScrollTop] = useState(false);
+    const [showScrollTop, setShowScrollTop] = useState(false);
 
     const [posts, setPosts] = useState([
         {
@@ -107,91 +107,91 @@ export default function MakeUpFeed() {
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
             <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
-                    <Image source={require("../assets/img/background2.png")} style={styles.backgroundImage} />
-                    <Header />
-                    <View style={styles.main}>
-                        <SearchInput />
-                        <View style={styles.categoriasButtons}>
-                            <CategoriaButton
-                                icon={<FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />}
-                                categoria="Dress"
-                                onPress={() => navigation.navigate('DressFeed')} />
-                            <CategoriaButton
-                                icon={<FontAwesome6 name="hat-cowboy" size={24} color="#8B2E0B" />}
-                                categoria="Hat"
-                                onPress={() => navigation.navigate('HatFeed')} />
-                            <CategoriaButton
-                                icon={<MaterialCommunityIcons name="shoe-ballet" size={24} color="#8B2E0B" />}
-                                categoria="Shoes"
-                                onPress={() => navigation.navigate('ShoesFeed')} />
-                            <CategoriaButton
-                                icon={<MaterialCommunityIcons name="lipstick" size={24} color="#8B2E0B" />}
-                                categoria="Make Up"
-                                onPress={() => navigation.navigate('MakeUpFeed')} />
-                            <CategoriaButton
-                                icon={<MaterialCommunityIcons name="ring" size={24} color="#8B2E0B" />}
-                                categoria="Accessory"
-                                onPress={() => navigation.navigate('AccessoryFeed')} />
-                        </View>
-                        <View style={styles.feed}>
-                            <Text style={styles.title}>Feed</Text>
-                            <View style={styles.postsContainer}>
-                                {posts.map((post, index) => (
-                                    <View style={styles.post} key={post.id}>
-                                        <View style={styles.post}>
-                                            <View style={styles.headerPost}>
-                                                <View style={styles.userArea}>
+                <Image source={require("../assets/img/background2.png")} style={styles.backgroundImage} />
+                <Header />
+                <View style={styles.main}>
+                    <SearchInput />
+                    <View style={styles.categoriasButtons}>
+                        <CategoriaButton
+                            icon={<FontAwesome5 name="tshirt" size={24} color="#8B2E0B" />}
+                            categoria="Dress"
+                            onPress={() => navigation.navigate('DressFeed')} />
+                        <CategoriaButton
+                            icon={<FontAwesome6 name="hat-cowboy" size={24} color="#8B2E0B" />}
+                            categoria="Hat"
+                            onPress={() => navigation.navigate('HatFeed')} />
+                        <CategoriaButton
+                            icon={<MaterialCommunityIcons name="shoe-ballet" size={24} color="#8B2E0B" />}
+                            categoria="Shoes"
+                            onPress={() => navigation.navigate('ShoesFeed')} />
+                        <CategoriaButton
+                            icon={<MaterialCommunityIcons name="lipstick" size={24} color="#8B2E0B" />}
+                            categoria="Make Up"
+                            onPress={() => navigation.navigate('MakeUpFeed')} />
+                        <CategoriaButton
+                            icon={<MaterialCommunityIcons name="ring" size={24} color="#8B2E0B" />}
+                            categoria="Accessory"
+                            onPress={() => navigation.navigate('AccessoryFeed')} />
+                    </View>
+                    <View style={styles.feed}>
+                        <Text style={styles.title}>Feed</Text>
+                        <View style={styles.postsContainer}>
+                            {posts.map((post, index) => (
+                                <View style={styles.post} key={post.id}>
+                                    <View style={styles.post}>
+                                        <View style={styles.headerPost}>
+                                            <View style={styles.userArea}>
                                                 <Image source={require("../assets/img/usergray.png")} style={styles.inputIcon} />
-                                                    <Text style={styles.username}>@username</Text>
-                                                </View>
-                                                <View style={styles.followButtonArea}>
-                                                    <FollowButton />
-                                                </View>
+                                                <Text style={styles.username}>@username</Text>
                                             </View>
-                                            <View style={styles.postContent}>
-                                                <Image source={post.image} style={{ width: "100%", height: 400, marginTop: 10 }} />
-                                            </View>
-                                            <View style={styles.interactions}>
-                                                <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
-                                                    <TouchableOpacity
-                                                        onPress={() => handleLike(index)}
-                                                    >
-                                                        <AntDesign
-                                                            name={post.liked ? "heart" : "hearto"}
-                                                            size={22}
-                                                            color={post.liked ? "#F08080" : "#000"} />
-                                                    </TouchableOpacity>
-                                                    <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
-                                                    <TouchableOpacity>
-                                                        <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
-                                                    </TouchableOpacity>
-                                                </View>
-                                                <View style={styles.save}>
-                                                    <TouchableOpacity
-                                                        onPress={() => handleSave(index)}
-                                                    >
-                                                        <FontAwesome
-                                                            name={post.saved ? "bookmark" : "bookmark-o"}
-                                                            size={24}
-                                                            color={post.saved ? "#FFD53D" : "black"} />
-                                                    </TouchableOpacity>
-                                                </View>
-                                            </View>
-                                            <View style={styles.legend}>
-                                                <Text>
-                                                    <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.username}{" "}</Text>
-                                                    {post.legend}
-                                                </Text>
+                                            <View style={styles.followButtonArea}>
+                                                <FollowButton />
                                             </View>
                                         </View>
+                                        <View style={styles.postContent}>
+                                            <Image source={post.image} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                        </View>
+                                        <View style={styles.interactions}>
+                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
+                                                <TouchableOpacity
+                                                    onPress={() => handleLike(index)}
+                                                >
+                                                    <AntDesign
+                                                        name={post.liked ? "heart" : "hearto"}
+                                                        size={22}
+                                                        color={post.liked ? "#F08080" : "#000"} />
+                                                </TouchableOpacity>
+                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
+                                                <TouchableOpacity>
+                                                    <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View style={styles.save}>
+                                                <TouchableOpacity
+                                                    onPress={() => handleSave(index)}
+                                                >
+                                                    <FontAwesome
+                                                        name={post.saved ? "bookmark" : "bookmark-o"}
+                                                        size={24}
+                                                        color={post.saved ? "#FFD53D" : "black"} />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                        <View style={styles.legend}>
+                                            <Text>
+                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.username}{" "}</Text>
+                                                {post.legend}
+                                            </Text>
+                                        </View>
                                     </View>
-                                ))}
-                            </View>
+                                </View>
+                            ))}
                         </View>
                     </View>
-                </ScrollView>
-                            <ScrollUpButton visible={showScrollTop} onPress={scrollToTop} />
-                
+                </View>
+            </ScrollView>
+            <ScrollUpButton visible={showScrollTop} onPress={scrollToTop} />
+
         </SafeAreaView>
     )
 }
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "350",
     },
-    scrollView:{
+    scrollView: {
         backgroundColor: "#fff",
     },
     container: {
