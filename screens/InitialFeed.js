@@ -291,12 +291,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     titleOverlay1: {
-        fontSize: 60,
+        fontSize: 55,
         color: 'white',
         fontFamily: 'EmblemaOne-Regular',
     },
     titleOverlay2: {
-        fontSize: 50,
+        fontSize: 48,
         color: 'white',
         fontFamily: 'Montserrat-MediumItalic',
     },
