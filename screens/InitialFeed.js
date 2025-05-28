@@ -129,7 +129,7 @@ export default function MakeUpFeed() {
 
     const handleScroll = (event) => {
         const y = event.nativeEvent.contentOffset.y;
-        setShowScrollTop(y > 300);
+        setShowScrollTop(y > 700);
     };
 
     return (
@@ -207,7 +207,7 @@ export default function MakeUpFeed() {
                                     <View style={styles.post}>
                                         <View style={styles.headerPost}>
                                             <View style={styles.userArea}>
-                                                <FontAwesome name="user-circle-o" size={20} color="gray" style={styles.inputIcon} />
+                                                <Image source={require("../assets/img/usergray.png")} style={styles.inputIcon} />
                                                 <Text style={styles.username}>@username</Text>
                                             </View>
                                             <View style={styles.followButtonArea}>
@@ -333,6 +333,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
+        paddingVertical: 50,
     },
     categoriasButtons: {
         marginTop: 30,
@@ -374,7 +375,8 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-SemiBold",
         fontSize: 16,
         color: "#8B2E0B",
-        marginTop: 20,
+        marginBottom: 30,
+        marginLeft: 10,
         alignSelf: "flex-start",
     },
     postsContainer: {
@@ -432,5 +434,9 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 5,
         gap: 5,
-    }
+    },
+    inputIcon: {
+        width: 35,
+        height: 35,
+    },
 });

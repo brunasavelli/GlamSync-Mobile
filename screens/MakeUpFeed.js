@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
 import Header from "../components/Header";
@@ -9,16 +9,18 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Feather from '@expo/vector-icons/Feather';
 import CategoriaButton from "../components/CircleButton";
 import SearchInput from "../components/SearchInput";
 import FollowButton from "../components/FollowButton";
+import ScrollUpButton from "../components/ScrollUpButton";
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [liked, setLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
+    const scrollRef = useRef(null);
+        const [showScrollTop, setShowScrollTop] = useState(false);
 
     const [posts, setPosts] = useState([
         {
@@ -92,10 +94,19 @@ export default function MakeUpFeed() {
         return null;
     }
 
+    const scrollToTop = () => {
+        scrollRef.current?.scrollTo({ y: 0, animated: true });
+    };
+
+    const handleScroll = (event) => {
+        const y = event.nativeEvent.contentOffset.y;
+        setShowScrollTop(y > 700);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
-                <ScrollView contentContainerStyle={styles.scrollView}>
+            <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                     <Image source={require("../assets/img/background2.png")} style={styles.backgroundImage} />
                     <Header />
                     <View style={styles.main}>
@@ -130,7 +141,7 @@ export default function MakeUpFeed() {
                                         <View style={styles.post}>
                                             <View style={styles.headerPost}>
                                                 <View style={styles.userArea}>
-                                                    <FontAwesome name="user-circle-o" size={20} color="gray" style={styles.inputIcon} />
+                                                <Image source={require("../assets/img/usergray.png")} style={styles.inputIcon} />
                                                     <Text style={styles.username}>@username</Text>
                                                 </View>
                                                 <View style={styles.followButtonArea}>
@@ -175,11 +186,12 @@ export default function MakeUpFeed() {
                                         </View>
                                     </View>
                                 ))}
-
                             </View>
                         </View>
                     </View>
                 </ScrollView>
+                            <ScrollUpButton visible={showScrollTop} onPress={scrollToTop} />
+                
         </SafeAreaView>
     )
 }
@@ -251,7 +263,8 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-SemiBold",
         fontSize: 16,
         color: "#8B2E0B",
-        marginTop: 20,
+        marginVertical: 20,
+        marginLeft: 10,
         alignSelf: "flex-start",
     },
     postsContainer: {
@@ -288,16 +301,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "Montserrat-SemiBold",
     },
-    followButton: {
-        borderRadius: 20,
-        padding: 5,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
-        borderColor: "#F08080",
-        borderWidth: 2,
-    },
     postContent: {
         display: "flex",
         flexDirection: "column",
@@ -320,5 +323,9 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 5,
         gap: 5,
-    }
+    },
+    inputIcon: {
+        width: 35,
+        height: 35,
+    },
 })
