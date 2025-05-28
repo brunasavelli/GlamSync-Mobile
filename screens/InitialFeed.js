@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, SafeAreaView, ScrollView, FlatList, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -9,17 +9,19 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Feather from '@expo/vector-icons/Feather';
 import CategoriaButton from "../components/CircleButton";
 import { Entypo } from '@expo/vector-icons';
 import SearchInput from "../components/SearchInput"
-import FolowButton from "../components/FollowButton";
+import FollowButton from "../components/FollowButton";
+import ScrollUpButton from "../components/ScrollUpButton";
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const cardWidth = Dimensions.get("window").width * 0.85;
     const flatListRef = useRef(null);
+    const scrollRef = useRef(null);
+    const [showScrollTop, setShowScrollTop] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const posters = [
@@ -121,10 +123,19 @@ export default function MakeUpFeed() {
         return null;
     }
 
+    const scrollToTop = () => {
+        scrollRef.current?.scrollTo({ y: 0, animated: true });
+    };
+
+    const handleScroll = (event) => {
+        const y = event.nativeEvent.contentOffset.y;
+        setShowScrollTop(y > 300);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
-            <ScrollView contentContainerStyle={styles.scrollView}>
+            <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
                 <Image source={require("../assets/img/logoComEscrita2.png")} style={styles.logo} />
                 <View style={styles.buttonsContainer}>
@@ -195,25 +206,25 @@ export default function MakeUpFeed() {
                                                 <Text style={styles.username}>@username</Text>
                                             </View>
                                             <View style={styles.followButtonArea}>
-                                                <FolowButton />
+                                                <FollowButton />
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
                                             <Image source={post.image} style={{ width: "100%", height: 400, marginTop: 10 }} />
                                         </View>
                                         <View style={styles.interactions}>
-                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
+                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
                                                 <TouchableOpacity
                                                     onPress={() => handleLike(index)}
                                                 >
                                                     <AntDesign
                                                         name={post.liked ? "heart" : "hearto"}
                                                         size={22}
-                                                        color={post.liked ? "#F08080" : "#000"} />
+                                                        color={post.liked ? "#E04C3B" : "#000"} />
                                                 </TouchableOpacity>
                                                 <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
                                                 <TouchableOpacity>
-                                                    <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
+                                                    <Image source={require("../assets/img/comment-icon.png")} style={{ width: 24, height: 24 }} />
                                                 </TouchableOpacity>
                                             </View>
                                             <View style={styles.save}>
@@ -236,11 +247,11 @@ export default function MakeUpFeed() {
                                     </View>
                                 </View>
                             ))}
-
                         </View>
                     </View>
                 </View>
             </ScrollView>
+            <ScrollUpButton visible={showScrollTop} onPress={scrollToTop} />
         </SafeAreaView>
     )
 }
@@ -266,11 +277,12 @@ const styles = StyleSheet.create({
     logo: {
         width: 250,
         height: 250,
-        marginTop: 40,
+        marginVertical: 25,
+
     },
     buttonsContainer: {
         position: "absolute",
-        top: 35,
+        top: 20,
         right: 20,
         zIndex: 1,
         display: "flex",
@@ -377,16 +389,6 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 14,
         fontFamily: "Montserrat-SemiBold",
-    },
-    followButton: {
-        borderRadius: 20,
-        padding: 5,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
-        borderColor: "#F08080",
-        borderWidth: 2,
     },
     postContent: {
         display: "flex",
