@@ -14,6 +14,9 @@ import { Entypo } from '@expo/vector-icons';
 import SearchInput from "../components/SearchInput"
 import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
+import axios from "axios";
+
+const API_URL = "http://192.168.1.105:3000/api/posts";
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
@@ -31,40 +34,55 @@ export default function MakeUpFeed() {
         { id: 4, image: require("../assets/img/poster4.jpg") },
     ]
 
-    const [posts, setPosts] = useState([
-        {
-            id: 1,
-            username: "@username",
-            legend: "Visão além do alcance ✨🔮 O olhar que enxerga além do óbvio. #Misteriosa #PoderVisual #Elegância",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/initialPost.png"),
-        },
-        {
-            id: 2,
-            username: "@username",
-            legend: "Elegância em cada detalhe. O oversized nunca foi tão poderoso. 🖤✨ #PowerLook #EstiloComAtitude",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/initialPost2.png"),
-        },
-        {
-            id: 3,
-            username: "@username",
-            legend: "A beleza está nos detalhes. ✨💖 #DetalhesQueEncantam #BelezaNatural",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/initialPost3.png"),
-        },
-        {
-            id: 4,
-            username: "@username",
-            legend: "A moda é uma forma de expressão. Deixe sua marca! 💃✨ #ModaComAtitude #EstiloÚnico",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/initialPost4.png"),
-        },
-    ]);
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(API_URL);
+                setPosts(response.data);
+                console.log("Posts fetched successfully: ", response.data);
+            } catch (error) {
+                console.log("Erro ao buscar posts: ", error);
+            }
+        }
+        fetchPosts();
+    }, [])
+
+    // const [posts, setPosts] = useState([
+    //     {
+    //         id: 1,
+    //         username: "@username",
+    //         legend: "Visão além do alcance ✨🔮 O olhar que enxerga além do óbvio. #Misteriosa #PoderVisual #Elegância",
+    //         liked: false,
+    //         likesCount: 0,
+    //         image: require("../assets/img/initialPost.png"),
+    //     },
+    //     {
+    //         id: 2,
+    //         username: "@username",
+    //         legend: "Elegância em cada detalhe. O oversized nunca foi tão poderoso. 🖤✨ #PowerLook #EstiloComAtitude",
+    //         liked: false,
+    //         likesCount: 0,
+    //         image: require("../assets/img/initialPost2.png"),
+    //     },
+    //     {
+    //         id: 3,
+    //         username: "@username",
+    //         legend: "A beleza está nos detalhes. ✨💖 #DetalhesQueEncantam #BelezaNatural",
+    //         liked: false,
+    //         likesCount: 0,
+    //         image: require("../assets/img/initialPost3.png"),
+    //     },
+    //     {
+    //         id: 4,
+    //         username: "@username",
+    //         legend: "A moda é uma forma de expressão. Deixe sua marca! 💃✨ #ModaComAtitude #EstiloÚnico",
+    //         liked: false,
+    //         likesCount: 0,
+    //         image: require("../assets/img/initialPost4.png"),
+    //     },
+    // ]);
 
     const handleLike = (index) => {
         setPosts((prev) =>
@@ -73,7 +91,7 @@ export default function MakeUpFeed() {
                     ? {
                         ...post,
                         liked: !post.liked,
-                        likesCount: post.liked ? post.likesCount - 1 : post.likesCount + 1,
+                        likes: post.liked ? post.likes - 1 : post.likes + 1,
                     }
                     : post
             )
@@ -203,19 +221,23 @@ export default function MakeUpFeed() {
                         <Text style={styles.title}>Feed</Text>
                         <View style={styles.postsContainer}>
                             {posts.map((post, index) => (
-                                <View style={styles.post}>
+                                // console.log("Rendering post: ", post.id),
+                                <View style={styles.post} key={post.id}>
+                                    {/* <Text>{JSON.stringify(post)}</Text> */}
                                     <View style={styles.post}>
                                         <View style={styles.headerPost}>
                                             <View style={styles.userArea}>
-                                                <Image source={require("../assets/img/usergray.png")} style={styles.inputIcon} />
-                                                <Text style={styles.username}>@username</Text>
+
+                                                <Image source={{ uri: post.user_photo }} style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
+                                                <Text style={styles.username}>{post.user_name}</Text>
+
                                             </View>
                                             <View style={styles.followButtonArea}>
                                                 <FollowButton />
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
-                                            <Image source={post.image} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                            <Image source={{ uri: post.photo }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                         </View>
                                         <View style={styles.interactions}>
                                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
@@ -227,7 +249,7 @@ export default function MakeUpFeed() {
                                                         size={22}
                                                         color={post.liked ? "#E04C3B" : "#000"} />
                                                 </TouchableOpacity>
-                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
+                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
                                                 <TouchableOpacity>
                                                     <Image source={require("../assets/img/comment-icon.png")} style={{ width: 24, height: 24 }} />
                                                 </TouchableOpacity>
@@ -245,8 +267,8 @@ export default function MakeUpFeed() {
                                         </View>
                                         <View style={styles.legend}>
                                             <Text>
-                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.username}{" "}</Text>
-                                                {post.legend}
+                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
+                                                {post.content}
                                             </Text>
                                         </View>
                                     </View>
