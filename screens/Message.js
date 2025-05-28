@@ -9,13 +9,9 @@ export default function Message() {
 
     return (
         <ImageBackground source={require('../assets/img/messageBackground.png')} style={styles.background}>
-            <Header height={200} />
+            <Header height={140} backButton="true" userPhoto={1} userName="@username" info={1} />
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Message Screen</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Chats')} style={styles.button}>
-                        <Text style={styles.buttonText}>Back</Text>
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </ImageBackground>

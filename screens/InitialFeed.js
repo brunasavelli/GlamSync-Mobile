@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView, ImageBackground } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -147,7 +147,7 @@ export default function MakeUpFeed() {
 
     const handleScroll = (event) => {
         const y = event.nativeEvent.contentOffset.y;
-        setShowScrollTop(y > 300);
+        setShowScrollTop(y > 700);
     };
 
     return (
@@ -155,7 +155,12 @@ export default function MakeUpFeed() {
             <StatusBar style="auto" />
             <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
-                <Image source={require("../assets/img/logoComEscrita2.png")} style={styles.logo} />
+                <ImageBackground source={require('../assets/img/logoGlamSync.png')} style={styles.logo}>
+                    <View style={styles.logoOverlay}>
+                        <Text style={styles.titleOverlay1}>Glam</Text>
+                        <Text style={styles.titleOverlay2}>Sync</Text>
+                    </View>
+                </ImageBackground>
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Notifications')}>
                         <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
@@ -222,8 +227,10 @@ export default function MakeUpFeed() {
                                     <View style={styles.post}>
                                         <View style={styles.headerPost}>
                                             <View style={styles.userArea}>
+
                                                 <Image source={{ uri: post.user_photo }} style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
                                                 <Text style={styles.username}>{post.user_name}</Text>
+
                                             </View>
                                             <View style={styles.followButtonArea}>
                                                 <FollowButton />
@@ -295,10 +302,25 @@ const styles = StyleSheet.create({
         left: 0,
     },
     logo: {
-        width: 250,
-        height: 250,
+        width: 300,
+        height: 290,
         marginVertical: 25,
-
+    },
+    logoOverlay: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
+    titleOverlay1: {
+        fontSize: 55,
+        color: 'white',
+        fontFamily: 'EmblemaOne-Regular',
+    },
+    titleOverlay2: {
+        fontSize: 48,
+        color: 'white',
+        fontFamily: 'Montserrat-MediumItalic',
     },
     buttonsContainer: {
         position: "absolute",
@@ -333,6 +355,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
+        paddingVertical: 50,
     },
     categoriasButtons: {
         marginTop: 30,
@@ -374,7 +397,8 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-SemiBold",
         fontSize: 16,
         color: "#8B2E0B",
-        marginTop: 20,
+        marginBottom: 30,
+        marginLeft: 10,
         alignSelf: "flex-start",
     },
     postsContainer: {
@@ -432,5 +456,9 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 5,
         gap: 5,
-    }
+    },
+    inputIcon: {
+        width: 35,
+        height: 35,
+    },
 });

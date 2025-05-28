@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
     return (
-        <Tab.Navigator initialRouteName="Profile" screenOptions={{
+        <Tab.Navigator initialRouteName="InitialFeed" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
