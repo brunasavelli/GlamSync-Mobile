@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView, ImageBackground } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -137,7 +137,12 @@ export default function MakeUpFeed() {
             <StatusBar style="auto" />
             <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
-                <Image source={require("../assets/img/logoComEscrita2.png")} style={styles.logo} />
+                <ImageBackground source={require('../assets/img/logoGlamSync.png')} style={styles.logo}>
+                    <View style={styles.logoOverlay}>
+                        <Text style={styles.titleOverlay1}>Glam</Text>
+                        <Text style={styles.titleOverlay2}>Sync</Text>
+                    </View>
+                </ImageBackground>
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Notifications')}>
                         <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
@@ -275,10 +280,25 @@ const styles = StyleSheet.create({
         left: 0,
     },
     logo: {
-        width: 250,
-        height: 250,
+        width: 300,
+        height: 290,
         marginVertical: 25,
-
+    },
+    logoOverlay: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
+    titleOverlay1: {
+        fontSize: 60,
+        color: 'white',
+        fontFamily: 'EmblemaOne-Regular',
+    },
+    titleOverlay2: {
+        fontSize: 50,
+        color: 'white',
+        fontFamily: 'Montserrat-MediumItalic',
     },
     buttonsContainer: {
         position: "absolute",
