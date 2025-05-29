@@ -13,6 +13,7 @@ import CategoriaButton from "../components/CircleButton";
 import SearchInput from "../components/SearchInput";
 import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function HatFeed() {
     const navigation = useNavigation();
@@ -162,8 +163,8 @@ export default function HatFeed() {
                                                         color={post.liked ? "#F08080" : "#000"} />
                                                 </TouchableOpacity>
                                                 <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
-                                                <TouchableOpacity>
-                                                    <MaterialCommunityIcons name="chat-plus-outline" size={22} color="black" style={{ marginLeft: 10 }} />
+                                                <TouchableOpacity style={styles.chat}>
+                                                    <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                 </TouchableOpacity>
                                             </View>
                                             <View style={styles.save}>

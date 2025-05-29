@@ -15,8 +15,10 @@ import SearchInput from "../components/SearchInput"
 import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Modalize } from "react-native-modalize";
 
-const API_URL = "http://192.168.1.105:3000/api/posts";
+const API_URL = "http://10.88.200.178:3000/api/posts";
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
@@ -48,41 +50,6 @@ export default function MakeUpFeed() {
         }
         fetchPosts();
     }, [])
-
-    // const [posts, setPosts] = useState([
-    //     {
-    //         id: 1,
-    //         username: "@username",
-    //         legend: "Visão além do alcance ✨🔮 O olhar que enxerga além do óbvio. #Misteriosa #PoderVisual #Elegância",
-    //         liked: false,
-    //         likesCount: 0,
-    //         image: require("../assets/img/initialPost.png"),
-    //     },
-    //     {
-    //         id: 2,
-    //         username: "@username",
-    //         legend: "Elegância em cada detalhe. O oversized nunca foi tão poderoso. 🖤✨ #PowerLook #EstiloComAtitude",
-    //         liked: false,
-    //         likesCount: 0,
-    //         image: require("../assets/img/initialPost2.png"),
-    //     },
-    //     {
-    //         id: 3,
-    //         username: "@username",
-    //         legend: "A beleza está nos detalhes. ✨💖 #DetalhesQueEncantam #BelezaNatural",
-    //         liked: false,
-    //         likesCount: 0,
-    //         image: require("../assets/img/initialPost3.png"),
-    //     },
-    //     {
-    //         id: 4,
-    //         username: "@username",
-    //         legend: "A moda é uma forma de expressão. Deixe sua marca! 💃✨ #ModaComAtitude #EstiloÚnico",
-    //         liked: false,
-    //         likesCount: 0,
-    //         image: require("../assets/img/initialPost4.png"),
-    //     },
-    // ]);
 
     const handleLike = (index) => {
         setPosts((prev) =>
@@ -131,6 +98,7 @@ export default function MakeUpFeed() {
                 "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
                 "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
                 "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
+                "EmblemaOne-Regular": require("../assets/fonts/EmblemaOne-Regular.ttf"),
             });
             setFontsLoaded(true);
         }
@@ -149,6 +117,14 @@ export default function MakeUpFeed() {
         const y = event.nativeEvent.contentOffset.y;
         setShowScrollTop(y > 700);
     };
+
+    const [selectedPost, setSelectedPost] = useState(null);
+    const modalizeRef = useRef(null);
+
+    function onOpenModal(post) {
+        setSelectedPost(post);
+        modalizeRef.current?.open();
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -227,8 +203,12 @@ export default function MakeUpFeed() {
                                     <View style={styles.post}>
                                         <View style={styles.headerPost}>
                                             <View style={styles.userArea}>
-
-                                                <Image source={{ uri: post.user_photo }} style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
+                                                <Image source={
+                                                    post.user_photo
+                                                        ? { uri: post.user_photo }
+                                                        : require("../assets/img/usergray.png")
+                                                }
+                                                    style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
                                                 <Text style={styles.username}>{post.user_name}</Text>
 
                                             </View>
@@ -250,9 +230,27 @@ export default function MakeUpFeed() {
                                                         color={post.liked ? "#E04C3B" : "#000"} />
                                                 </TouchableOpacity>
                                                 <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-                                                <TouchableOpacity>
-                                                    <Image source={require("../assets/img/comment-icon.png")} style={{ width: 24, height: 24 }} />
-                                                </TouchableOpacity>
+
+                                                {posts.map((post, index) => (
+                                                    <View style={styles.post} key={post.id}>
+                                                        <TouchableOpacity style={styles.chat} onPress={onOpenModal}>
+                                                            <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                ))}
+
+                                                <Modalize
+                                                    ref={modalizeRef}
+                                                    snapPoint={180}>
+                                                    <View style={{ flex: 1, height: 180, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <TouchableOpacity style={[styles.botaoModal, { backgroundColor: '#29ae19' }]}>
+                                                            <Text>EDITAR</Text>
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity style={[styles.botaoModal, { backgroundColor: '#ff0000' }]}>
+                                                            <Text>EXCLUIR</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                </Modalize>
                                             </View>
                                             <View style={styles.save}>
                                                 <TouchableOpacity
@@ -316,11 +314,13 @@ const styles = StyleSheet.create({
         fontSize: 55,
         color: 'white',
         fontFamily: 'EmblemaOne-Regular',
+        width: 170,
     },
     titleOverlay2: {
         fontSize: 48,
         color: 'white',
         fontFamily: 'Montserrat-MediumItalic',
+        marginTop: 10,
     },
     buttonsContainer: {
         position: "absolute",

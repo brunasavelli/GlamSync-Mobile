@@ -8,11 +8,13 @@ Atitude
 beleza
 Beleza
 brunasavelli
+buscar
 cada
 carroussel
 categoria
 Categoria
 categorias
+chatbubble
 começou
 Deixe
 detalhe
@@ -29,6 +31,8 @@ marca
 Misteriosa
 moda
 Moda
+modalize
+Modalize
 nunca
 óbvio
 olhar
@@ -38,4 +42,5 @@ seguir
 tshirt
 Único
 Usename
+usergray
 Visão

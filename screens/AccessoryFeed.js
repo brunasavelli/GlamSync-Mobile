@@ -13,6 +13,7 @@ import CategoriaButton from "../components/CircleButton";
 import SearchInput from "../components/SearchInput";
 import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function AccessoryFeed() {
     const navigation = useNavigation();
