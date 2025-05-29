@@ -16,7 +16,6 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Modalize } from "react-native-modalize";
 
 const API_URL = "http://10.88.201.146:3000/api/posts";
 // Aqui o Ip deve da máquina que o back está rodando
@@ -118,7 +117,7 @@ export default function MakeUpFeed() {
         const y = event.nativeEvent.contentOffset.y;
         setShowScrollTop(y > 700);
     };
-
+  
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
@@ -223,12 +222,10 @@ export default function MakeUpFeed() {
                                                         color={post.liked ? "#E04C3B" : "#000"} />
                                                 </TouchableOpacity>
                                                 <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-                                                
-                                                    <View style={styles.post} key={post.id}>
-                                                        <TouchableOpacity style={styles.chat}>
-                                                            <Ionicons name="chatbubble-outline" size={23} color="black" />
-                                                        </TouchableOpacity>
-                                                    </View>
+
+                                                <TouchableOpacity style={styles.chat}>
+                                                    <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                </TouchableOpacity>
                                                 
                                             </View>
                                             <View style={styles.save}>

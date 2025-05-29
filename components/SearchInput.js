@@ -1,23 +1,23 @@
 import { StyleSheet, View, TextInput } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-export default function SearchInput() {
+export default function SearchInput({ placeholder = "Pesquisar", icon = true, height = 40, width = 320, value, onChangeText }) {
     return (
-        <View style={styles.searchArea}>
+        <View style={[styles.searchArea, { height, width }]}>
             <TextInput
                 style={styles.searchInput}
-                placeholder="Pesquisar"
+                placeholder={placeholder}
                 placeholderTextColor="#A4A4A4"
+                value={value}
+                onChangeText={onChangeText}
             />
-            <AntDesign name="search1" size={20} color="#8B2E0B" />
+            {icon && <AntDesign name="search1" size={20} color="#8B2E0B" />}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     searchArea: {
-        width: 320,
-        height: 40,
         backgroundColor: "#fff",
         borderRadius: 30,
         display: "flex",
@@ -26,7 +26,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingLeft: 10,
         paddingRight: 10,
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+        shadowColor: '#1C1C1C',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
     },
     searchInput: {
         fontFamily: "Montserrat-Regular",
