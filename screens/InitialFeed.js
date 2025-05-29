@@ -16,7 +16,7 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Modalize } from "react-native-modalize";
+import { Modal } from "react-native";
 
 const API_URL = "http://10.88.200.178:3000/api/posts";
 // Aqui o Ip deve da máquina que o back está rodando
@@ -121,7 +121,6 @@ export default function MakeUpFeed() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar style="auto" />
             <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
                 <ImageBackground source={require('../assets/img/logoGlamSync.png')} style={styles.logo}>
@@ -193,64 +192,65 @@ export default function MakeUpFeed() {
                                 // console.log("Rendering post: ", post.id),
                                 <View style={styles.post} key={post.id}>
                                     {/* <Text>{JSON.stringify(post)}</Text> */}
-                                    <View style={styles.post}>
-                                        <View style={styles.headerPost}>
-                                            <View style={styles.userArea}>
-                                                <Image source={
-                                                    post.user_photo
-                                                        ? { uri: post.user_photo }
-                                                        : require("../assets/img/usergray.png")
-                                                }
-                                                    style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
-                                                <Text style={styles.username}>{post.user_name}</Text>
 
-                                            </View>
-                                            <View style={styles.followButtonArea}>
-                                                <FollowButton />
-                                            </View>
+                                    <View style={styles.headerPost}>
+                                        <View style={styles.userArea}>
+                                            <Image source={
+                                                post.user_photo
+                                                    ? { uri: post.user_photo }
+                                                    : require("../assets/img/usergray.png")
+                                            }
+                                                style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
+                                            <Text style={styles.username}>{post.user_name}</Text>
+
                                         </View>
-                                        <View style={styles.postContent}>
-                                            <Image source={{ uri: post.photo }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
-                                        </View>
-                                        <View style={styles.interactions}>
-                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                                                <TouchableOpacity
-                                                    onPress={() => handleLike(index)}
-                                                >
-                                                    <AntDesign
-                                                        name={post.liked ? "heart" : "hearto"}
-                                                        size={22}
-                                                        color={post.liked ? "#E04C3B" : "#000"} />
-                                                </TouchableOpacity>
-                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-                                                
-                                                    <View style={styles.post} key={post.id}>
-                                                        <TouchableOpacity style={styles.chat} onPress={onOpenModal}>
-                                                            <Ionicons name="chatbubble-outline" size={23} color="black" />
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                
-                                            </View>
-                                            <View style={styles.save}>
-                                                <TouchableOpacity
-                                                    onPress={() => handleSave(index)}
-                                                >
-                                                    <FontAwesome
-                                                        name={post.saved ? "bookmark" : "bookmark-o"}
-                                                        size={24}
-                                                        color={post.saved ? "#FFD53D" : "black"} />
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                        <View style={styles.legend}>
-                                            <Text>
-                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
-                                                {post.content}
-                                            </Text>
+                                        <View style={styles.followButtonArea}>
+                                            <FollowButton />
                                         </View>
                                     </View>
+                                    <View style={styles.postContent}>
+                                        <Image source={{ uri: post.photo }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
+                                    </View>
+                                    <View style={styles.interactions}>
+                                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                                            <TouchableOpacity
+                                                onPress={() => handleLike(index)}
+                                            >
+                                                <AntDesign
+                                                    name={post.liked ? "heart" : "hearto"}
+                                                    size={22}
+                                                    color={post.liked ? "#E04C3B" : "#000"} />
+                                            </TouchableOpacity>
+                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
+
+                                            <View>
+                                                <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
+                                                    <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                </TouchableOpacity>
+                                            </View>
+
+                                        </View>
+                                        <View style={styles.save}>
+                                            <TouchableOpacity
+                                                onPress={() => handleSave(index)}
+                                            >
+                                                <FontAwesome
+                                                    name={post.saved ? "bookmark" : "bookmark-o"}
+                                                    size={24}
+                                                    color={post.saved ? "#FFD53D" : "black"} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={styles.legend}>
+                                        <Text>
+                                            <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
+                                            {post.content}
+                                        </Text>
+                                    </View>
                                 </View>
+
                             ))}
+                            
                         </View>
                     </View>
                 </View>
@@ -282,6 +282,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 290,
         marginVertical: 25,
+        top: 35
     },
     logoOverlay: {
         flex: 1,
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         position: "absolute",
-        top: 20,
+        top: 35,
         right: 20,
         zIndex: 1,
         display: "flex",
