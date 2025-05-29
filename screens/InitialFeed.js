@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, 
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
-import Header from "../components/Header";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -117,7 +116,7 @@ export default function MakeUpFeed() {
         const y = event.nativeEvent.contentOffset.y;
         setShowScrollTop(y > 700);
     };
-  
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
@@ -209,7 +208,7 @@ export default function MakeUpFeed() {
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
-                                            <Image source={{ uri: `http://10.88.201.146:3000/uploads/${post.photo}.jpg` }}  style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
+                                            <Image source={{ uri: `http://10.88.201.146:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                         </View>
                                         <View style={styles.interactions}>
                                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
@@ -226,7 +225,7 @@ export default function MakeUpFeed() {
                                                 <TouchableOpacity style={styles.chat}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                 </TouchableOpacity>
-                                                
+
                                             </View>
                                             <View style={styles.save}>
                                                 <TouchableOpacity
