@@ -19,6 +19,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Modalize } from "react-native-modalize";
 
 const API_URL = "http://10.88.200.178:3000/api/posts";
+// Aqui o Ip deve da máquina que o back está rodando
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
@@ -117,14 +118,6 @@ export default function MakeUpFeed() {
         const y = event.nativeEvent.contentOffset.y;
         setShowScrollTop(y > 700);
     };
-
-    const [selectedPost, setSelectedPost] = useState(null);
-    const modalizeRef = useRef(null);
-
-    function onOpenModal(post) {
-        setSelectedPost(post);
-        modalizeRef.current?.open();
-    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -230,27 +223,13 @@ export default function MakeUpFeed() {
                                                         color={post.liked ? "#E04C3B" : "#000"} />
                                                 </TouchableOpacity>
                                                 <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-
-                                                {posts.map((post, index) => (
+                                                
                                                     <View style={styles.post} key={post.id}>
                                                         <TouchableOpacity style={styles.chat} onPress={onOpenModal}>
                                                             <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                         </TouchableOpacity>
                                                     </View>
-                                                ))}
-
-                                                <Modalize
-                                                    ref={modalizeRef}
-                                                    snapPoint={180}>
-                                                    <View style={{ flex: 1, height: 180, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                                        <TouchableOpacity style={[styles.botaoModal, { backgroundColor: '#29ae19' }]}>
-                                                            <Text>EDITAR</Text>
-                                                        </TouchableOpacity>
-                                                        <TouchableOpacity style={[styles.botaoModal, { backgroundColor: '#ff0000' }]}>
-                                                            <Text>EXCLUIR</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </Modalize>
+                                                
                                             </View>
                                             <View style={styles.save}>
                                                 <TouchableOpacity
