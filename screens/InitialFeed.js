@@ -16,9 +16,9 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Modalize } from "react-native-modalize";
 
-const API_URL = "http://10.88.200.178:3000/api/posts";
+const API_URL = "http://10.88.201.146:3000/api/posts";
+// Aqui o Ip deve da máquina que o back está rodando
 
 export default function MakeUpFeed() {
     const navigation = useNavigation();
@@ -117,15 +117,7 @@ export default function MakeUpFeed() {
         const y = event.nativeEvent.contentOffset.y;
         setShowScrollTop(y > 700);
     };
-
-    // const [selectedPost, setSelectedPost] = useState(null);
-    // const modalizeRef = useRef(null);
-
-    // function onOpenModal(post) {
-    //     setSelectedPost(post);
-    //     modalizeRef.current?.open();
-    // }
-
+  
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
@@ -205,7 +197,7 @@ export default function MakeUpFeed() {
                                             <View style={styles.userArea}>
                                                 <Image source={
                                                     post.user_photo
-                                                        ? { uri: post.user_photo }
+                                                        ? { uri: `http://10.88.201.146:3000/uploads/${post.user_photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                     style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
@@ -217,7 +209,7 @@ export default function MakeUpFeed() {
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
-                                            <Image source={{ uri: post.photo }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
+                                            <Image source={{ uri: `http://10.88.201.146:3000/uploads/${post.photo}.jpg` }}  style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                         </View>
                                         <View style={styles.interactions}>
                                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
@@ -230,9 +222,11 @@ export default function MakeUpFeed() {
                                                         color={post.liked ? "#E04C3B" : "#000"} />
                                                 </TouchableOpacity>
                                                 <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
+
                                                 <TouchableOpacity style={styles.chat}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                 </TouchableOpacity>
+                                                
                                             </View>
                                             <View style={styles.save}>
                                                 <TouchableOpacity
