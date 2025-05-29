@@ -67,7 +67,7 @@ export default function Chats() {
                         <Text style={styles.subtitle}>Online Contacts</Text>
                         <View style={styles.greenDot}></View>
                     </View>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollHorizontal} >
                         {onlineContacts.map(contact => (
                             <TouchableOpacity onPress={() => navigation.navigate('Message')} key={contact.id}>
                                 <OnlineContactCard
@@ -165,6 +165,9 @@ const styles = StyleSheet.create({
             height: 3,
         },
         shadowOpacity: 0.25,
+    },
+    scrollHorizontal: {
+        width: '100%',
     },
     textSection: {
         width: '100%',

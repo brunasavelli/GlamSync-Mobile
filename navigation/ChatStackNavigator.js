@@ -10,7 +10,9 @@ export default function ChatStackNavigator() {
     return (
         <Stack.Navigator initialRouteName="Chats" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Chats" component={Chats} />
-            <Stack.Screen name="Message" component={Message} />
+            <Stack.Screen name="Message" component={Message} options={{
+                    presentation: 'card'
+                }} />
         </Stack.Navigator>
     );
 }
