@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, 
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
-import Header from "../components/Header";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -16,9 +15,8 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Modal } from "react-native";
 
-const API_URL = "http://10.88.199.139:3000/api/posts";
+const API_URL = "http://10.88.201.146:3000/api/posts";'
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function MakeUpFeed() {
@@ -193,16 +191,16 @@ export default function MakeUpFeed() {
                                 <View style={styles.post} key={post.id}>
                                     {/* <Text>{JSON.stringify(post)}</Text> */}
 
-                                    <View style={styles.headerPost}>
-                                        <View style={styles.userArea}>
-                                            <Image source={
-                                                post.user_photo
-                                                    ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
-                                                    : require("../assets/img/usergray.png")
-                                            }
-                                                style={{ width: 30, height: 30, borderRadius: 15 }} />
-                                            <Text style={styles.username}>{post.user_name}</Text>
-                                        </View>
+                                    <View style={styles.post}>
+                                        <View style={styles.headerPost}>
+                                            <View style={styles.userArea}>
+                                                <Image source={
+                                                    post.user_photo
+                                                        ? { uri: `http://10.88.201.146:3000/uploads/${post.user_photo}.jpg` }
+                                                        : require("../assets/img/usergray.png")
+                                                }
+                                                    style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
+                                                <Text style={styles.username}>{post.user_name}</Text>
                                         <View style={styles.followButtonArea}>
                                             <FollowButton />
                                         </View>
@@ -225,6 +223,7 @@ export default function MakeUpFeed() {
                                             <View>
                                                 <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
+
                                                 </TouchableOpacity>
                                             </View>
 

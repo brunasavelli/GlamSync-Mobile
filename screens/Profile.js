@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         gap: 30,
-        marginTop: 20,
+        marginTop: 10,
     },
     sectionItem: {
         display: 'flex',

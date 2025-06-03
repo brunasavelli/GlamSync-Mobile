@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
         marginBottom: 8,
-        fontSize: 16,
     },
     userText: {
         color: '#000000',
@@ -43,8 +42,8 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     image: {
-        width: 250,
-        height: 250,
+        width: 225,
+        height: 225,
         borderRadius: 5,
         marginBottom: 5,
     },
