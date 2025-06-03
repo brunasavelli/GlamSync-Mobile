@@ -16,7 +16,7 @@ import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const API_URL = "http://10.88.201.146:3000/api/posts";'
+const API_URL = "http://10.88.201.146:3000/api/posts";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function MakeUpFeed() {
@@ -187,55 +187,52 @@ export default function MakeUpFeed() {
                         <Text style={styles.title}>Feed</Text>
                         <View style={styles.postsContainer}>
                             {posts.map((post, index) => (
-                                // console.log("Rendering post: ", post.id),
                                 <View style={styles.post} key={post.id}>
-                                    {/* <Text>{JSON.stringify(post)}</Text> */}
-
-                                    <View style={styles.post}>
-                                        <View style={styles.headerPost}>
-                                            <View style={styles.userArea}>
-                                                <Image source={
+                                    <View style={styles.headerPost}>
+                                        <View style={styles.userArea}>
+                                            <Image
+                                                source={
                                                     post.user_photo
                                                         ? { uri: `http://10.88.201.146:3000/uploads/${post.user_photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
-                                                    style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
-                                                <Text style={styles.username}>{post.user_name}</Text>
-                                        <View style={styles.followButtonArea}>
-                                            <FollowButton />
+                                                style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }}
+                                            />
+                                            <Text style={styles.username}>{post.user_name}</Text>
+                                            <View style={styles.followButtonArea}>
+                                                <FollowButton />
+                                            </View>
                                         </View>
                                     </View>
                                     <View style={styles.postContent}>
-                                        <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
+                                        <Image
+                                            source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }}
+                                            style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }}
+                                        />
                                     </View>
                                     <View style={styles.interactions}>
                                         <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                                            <TouchableOpacity
-                                                onPress={() => handleLike(index)}
-                                            >
+                                            <TouchableOpacity onPress={() => handleLike(index)}>
                                                 <AntDesign
                                                     name={post.liked ? "heart" : "hearto"}
                                                     size={22}
-                                                    color={post.liked ? "#E04C3B" : "#000"} />
+                                                    color={post.liked ? "#E04C3B" : "#000"}
+                                                />
                                             </TouchableOpacity>
                                             <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-
                                             <View>
                                                 <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
-
                                                 </TouchableOpacity>
                                             </View>
-
                                         </View>
                                         <View style={styles.save}>
-                                            <TouchableOpacity
-                                                onPress={() => handleSave(index)}
-                                            >
+                                            <TouchableOpacity onPress={() => handleSave(index)}>
                                                 <FontAwesome
                                                     name={post.saved ? "bookmark" : "bookmark-o"}
                                                     size={24}
-                                                    color={post.saved ? "#FFD53D" : "black"} />
+                                                    color={post.saved ? "#FFD53D" : "black"}
+                                                />
                                             </TouchableOpacity>
                                         </View>
                                     </View>
@@ -246,9 +243,7 @@ export default function MakeUpFeed() {
                                         </Text>
                                     </View>
                                 </View>
-
                             ))}
-
                         </View>
                     </View>
                 </View>
