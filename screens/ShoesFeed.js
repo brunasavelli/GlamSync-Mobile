@@ -14,8 +14,12 @@ import SearchInput from "../components/SearchInput";
 import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import axios from "axios";
 
-export default function HatFeed() {
+const API_URL = "http://10.88.200.142:3000/api/posts?categorie_id=3";
+// Aqui o Ip deve da máquina que o back está rodando
+
+export default function ShoesFeed() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [liked, setLiked] = useState(false);
@@ -23,32 +27,20 @@ export default function HatFeed() {
     const scrollRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
 
-    const [posts, setPosts] = useState([
-        {
-            id: 1,
-            username: "@username",
-            legend: "Elegância que começa nos pés. Arezzo entregando puro poder em cada passo.",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/shoesPost.png"),
-        },
-        {
-            id: 2,
-            username: "@username",
-            legend: "Pés de fada, asas de estilo 🦋✨ Dolce & Gabbana transformando cada passo em poesia.",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/shoesPost2.png"),
-        },
-        {
-            id: 3,
-            username: "@username",
-            legend: "Old school nunca sai de moda. 🖤👟",
-            liked: false,
-            likesCount: 0,
-            image: require("../assets/img/shoesPost3.png"),
-        },
-    ]);
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(API_URL);
+                setPosts(response.data);
+                console.log("Posts fetched successfully: ", response.data);
+            } catch (error) {
+                console.log("Erro ao buscar posts: ", error);
+            }
+        }
+        fetchPosts();
+    }, []);
 
     const handleLike = (index) => {
         setPosts((prev) =>
@@ -57,7 +49,7 @@ export default function HatFeed() {
                     ? {
                         ...post,
                         liked: !post.liked,
-                        likesCount: post.liked ? post.likesCount - 1 : post.likesCount + 1,
+                        likes: post.liked ? post.likes - 1 : post.likes + 1,
                     }
                     : post
             )
@@ -142,46 +134,51 @@ export default function HatFeed() {
                                     <View style={styles.post}>
                                         <View style={styles.headerPost}>
                                             <View style={styles.userArea}>
-                                                <Image source={require("../assets/img/usergray.png")} style={styles.inputIcon} />
-                                                <Text style={styles.username}>@username</Text>
+                                                <Image source={
+                                                    post.user_photo
+                                                        ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
+                                                        : require("../assets/img/usergray.png")
+                                                }
+                                                    style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
+                                                <Text style={styles.username}>{post.user_name}</Text>
                                             </View>
                                             <View style={styles.followButtonArea}>
                                                 <FollowButton />
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
-                                            <Image source={post.image} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                            <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                         </View>
                                         <View style={styles.interactions}>
-                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
-                                                <TouchableOpacity
-                                                    onPress={() => handleLike(index)}
-                                                >
-                                                    <AntDesign
-                                                        name={post.liked ? "heart" : "hearto"}
-                                                        size={22}
-                                                        color={post.liked ? "#F08080" : "#000"} />
-                                                </TouchableOpacity>
-                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likesCount}</Text>
-                                                <TouchableOpacity style={styles.chat}>
+                                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                                            <TouchableOpacity onPress={() => handleLike(index)}>
+                                                <AntDesign
+                                                    name={post.liked ? "heart" : "hearto"}
+                                                    size={22}
+                                                    color={post.liked ? "#E04C3B" : "#000"}
+                                                />
+                                            </TouchableOpacity>
+                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
+                                            <View>
+                                                <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                 </TouchableOpacity>
                                             </View>
-                                            <View style={styles.save}>
-                                                <TouchableOpacity
-                                                    onPress={() => handleSave(index)}
-                                                >
-                                                    <FontAwesome
-                                                        name={post.saved ? "bookmark" : "bookmark-o"}
-                                                        size={24}
-                                                        color={post.saved ? "#FFD53D" : "black"} />
-                                                </TouchableOpacity>
-                                            </View>
                                         </View>
+                                        <View style={styles.save}>
+                                            <TouchableOpacity onPress={() => handleSave(index)}>
+                                                <FontAwesome
+                                                    name={post.saved ? "bookmark" : "bookmark-o"}
+                                                    size={24}
+                                                    color={post.saved ? "#FFD53D" : "black"}
+                                                />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
                                         <View style={styles.legend}>
                                             <Text>
-                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.username}{" "}</Text>
-                                                {post.legend}
+                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
+                                                {post.content}
                                             </Text>
                                         </View>
                                     </View>
