@@ -44,7 +44,7 @@ export default function Message() {
                         <MessageBubble text="Ei! Você viu o novo Work Shop que a Dolce Gabbana está fazendo agora? Tá muito legal!" isUser={false} />
                         <MessageBubble text="Não vi! Vou entrar lá agora mesmo! Adoro essa marca!!" isUser={true} />
                         <MessageBubble text="Olha só esse post que a @cocojones acabou de fazer!" isUser={false} />
-                        <MessageBubble mentionedUser="@cocojones" text="" imageUrl="https://media.gettyimages.com/id/1677176649/video/newark-new-jersey-coco-jones-attends-the-2023-mtv-video-music-awards-at-prudential-center-on.jpg?s=640x640&k=20&c=79nIYzP-IaRiqkqDRPXeoBwh6G-r_vWROi1cmH4HP3o=" isUser={false} />
+                        <MessageBubble mentionedUser="@cocojones" text="" imageUrl="https://escutai.com/wp-content/uploads/2025/05/coco-jones-why-not-more-review-2-684x1024.jpg" isUser={false} />
                     </View>
                 </ScrollView>
                 <View style={styles.messageInputContainer}>
