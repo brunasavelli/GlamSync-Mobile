@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard, Image, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard, Image, TouchableWithoutFeedback, ScrollView, Modal } from 'react-native';
 import React, { useEffect, useState } from "react";
 import * as Font from "expo-font";
 import * as ImagePicker from 'expo-image-picker';
+import LottieView from 'lottie-react-native';
 import Header from '../components/Header';
 
 export default function Post() {
@@ -9,6 +10,7 @@ export default function Post() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [postText, setPostText] = useState("");
     const [image, setImage] = useState(null);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -47,6 +49,8 @@ export default function Post() {
     const handlePost = () => {
         setPostText("");
         setImage(null);
+        setShowConfirmation(true);
+        setTimeout(() => setShowConfirmation(false), 2000);
     };
 
     const pickImage = async () => {
@@ -69,55 +73,74 @@ export default function Post() {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-            >
-                <ImageBackground source={require('../assets/img/messageBackground.png')} style={styles.background}>
-                    <Header />
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        style={styles.scroll}
-                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-                        keyboardShouldPersistTaps="handled"
-                    >
-                        <View style={styles.container}>
-                            <View style={styles.postBlock}>
-                                <View style={styles.top}>
-                                    <Text style={styles.topText}>What's Up?</Text>
-                                    <TouchableOpacity style={styles.postButton} onPress={handlePost} >
-                                        <Text style={styles.postButtonText}>POST</Text>
-                                    </TouchableOpacity>
+        <>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+                >
+                    <ImageBackground source={require('../assets/img/messageBackground.png')} style={styles.background}>
+                        <Header />
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            style={styles.scroll}
+                            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+                            keyboardShouldPersistTaps="handled"
+                        >
+                            <View style={styles.container}>
+                                <View style={styles.postBlock}>
+                                    <View style={styles.top}>
+                                        <Text style={styles.topText}>What's Up?</Text>
+                                        <TouchableOpacity style={styles.postButton} onPress={handlePost} >
+                                            <Text style={styles.postButtonText}>POST</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.postImageContainer}>
+                                        <TouchableOpacity onPress={pickImage} style={styles.addPhotoArea}>
+                                            {image ? (
+                                                <Image source={{ uri: image }} style={styles.selectedImage} />
+                                            ) : (
+                                                <View style={{ alignItems: 'center' }}>
+                                                    <Text style={styles.photoPlaceholder}>Add Photo</Text>
+                                                    <Image source={require('../assets/img/grayplus.png')} style={{ width: 30, height: 30, marginTop: 10 }} />
+                                                </View>
+                                            )}
+                                        </TouchableOpacity>
+                                    </View>
+                                    <TextInput
+                                        style={styles.postInput}
+                                        placeholder="Write your post here..."
+                                        placeholderTextColor="#999"
+                                        multiline
+                                        textAlignVertical="top"
+                                        value={postText}
+                                        onChangeText={setPostText}
+                                    />
                                 </View>
-                                <View style={styles.postImageContainer}>
-                                    <TouchableOpacity onPress={pickImage} style={styles.addPhotoArea}>
-                                        {image ? (
-                                            <Image source={{ uri: image }} style={styles.selectedImage} />
-                                        ) : (
-                                            <View style={{ alignItems: 'center' }}>
-                                                <Text style={styles.photoPlaceholder}>Add Photo</Text>
-                                                <Image source={require('../assets/img/grayplus.png')} style={{ width: 30, height: 30, marginTop: 10 }} />
-                                            </View>
-                                        )}
-                                    </TouchableOpacity>
-                                </View>
-                                <TextInput
-                                    style={styles.postInput}
-                                    placeholder="Write your post here..."
-                                    placeholderTextColor="#999"
-                                    multiline
-                                    textAlignVertical="top"
-                                    value={postText}
-                                    onChangeText={setPostText}
-                                />
                             </View>
-                        </View>
-                    </ScrollView>
-                </ImageBackground>
-            </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+                        </ScrollView>
+                    </ImageBackground>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+            <Modal
+                transparent
+                visible={showConfirmation}
+                animationType="fade"
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <LottieView
+                            source={require('../assets/animations/check.json')}
+                            autoPlay
+                            loop={false}
+                            style={{ width: 80, height: 80, marginBottom: 10 }}
+                        />
+                        <Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 16, color: '#333' }}>Post publicado!</Text>
+                    </View>
+                </View>
+            </Modal>
+        </>
     );
 }
 
@@ -213,5 +236,23 @@ const styles = StyleSheet.create({
         color: '#aaa',
         fontFamily: 'Montserrat-Regular',
         fontSize: 14,
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
 });
