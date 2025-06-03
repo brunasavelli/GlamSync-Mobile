@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView, ImageBackground, Modal } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -27,6 +27,7 @@ export default function InitialFeed() {
     const scrollRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [openCommentsModalId, setOpenCommentsModalId] = useState(null);
 
     const posters = [
         { id: 1, image: require("../assets/img/poster.png") },
@@ -115,11 +116,6 @@ export default function InitialFeed() {
     const handleScroll = (event) => {
         const y = event.nativeEvent.contentOffset.y;
         setShowScrollTop(y > 700);
-    };
-
-    const openCommentsModal = (post) => {
-        // Implemente a lógica ou apenas um alerta temporário
-        alert("Comentários ainda não implementados!");
     };
 
     return (
@@ -224,8 +220,9 @@ export default function InitialFeed() {
                                             </TouchableOpacity>
                                             <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
                                             <View>
-                                                <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
+                                                <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post.id)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                    <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.comments}</Text>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -247,6 +244,47 @@ export default function InitialFeed() {
                                     </View>
                                 </View>
                             ))}
+                            {openCommentsModalId && (
+                                <Modal
+                                    transparent={true}
+                                    visible={true}
+                                    animationType="slide"
+                                    onRequestClose={() => setOpenCommentsModalId(null)}
+                                >
+                                    <View style={{
+                                        flex: 1,
+                                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                        padding: 20,
+                                        alignItems: 'center'
+                                    }}>
+                                        <View style={{
+                                            backgroundColor: "#fff",
+                                            width: Dimensions.get('window').width,
+                                            height: "63%",
+                                            borderTopLeftRadius: 20,
+                                            borderTopRightRadius: 20,
+                                            padding: 20,
+                                            borderRadius: 10,
+                                            marginTop: 290,
+                                        }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 18, fontFamily: 'Montserrat-SemiBold' }}>Comentários</Text>
+                                                <TouchableOpacity onPress={() => setOpenCommentsModalId(null)}>
+                                                    <AntDesign name="closecircleo" size={24} color="black" />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <ScrollView style={{ marginTop: 20 }}>
+                                                {posts.filter(post => post.id === openCommentsModalId).map(post => (
+                                                    <View key={post.id} style={{ marginBottom: 20 }}>
+                                                        <Text style={{ fontFamily: 'Montserrat-SemiBold', marginBottom: 5 }}>{post.user_name}</Text>
+                                                        <Text>{post.comments}</Text>
+                                                    </View>
+                                                ))}
+                                            </ScrollView>
+                                        </View>
+                                    </View>
+                                </Modal>
+                            )}
                         </View>
                     </View>
                 </View>
@@ -437,5 +475,11 @@ const styles = StyleSheet.create({
     inputIcon: {
         width: 35,
         height: 35,
+    },
+    chat: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
     },
 });
