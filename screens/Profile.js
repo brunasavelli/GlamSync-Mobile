@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     middle: {
         display: 'flex',
         width: '100%',
-        flexDirection: 'row',
+        flexDirection: 'row-reverse',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 30,
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     },
     middleRight: {
         display: 'flex',
+        gap: 10,
         flexDirection: 'column',
     },
     section: {
