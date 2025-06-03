@@ -16,7 +16,7 @@ import ScrollUpButton from "../components/ScrollUpButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
 
-const API_URL = "http://10.88.199.139:3000/api/posts?categorie_id=2";
+const API_URL = "http://10.88.200.142:3000/api/posts?categorie_id=2";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function HatFeed() {
@@ -49,7 +49,7 @@ export default function HatFeed() {
                     ? {
                         ...post,
                         liked: !post.liked,
-                        likesCount: post.liked ? post.likesCount - 1 : post.likesCount + 1,
+                        likes: post.liked ? post.likes - 1 : post.likes + 1,
                     }
                     : post
             )
@@ -139,7 +139,7 @@ export default function HatFeed() {
                                                         ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
-                                                    style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                                    style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
                                                 <Text style={styles.username}>{post.user_name}</Text>
                                             </View>
                                             <View style={styles.followButtonArea}>
@@ -150,31 +150,31 @@ export default function HatFeed() {
                                             <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                         </View>
                                         <View style={styles.interactions}>
-                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 5 }}>
-                                                <TouchableOpacity
-                                                    onPress={() => handleLike(index)}
-                                                >
-                                                    <AntDesign
-                                                        name={post.liked ? "heart" : "hearto"}
-                                                        size={22}
-                                                        color={post.liked ? "#F08080" : "#000"} />
-                                                </TouchableOpacity>
-                                                <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-                                                <TouchableOpacity style={styles.chat}>
+                                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                                            <TouchableOpacity onPress={() => handleLike(index)}>
+                                                <AntDesign
+                                                    name={post.liked ? "heart" : "hearto"}
+                                                    size={22}
+                                                    color={post.liked ? "#E04C3B" : "#000"}
+                                                />
+                                            </TouchableOpacity>
+                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
+                                            <View>
+                                                <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                 </TouchableOpacity>
                                             </View>
-                                            <View style={styles.save}>
-                                                <TouchableOpacity
-                                                    onPress={() => handleSave(index)}
-                                                >
-                                                    <FontAwesome
-                                                        name={post.saved ? "bookmark" : "bookmark-o"}
-                                                        size={24}
-                                                        color={post.saved ? "#FFD53D" : "black"} />
-                                                </TouchableOpacity>
-                                            </View>
                                         </View>
+                                        <View style={styles.save}>
+                                            <TouchableOpacity onPress={() => handleSave(index)}>
+                                                <FontAwesome
+                                                    name={post.saved ? "bookmark" : "bookmark-o"}
+                                                    size={24}
+                                                    color={post.saved ? "#FFD53D" : "black"}
+                                                />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
                                         <View style={styles.legend}>
                                             <Text>
                                                 <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
