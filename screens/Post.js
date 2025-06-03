@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f0f0',
         borderRadius: 10,
         padding: 15,
-        fontFamily: 'Montserrat-Regular',
+        fontFamily: 'Montserrat-MediumItalic',
         fontSize: 14,
         marginTop: 20,
     },
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     },
     photoPlaceholder: {
         color: '#aaa',
-        fontFamily: 'Montserrat-Regular',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 14,
     },
     modalOverlay: {
