@@ -18,7 +18,7 @@ import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Modal } from "react-native";
 
-const API_URL = "http://10.88.200.178:3000/api/posts";
+const API_URL = "http://10.88.199.139:3000/api/posts";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function MakeUpFeed() {
@@ -50,7 +50,7 @@ export default function MakeUpFeed() {
             }
         }
         fetchPosts();
-    }, [])
+    }, []);
 
     const handleLike = (index) => {
         setPosts((prev) =>
@@ -197,19 +197,18 @@ export default function MakeUpFeed() {
                                         <View style={styles.userArea}>
                                             <Image source={
                                                 post.user_photo
-                                                    ? { uri: post.user_photo }
+                                                    ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
                                                     : require("../assets/img/usergray.png")
                                             }
-                                                style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }} />
+                                                style={{ width: 30, height: 30, borderRadius: 15 }} />
                                             <Text style={styles.username}>{post.user_name}</Text>
-
                                         </View>
                                         <View style={styles.followButtonArea}>
                                             <FollowButton />
                                         </View>
                                     </View>
                                     <View style={styles.postContent}>
-                                        <Image source={{ uri: post.photo }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
+                                        <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                     </View>
                                     <View style={styles.interactions}>
                                         <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
@@ -250,7 +249,7 @@ export default function MakeUpFeed() {
                                 </View>
 
                             ))}
-                            
+
                         </View>
                     </View>
                 </View>
@@ -395,6 +394,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5,
         width: "99%",
+        marginBottom: 30,
     },
     headerPost: {
         display: "flex",
