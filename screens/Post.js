@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
         width: '100%',
         minHeight: 60,
         maxHeight: 180,
-        backgroundColor: '#f0f0f0',
         borderRadius: 10,
         padding: 15,
         fontFamily: 'Montserrat-MediumItalic',

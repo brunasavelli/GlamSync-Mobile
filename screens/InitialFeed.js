@@ -119,7 +119,7 @@ export default function InitialFeed() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
                 <ImageBackground source={require('../assets/img/logoGlamSync.png')} style={styles.logo}>
@@ -290,7 +290,7 @@ export default function InitialFeed() {
                 </View>
             </ScrollView>
             <ScrollUpButton visible={showScrollTop} onPress={scrollToTop} />
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         position: "absolute",
-        top: 35,
+        top: 50,
         right: 20,
         zIndex: 1,
         display: "flex",
