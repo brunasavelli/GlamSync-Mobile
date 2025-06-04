@@ -163,7 +163,10 @@ const styles = StyleSheet.create({
         height: 490,
         width: '100%',
         marginTop: 35,
+        marginBottom: 50,
         backgroundColor: 'white',
+        borderTopWidth: 1,
+        borderTopColor: '#f0f0f0',
     },
     postSectionText: {
         fontSize: 16,
