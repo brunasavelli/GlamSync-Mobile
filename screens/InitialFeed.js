@@ -18,6 +18,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import LikeButton from "../components/LikeButton";
 
 const API_URL = "http://192.168.1.105:3000/api/posts";
+const API_URL_COMMENTS = "http://192.168.1.105:3000/api/comments";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function InitialFeed() {
@@ -29,6 +30,8 @@ export default function InitialFeed() {
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [openCommentsModalId, setOpenCommentsModalId] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [loadingComments, setLoadingComments] = useState(false);
 
     const posters = [
         { id: 1, image: require("../assets/img/poster.png") },
@@ -51,6 +54,33 @@ export default function InitialFeed() {
         }
         fetchPosts();
     }, []);
+
+    const openCommentsModal = (post) => {
+        setOpenCommentsModalId(post.id);
+    };
+
+    useEffect(() => {
+        if (openCommentsModalId) {
+            setLoadingComments(true);
+            axios.get(`http://192.168.1.105:3000/api/comments?post_id=${openCommentsModalId}`)
+                .then(response => {
+                    console.log("Resposta da API de comentários: ", response.data);
+                    if (Array.isArray(response.data)) {
+                        setComments(response.data);
+                    } else if (Array.isArray(response.data.comments)) {
+                        setComments(response.data.comments);
+                    } else {
+                        setComments([]);
+                    }
+                })
+                .catch(error => {
+                    setComments([]);
+                })
+                .finally(() => setLoadingComments(false));
+        } else {
+            setComments([]);
+        }
+    }, [openCommentsModalId]);
 
     const handleLike = (index) => {
         setPosts((prev) =>
@@ -212,13 +242,13 @@ export default function InitialFeed() {
                                     </View>
                                     <View style={styles.interactions}>
                                         <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                                            <LikeButton 
+                                            <LikeButton
                                                 liked={post.liked}
                                                 likes={post.likes}
                                                 onPress={() => handleLike(index)}
                                             />
                                             <View>
-                                                <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post.id)}>
+                                                <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                     <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.comments}</Text>
                                                 </TouchableOpacity>
@@ -272,12 +302,18 @@ export default function InitialFeed() {
                                                 </TouchableOpacity>
                                             </View>
                                             <ScrollView style={{ marginTop: 20 }}>
-                                                {posts.filter(post => post.id === openCommentsModalId).map(post => (
-                                                    <View key={post.id} style={{ marginBottom: 20 }}>
-                                                        <Text style={{ fontFamily: 'Montserrat-SemiBold', marginBottom: 5 }}>{post.user_name}</Text>
-                                                        <Text>{post.comments}</Text>
-                                                    </View>
-                                                ))}
+                                                {loadingComments ? (
+                                                    <Text>Carregando comentários...</Text>
+                                                ) : comments.length === 0 ? (
+                                                    <Text>Nenhum comentário ainda.</Text>
+                                                ) : (
+                                                    comments.map(comment => (
+                                                        <View key={comment.id} style={{ marginBottom: 20 }}>
+                                                            <Text style={{ fontFamily: 'Montserrat-SemiBold', marginBottom: 5 }}>{comment.user_name}</Text>
+                                                            <Text>{comment.text_comment}</Text>
+                                                        </View>
+                                                    ))
+                                                )}
                                             </ScrollView>
                                         </View>
                                     </View>
