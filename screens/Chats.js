@@ -1,12 +1,21 @@
 "use client";
 
-import { View, Text, ScrollView, ImageBackground, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+    View,
+    Text,
+    ScrollView,
+    ImageBackground,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    Modal,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
-import Header from '../components/Header';
+import Header from "../components/Header";
 import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
@@ -14,6 +23,7 @@ import CardNotification from "../components/CardNotification";
 export default function Chats() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
+    const [showAddUserModal, setShowAddUserModal] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -35,28 +45,84 @@ export default function Chats() {
     }
 
     const onlineContacts = [
-        { id: 1, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
-        { id: 2, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
-        { id: 3, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
-        { id: 4, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
-        { id: 5, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
-        { id: 6, image: require("../assets/img/ongrayuser-icon.png"), username: "@username" },
-    ]
+        {
+            id: 1,
+            image: require("../assets/img/ongrayuser-icon.png"),
+            username: "@username",
+        },
+        {
+            id: 2,
+            image: require("../assets/img/ongrayuser-icon.png"),
+            username: "@username",
+        },
+        {
+            id: 3,
+            image: require("../assets/img/ongrayuser-icon.png"),
+            username: "@username",
+        },
+        {
+            id: 4,
+            image: require("../assets/img/ongrayuser-icon.png"),
+            username: "@username",
+        },
+        {
+            id: 5,
+            image: require("../assets/img/ongrayuser-icon.png"),
+            username: "@username",
+        },
+        {
+            id: 6,
+            image: require("../assets/img/ongrayuser-icon.png"),
+            username: "@username",
+        },
+    ];
 
     const recentContacts = [
-        { id: 1, image: require("../assets/img/usergray.png"), username: "@username", content: "Sent you a post by @cocojones", date: "1h ago", unread: true },
-        { id: 2, image: require("../assets/img/usergray.png"), username: "@username", content: "Quais peças de roupas você mais...", date: "2h ago", unread: true },
-        { id: 3, image: require("../assets/img/usergray.png"), username: "@username", content: "Comprei recentemente uma bota...", date: "5h ago", unread: false },
+        {
+            id: 1,
+            image: require("../assets/img/usergray.png"),
+            username: "@username",
+            content: "Sent you a post by @cocojones",
+            date: "1h ago",
+            unread: true,
+        },
+        {
+            id: 2,
+            image: require("../assets/img/usergray.png"),
+            username: "@username",
+            content: "Quais peças de roupas você mais...",
+            date: "2h ago",
+            unread: true,
+        },
+        {
+            id: 3,
+            image: require("../assets/img/usergray.png"),
+            username: "@username",
+            content: "Comprei recentemente uma bota...",
+            date: "5h ago",
+            unread: false,
+        },
     ];
 
     return (
-        <ImageBackground source={require('../assets/img/background2-mobile-glamsync.png')} style={styles.background}>
+        <ImageBackground
+            source={require("../assets/img/background2-mobile-glamsync.png")}
+            style={styles.background}
+        >
             <Header />
-            <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={{ width: "100%" }}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.top}>
                     <Text style={styles.title}>Messages</Text>
                     <View style={styles.circle}>
-                        <Image source={require('../assets/img/chats-adduser.png')} style={styles.circleImage} />
+                        <TouchableOpacity onPress={() => setShowAddUserModal(true)}>
+                            <Image
+                                source={require("../assets/img/chats-adduser.png")}
+                                style={styles.circleImage}
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.inputSection}>
@@ -67,15 +133,22 @@ export default function Chats() {
                         <Text style={styles.subtitle}>Online Contacts</Text>
                         <View style={styles.greenDot}></View>
                     </View>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollHorizontal} >
-                        {onlineContacts.map(contact => (
-                            <TouchableOpacity onPress={() => navigation.navigate('Message')} key={contact.id}>
-                                <OnlineContactCard
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.scrollHorizontal}
+                    >
+                        {onlineContacts.map((contact) => (
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("Message")}
                                 key={contact.id}
-                                image={contact.image}
-                                username={contact.username}
-                                onPress={() => navigation.navigate('Message')}
-                            />
+                            >
+                                <OnlineContactCard
+                                    key={contact.id}
+                                    image={contact.image}
+                                    username={contact.username}
+                                    onPress={() => navigation.navigate("Message")}
+                                />
                             </TouchableOpacity>
                         ))}
                     </ScrollView>
@@ -85,20 +158,50 @@ export default function Chats() {
                         <Text style={styles.subtitle}>Recent Contacts</Text>
                         <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
                     </View>
-                    {recentContacts.map(contact => (
-                        <TouchableOpacity onPress={() => navigation.navigate('Message')} style={styles.touch} key={contact.id}>   
-                            <CardNotification
+                    {recentContacts.map((contact) => (
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("Message")}
+                            style={styles.touch}
                             key={contact.id}
-                            image={contact.image}
-                            username={contact.username}
-                            content={contact.content}
-                            date={contact.date}
-                            unread={contact.unread}
-                        />
+                        >
+                            <CardNotification
+                                key={contact.id}
+                                image={contact.image}
+                                username={contact.username}
+                                content={contact.content}
+                                date={contact.date}
+                                unread={contact.unread}
+                            />
                         </TouchableOpacity>
                     ))}
                 </View>
             </ScrollView>
+            <Modal
+                visible={showAddUserModal}
+                transparent
+                animationType="fade"
+                onRequestClose={() => setShowAddUserModal(false)}
+            >
+                <View style={{
+                    flex: 1,
+                    backgroundColor: 'rgba(0,0,0,0.3)',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <View style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 10,
+                        padding: 30,
+                        width: '80%',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 18, marginBottom: 20 }}>Adicionar Contato</Text>
+                        <TouchableOpacity onPress={() => setShowAddUserModal(false)} style={{ marginTop: 20 }}>
+                            <Text style={{ color: '#FAAEA5', fontFamily: 'Montserrat-Bold' }}>Fechar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </ImageBackground>
     );
 }
@@ -106,32 +209,32 @@ export default function Chats() {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        flexDirection: 'column',
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        flexDirection: "column",
         marginBottom: 70,
     },
     top: {
-        width: '100%',
+        width: "100%",
         height: 100,
         padding: 20,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     title: {
         fontSize: 24,
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: "Montserrat-Bold",
     },
     circle: {
         width: 42,
         height: 42,
         borderRadius: 25,
-        backgroundColor: '#EDEDED',
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#1C1C1C',
+        backgroundColor: "#EDEDED",
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#1C1C1C",
         shadowOffset: {
             width: 0,
             height: 3,
@@ -143,10 +246,10 @@ const styles = StyleSheet.create({
         height: 25,
     },
     inputSection: {
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
     section: {
         marginHorizontal: 15,
@@ -154,12 +257,12 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 20,
         gap: 20,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "#FFFFFF",
         borderRadius: 10,
-        shadowColor: '#1C1C1C',
+        shadowColor: "#1C1C1C",
         shadowOffset: {
             width: 0,
             height: 3,
@@ -167,33 +270,33 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
     },
     scrollHorizontal: {
-        width: '100%',
+        width: "100%",
     },
     textSection: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
         gap: 10,
     },
     subtitle: {
         fontSize: 16,
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: "Montserrat-Bold",
     },
     greenDot: {
         width: 15,
         height: 15,
         borderRadius: 10,
-        backgroundColor: '#00D218',
+        backgroundColor: "#00D218",
     },
     contactCard: {
         width: 100,
         height: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         marginRight: 15,
     },
     touch: {
-        width: '100%',
+        width: "100%",
     },
 });

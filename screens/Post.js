@@ -66,8 +66,6 @@ export default function Post() {
         }
     };
 
-
-
     if (!fontsLoaded) {
         return null;
     }
