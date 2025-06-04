@@ -15,8 +15,9 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://10.88.200.142:3000/api/posts";
+const API_URL = "http://192.168.1.105:3000/api/posts";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function InitialFeed() {
@@ -211,14 +212,11 @@ export default function InitialFeed() {
                                     </View>
                                     <View style={styles.interactions}>
                                         <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                                            <TouchableOpacity onPress={() => handleLike(index)}>
-                                                <AntDesign
-                                                    name={post.liked ? "heart" : "hearto"}
-                                                    size={22}
-                                                    color={post.liked ? "#E04C3B" : "#000"}
-                                                />
-                                            </TouchableOpacity>
-                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
+                                            <LikeButton 
+                                                liked={post.liked}
+                                                likes={post.likes}
+                                                onPress={() => handleLike(index)}
+                                            />
                                             <View>
                                                 <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post.id)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />

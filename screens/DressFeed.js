@@ -15,8 +15,9 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from 'axios';
+import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://10.88.200.142:3000/api/posts?categorie_id=1";
+const API_URL = "http://192.168.1.105:3000/api/posts?categorie_id=1";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function DressFeed() {
@@ -131,33 +132,30 @@ export default function DressFeed() {
                         <View style={styles.postsContainer}>
                             {posts.map((post, index) => (
                                 <View style={styles.post} key={post.id}>
-                                        <View style={styles.headerPost}>
-                                            <View style={styles.userArea}>
-                                                <Image source={
-                                                    post.user_photo
-                                                        ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
-                                                        : require("../assets/img/usergray.png")
-                                                }
-                                                    style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
-                                                <Text style={styles.username}>{post.user_name}</Text>
-                                            </View>
-                                            <View style={styles.followButtonArea}>
-                                                <FollowButton />
-                                            </View>
+                                    <View style={styles.headerPost}>
+                                        <View style={styles.userArea}>
+                                            <Image source={
+                                                post.user_photo
+                                                    ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
+                                                    : require("../assets/img/usergray.png")
+                                            }
+                                                style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
+                                            <Text style={styles.username}>{post.user_name}</Text>
                                         </View>
-                                        <View style={styles.postContent}>
-                                            <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                        <View style={styles.followButtonArea}>
+                                            <FollowButton />
                                         </View>
-                                        <View style={styles.interactions}>
+                                    </View>
+                                    <View style={styles.postContent}>
+                                        <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10 }} />
+                                    </View>
+                                    <View style={styles.interactions}>
                                         <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                                            <TouchableOpacity onPress={() => handleLike(index)}>
-                                                <AntDesign
-                                                    name={post.liked ? "heart" : "hearto"}
-                                                    size={22}
-                                                    color={post.liked ? "#E04C3B" : "#000"}
-                                                />
-                                            </TouchableOpacity>
-                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
+                                            <LikeButton
+                                                liked={post.liked}
+                                                likes={post.likes}
+                                                onPress={() => handleLike(index)}
+                                            />
                                             <View>
                                                 <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
@@ -174,12 +172,12 @@ export default function DressFeed() {
                                             </TouchableOpacity>
                                         </View>
                                     </View>
-                                        <View style={styles.legend}>
-                                            <Text>
-                                                <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
-                                                {post.content}
-                                            </Text>
-                                        </View>
+                                    <View style={styles.legend}>
+                                        <Text>
+                                            <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
+                                            {post.content}
+                                        </Text>
+                                    </View>
                                 </View>
                             ))}
 

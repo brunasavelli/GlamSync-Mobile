@@ -15,8 +15,9 @@ import FollowButton from "../components/FollowButton";
 import ScrollUpButton from "../components/ScrollUpButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import axios from "axios";
+import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://10.88.200.142:3000/api/posts?categorie_id=5";
+const API_URL = "http://192.168.1.105:3000/api/posts?categorie_id=5";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function AccessoryFeed() {
@@ -155,31 +156,28 @@ export default function AccessoryFeed() {
                                             />
                                         </View>
                                         <View style={styles.interactions}>
-                                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                                            <TouchableOpacity onPress={() => handleLike(index)}>
-                                                <AntDesign
-                                                    name={post.liked ? "heart" : "hearto"}
-                                                    size={22}
-                                                    color={post.liked ? "#E04C3B" : "#000"}
+                                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                                                <LikeButton
+                                                    liked={post.liked}
+                                                    likes={post.likes}
+                                                    onPress={() => handleLike(index)}
                                                 />
-                                            </TouchableOpacity>
-                                            <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.likes}</Text>
-                                            <View>
-                                                <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
-                                                    <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                <View>
+                                                    <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
+                                                        <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                            <View style={styles.save}>
+                                                <TouchableOpacity onPress={() => handleSave(index)}>
+                                                    <FontAwesome
+                                                        name={post.saved ? "bookmark" : "bookmark-o"}
+                                                        size={24}
+                                                        color={post.saved ? "#FFD53D" : "black"}
+                                                    />
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
-                                        <View style={styles.save}>
-                                            <TouchableOpacity onPress={() => handleSave(index)}>
-                                                <FontAwesome
-                                                    name={post.saved ? "bookmark" : "bookmark-o"}
-                                                    size={24}
-                                                    color={post.saved ? "#FFD53D" : "black"}
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
                                         <View style={styles.legend}>
                                             <Text>
                                                 <Text style={{ fontFamily: "Montserrat-SemiBold" }}>{post.user_name}{" "}</Text>
