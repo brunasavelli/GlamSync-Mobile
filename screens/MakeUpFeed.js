@@ -35,7 +35,6 @@ export default function MakeUpFeed() {
             try {
                 const response = await axios.get(API_URL);
                 setPosts(response.data);
-                console.log("Posts fetched successfully: ", response.data);
             } catch (error) {
                 console.log("Erro ao buscar posts: ", error);
             }
