@@ -30,6 +30,7 @@ export default function InitialFeed() {
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [openCommentsModalId, setOpenCommentsModalId] = useState(null);
+    const [allComments, setAllComments] = useState([]);
     const [comments, setComments] = useState([]);
     const [loadingComments, setLoadingComments] = useState(false);
 
@@ -60,27 +61,17 @@ export default function InitialFeed() {
     };
 
     useEffect(() => {
-        if (openCommentsModalId) {
-            setLoadingComments(true);
-            axios.get(`http://192.168.1.105:3000/api/comments?post_id=${openCommentsModalId}`)
-                .then(response => {
-                    console.log("Resposta da API de comentários: ", response.data);
-                    if (Array.isArray(response.data)) {
-                        setComments(response.data);
-                    } else if (Array.isArray(response.data.comments)) {
-                        setComments(response.data.comments);
-                    } else {
-                        setComments([]);
-                    }
-                })
-                .catch(error => {
-                    setComments([]);
-                })
-                .finally(() => setLoadingComments(false));
-        } else {
-            setComments([]);
+        const fetchComments = async () => {
+            try {
+                const response = await axios.get(API_URL_COMMENTS);
+                setAllComments(response.data);
+                console.log("Comments fetched successfully: ", response.data);
+            } catch (error) {
+                console.log("Erro ao buscar comentários: ", error);
+            }
         }
-    }, [openCommentsModalId]);
+        fetchComments();
+    }, []);
 
     const handleLike = (index) => {
         setPosts((prev) =>
@@ -248,7 +239,7 @@ export default function InitialFeed() {
                                                 onPress={() => handleLike(index)}
                                             />
                                             <View>
-                                                <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post)}>
+                                                <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post.id)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                     <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.comments}</Text>
                                                 </TouchableOpacity>
