@@ -1,5 +1,4 @@
-"use client";
-
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -9,9 +8,9 @@ import {
     StyleSheet,
     TouchableOpacity,
     Modal,
+    ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
@@ -20,10 +19,16 @@ import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.88.200.186:4000/api";
+
 export default function Chats() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [showAddUserModal, setShowAddUserModal] = useState(false);
+    const [onlineContacts, setOnlineContacts] = useState([]);
+    const [recentContacts, setRecentContacts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         async function loadFonts() {
@@ -40,69 +45,28 @@ export default function Chats() {
         loadFonts();
     }, []);
 
-    if (!fontsLoaded) {
-        return null;
-    }
+    useEffect(() => {
+        async function fetchContacts() {
+            try {
+                setLoading(true);
+                const response = await fetch(`${API_URL}/users`);
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar dados");
+                }
+                const data = await response.json();
 
-    const onlineContacts = [
-        {
-            id: 1,
-            image: require("../assets/img/ongrayuser-icon.png"),
-            username: "@username",
-        },
-        {
-            id: 2,
-            image: require("../assets/img/ongrayuser-icon.png"),
-            username: "@username",
-        },
-        {
-            id: 3,
-            image: require("../assets/img/ongrayuser-icon.png"),
-            username: "@username",
-        },
-        {
-            id: 4,
-            image: require("../assets/img/ongrayuser-icon.png"),
-            username: "@username",
-        },
-        {
-            id: 5,
-            image: require("../assets/img/ongrayuser-icon.png"),
-            username: "@username",
-        },
-        {
-            id: 6,
-            image: require("../assets/img/ongrayuser-icon.png"),
-            username: "@username",
-        },
-    ];
-
-    const recentContacts = [
-        {
-            id: 1,
-            image: require("../assets/img/usergray.png"),
-            username: "@username",
-            content: "Sent you a post by @cocojones",
-            date: "1h ago",
-            unread: true,
-        },
-        {
-            id: 2,
-            image: require("../assets/img/usergray.png"),
-            username: "@username",
-            content: "Quais peças de roupas você mais...",
-            date: "2h ago",
-            unread: true,
-        },
-        {
-            id: 3,
-            image: require("../assets/img/usergray.png"),
-            username: "@username",
-            content: "Comprei recentemente uma bota...",
-            date: "5h ago",
-            unread: false,
-        },
-    ];
+                console.log("Dados da API:", data);
+                setOnlineContacts(data.onlineContacts || []);
+                setRecentContacts(data.recentContacts || []);
+                setError(null);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchContacts();
+    }, []);
 
     return (
         <ImageBackground
@@ -125,79 +89,117 @@ export default function Chats() {
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 <View style={styles.inputSection}>
                     <SearchInput />
                 </View>
-                <View style={styles.section}>
-                    <View style={styles.textSection}>
-                        <Text style={styles.subtitle}>Online Contacts</Text>
-                        <View style={styles.greenDot}></View>
+
+                {loading && (
+                    <View style={{ padding: 20 }}>
+                        <ActivityIndicator size="large" color="#000" />
                     </View>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.scrollHorizontal}
-                    >
-                        {onlineContacts.map((contact) => (
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate("Message")}
-                                key={contact.id}
+                )}
+
+                {error && (
+                    <View style={{ padding: 20 }}>
+                        <Text style={{ color: "red", textAlign: "center" }}>{error}</Text>
+                    </View>
+                )}
+
+                {!loading && !error && (
+                    <>
+                        <View style={styles.section}>
+                            <View style={styles.textSection}>
+                                <Text style={styles.subtitle}>Online Contacts</Text>
+                                <View style={styles.greenDot}></View>
+                            </View>
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                style={styles.scrollHorizontal}
                             >
-                                <OnlineContactCard
-                                    key={contact.id}
-                                    image={contact.image}
-                                    username={contact.username}
-                                    onPress={() => navigation.navigate("Message")}
-                                />
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-                <View style={styles.section}>
-                    <View style={styles.textSection}>
-                        <Text style={styles.subtitle}>Recent Contacts</Text>
-                        <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
-                    </View>
-                    {recentContacts.map((contact) => (
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("Message")}
-                            style={styles.touch}
-                            key={contact.id}
-                        >
-                            <CardNotification
-                                key={contact.id}
-                                image={contact.image}
-                                username={contact.username}
-                                content={contact.content}
-                                date={contact.date}
-                                unread={contact.unread}
-                            />
-                        </TouchableOpacity>
-                    ))}
-                </View>
+                                {onlineContacts.length === 0 ? (
+                                    <Text style={{ padding: 10, fontFamily: "Montserrat-Regular" }}>
+                                        Nenhum contato online.
+                                    </Text>
+                                ) : (
+                                    onlineContacts.map((contact) => (
+                                        <TouchableOpacity
+                                            onPress={() => navigation.navigate("Message")}
+                                            key={contact.id}
+                                        >
+                                            <OnlineContactCard
+                                                image={contact.image}
+                                                username={contact.username}
+                                                onPress={() => navigation.navigate("Message")}
+                                            />
+                                        </TouchableOpacity>
+                                    ))
+                                )}
+                            </ScrollView>
+                        </View>
+
+                        <View style={styles.section}>
+                            <View style={styles.textSection}>
+                                <Text style={styles.subtitle}>Recent Contacts</Text>
+                                <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+                            </View>
+                            {recentContacts.length === 0 ? (
+                                <Text style={{ padding: 10, fontFamily: "Montserrat-Regular" }}>
+                                    Nenhum contato recente.
+                                </Text>
+                            ) : (
+                                recentContacts.map((contact) => (
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate("Message")}
+                                        style={styles.touch}
+                                        key={contact.id}
+                                    >
+                                        <CardNotification
+                                            image={contact.image}
+                                            username={contact.username}
+                                            content={contact.content}
+                                            date={contact.date}
+                                            unread={contact.unread}
+                                        />
+                                    </TouchableOpacity>
+                                ))
+                            )}
+                        </View>
+                    </>
+                )}
             </ScrollView>
+
             <Modal
                 visible={showAddUserModal}
                 transparent
                 animationType="fade"
                 onRequestClose={() => setShowAddUserModal(false)}
             >
-                <View style={{
-                    flex: 1,
-                    backgroundColor: 'rgba(0,0,0,0.3)',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        backgroundColor: '#fff',
-                        borderRadius: 10,
-                        padding: 30,
-                        width: '80%',
-                        alignItems: 'center'
-                    }}>
-                        <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 18, marginBottom: 20 }}>Adicionar Contato</Text>
+                <View
+                    style={{
+                        flex: 1,
+                        backgroundColor: "rgba(0,0,0,0.3)",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <View
+                        style={{
+                            backgroundColor: "#fff",
+                            borderRadius: 10,
+                            padding: 30,
+                            width: "80%",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Text
+                            style={{ fontFamily: "Montserrat-Bold", fontSize: 18, marginBottom: 20 }}
+                        >
+                            Adicionar Contato
+                        </Text>
                         <TouchableOpacity onPress={() => setShowAddUserModal(false)} style={{ marginTop: 20 }}>
-                            <Text style={{ color: '#FAAEA5', fontFamily: 'Montserrat-Bold' }}>Fechar</Text>
+                            <Text style={{ color: "#FAAEA5", fontFamily: "Montserrat-Bold" }}>Fechar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -288,13 +290,6 @@ const styles = StyleSheet.create({
         height: 15,
         borderRadius: 10,
         backgroundColor: "#00D218",
-    },
-    contactCard: {
-        width: 100,
-        height: 100,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 15,
     },
     touch: {
         width: "100%",
