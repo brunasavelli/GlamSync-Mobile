@@ -40,7 +40,6 @@ export default function Login() {
 
             await AsyncStorage.setItem('token', token);
 
-            console.log('Login bem-sucedido:', response.data);
             setError(null);
             setSuccess('Login realizado com sucesso!');
 

@@ -17,8 +17,8 @@ import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://192.168.1.105:3000/api/posts";
-const API_URL_COMMENTS = "http://192.168.1.105:3000/api/comments";
+const API_URL = "http://10.88.199.134:3000/api/posts";
+const API_URL_COMMENTS = "http://10.88.199.134:3000/api/comments";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function InitialFeed() {
@@ -48,7 +48,6 @@ export default function InitialFeed() {
             try {
                 const response = await axios.get(API_URL);
                 setPosts(response.data);
-                console.log("Posts fetched successfully: ", response.data);
             } catch (error) {
                 console.log("Erro ao buscar posts: ", error);
             }
@@ -57,7 +56,7 @@ export default function InitialFeed() {
     }, []);
 
     const openCommentsModal = (post) => {
-        setOpenCommentsModalId(post.id);
+       
     };
 
     useEffect(() => {
@@ -65,7 +64,6 @@ export default function InitialFeed() {
             try {
                 const response = await axios.get(API_URL_COMMENTS);
                 setAllComments(response.data);
-                console.log("Comments fetched successfully: ", response.data);
             } catch (error) {
                 console.log("Erro ao buscar comentários: ", error);
             }
@@ -86,6 +84,24 @@ export default function InitialFeed() {
             )
         );
     };
+
+    const fetchComments = async (postId) => {
+        setLoadingComments(true);
+        try {
+            const response = await axios.get(`${API_URL_COMMENTS}/post/${postId}`);
+            setComments(response.data.comments);
+        } catch (error) {
+            console.log("Erro ao buscar comentários: ", error);
+        } finally {
+            setLoadingComments(false);
+        }
+    };
+
+    const handleComment = async (postId) => { 
+        setOpenCommentsModalId(postId);
+
+        fetchComments(postId);
+    }
 
     const handleSave = (index) => {
         setPosts((prev) =>
@@ -215,7 +231,7 @@ export default function InitialFeed() {
                                         <View style={styles.userArea}>
                                             <Image source={
                                                 post.user_photo
-                                                    ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
+                                                    ? { uri: `http://10.88.199.134:3000/uploads/${post.user_photo}.jpg` }
                                                     : require("../assets/img/usergray.png")
                                             }
                                                 style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
@@ -227,7 +243,7 @@ export default function InitialFeed() {
                                     </View>
                                     <View style={styles.postContent}>
                                         <Image
-                                            source={{ uri: `http://10.88.200.142:3000/uploads/${post.photo}.jpg` }}
+                                            source={{ uri: `http://10.88.199.134:3000/uploads/${post.photo}.jpg` }}
                                             style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }}
                                         />
                                     </View>
@@ -239,7 +255,7 @@ export default function InitialFeed() {
                                                 onPress={() => handleLike(index)}
                                             />
                                             <View>
-                                                <TouchableOpacity style={styles.chat} onPress={() => setOpenCommentsModalId(post.id)}>
+                                                <TouchableOpacity style={styles.chat} onPress={() => handleComment(post.id)}>
                                                     <Ionicons name="chatbubble-outline" size={23} color="black" />
                                                     <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.comments}</Text>
                                                 </TouchableOpacity>
@@ -272,7 +288,6 @@ export default function InitialFeed() {
                                 >
                                     <View style={{
                                         flex: 1,
-                                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
                                         padding: 20,
                                         alignItems: 'center'
                                     }}>
@@ -285,11 +300,15 @@ export default function InitialFeed() {
                                             padding: 20,
                                             borderRadius: 10,
                                             marginTop: 290,
+                                            shadowColor: "#363636",
+                                            shadowOffset: { width: 0, height: -2 },
+                                            shadowOpacity: 0.25,
+                                            shadowRadius: 4,
                                         }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                                 <Text style={{ fontSize: 18, fontFamily: 'Montserrat-SemiBold' }}>Comentários</Text>
                                                 <TouchableOpacity onPress={() => setOpenCommentsModalId(null)}>
-                                                    <AntDesign name="closecircleo" size={24} color="black" />
+                                                    <AntDesign name="closecircleo" size={24} color="#F08080" />
                                                 </TouchableOpacity>
                                             </View>
                                             <ScrollView style={{ marginTop: 20 }}>
