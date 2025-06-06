@@ -9,11 +9,12 @@ import {
     TouchableOpacity,
     Modal,
     ActivityIndicator,
+    KeyboardAvoidingView,
+    Platform
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Font from "expo-font";
-
 import Header from "../components/Header";
 import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
@@ -58,7 +59,6 @@ export default function Chats() {
                 }
                 const data = await response.json();
 
-                console.log("Dados da API:", data);
                 setOnlineContacts(data.onlineContacts || []);
                 setRecentContacts(data.recentContacts || []);
                 setError(null);
@@ -79,7 +79,7 @@ export default function Chats() {
 
             const endpoint = usernameTyped
                 ? `${API_URL}/users?username=${usernameTyped}`
-                : `${API_URL}/users?limit=10`;
+                : `${API_URL}/users?limit=5`;
 
             const response = await fetch(endpoint);
             if (!response.ok) {
@@ -87,11 +87,10 @@ export default function Chats() {
             }
 
             const data = await response.json();
-            console.log("Dados da busca de usuários:", data);
 
             // Tratar resposta para garantir que é array
             const usersArray = Array.isArray(data) ? data : (data.users || []);
-            setSearchResults(usersArray.slice(0, 10));
+            setSearchResults(usersArray.slice(0, 5));
         } catch (error) {
             console.error("Erro ao buscar usuários:", error);
             setSearchResults([]);
@@ -213,48 +212,63 @@ export default function Chats() {
                 )}
             </ScrollView>
 
+
             <Modal
                 visible={showAddUserModal}
                 transparent
                 animationType="fade"
                 onRequestClose={() => setShowAddUserModal(false)}
             >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Adicionar Contato</Text>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>Adicionar Contato</Text>
 
-                        <SearchInput
-                            placeholder="Pesquise por um username"
-                            style={styles.searchMobile}
-                            onChangeText={searchUsersByUsername}
-                        />
+                            <SearchInput
+                                placeholder="Pesquise por um username"
+                                style={styles.searchMobile}
+                                onChangeText={searchUsersByUsername}
+                            />
 
-                        {searchLoading ? (
-                            <ActivityIndicator size="small" color="#000" style={{ marginTop: 10 }} />
-                        ) : (
-                            searchResults.map((user) => (
-                                <TouchableOpacity
-                                    key={user.id}
-                                    onPress={() => {
-                                        console.log("Usuário selecionado:", user.username);
-                                        setShowAddUserModal(false);
-                                    }}
-                                    style={styles.searchResultItem}
-                                >
-                                    <Image
-                                        source={{ uri: user.photo.png }}
-                                        style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }}
-                                    />
-                                    <Text style={{ fontFamily: "Montserrat-Regular" }}>{user.username}</Text>
-                                </TouchableOpacity>
-                            ))
-                        )}
+                            {searchLoading ? (
+                                <ActivityIndicator size="small" color="#000" style={{ marginTop: 10 }} />
+                            ) : (
+                                <ScrollView style={{ maxHeight: 400, marginTop: 10, width: '100%' }}>
+                                    {searchResults.map((user) => (
+                                        <TouchableOpacity
+                                            key={user.id}
+                                            onPress={() => {
+                                                console.log("Usuário selecionado:", user.username);
+                                                setShowAddUserModal(false);
+                                            }}
+                                            style={styles.searchResultItem}
+                                        >
+                                            <Image
+                                                source={
+                                                    user.photo
+                                                        ? { uri: `http://192.168.100.171:3000/uploads/${user.photo}.jpg` }
+                                                        : require("../assets/img/usergray.png")
+                                                }
+                                                style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: 'red' }}
+                                            />
+                                            <View style={styles.searchResultText}>
+                                                <Text style={styles.username}>{user.username}</Text>
+                                                <Text style={styles.name}>{user.name}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            )}
 
-                        <TouchableOpacity onPress={() => setShowAddUserModal(false)} style={{ marginTop: 20 }}>
-                            <Text style={{ color: "#FAAEA5", fontFamily: "Montserrat-Bold" }}>Fechar</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setShowAddUserModal(false)} style={{ marginTop: 20 }}>
+                                <Text style={{ color: "#FAAEA5", fontFamily: "Montserrat-Bold" }}>Fechar</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </Modal>
         </ImageBackground>
     );
@@ -346,12 +360,6 @@ const styles = StyleSheet.create({
     touch: {
         width: "100%",
     },
-    searchMobile: {
-        width: "95%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    },
     modalContainer: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.3)",
@@ -360,10 +368,11 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: "#fff",
-        borderRadius: 10,
+        borderRadius: 20,
         padding: 30,
-        width: "80%",
+        width: "90%",
         alignItems: "center",
+        maxHeight: "80%",
     },
     modalTitle: {
         fontFamily: "Montserrat-Bold",
@@ -371,10 +380,36 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     searchResultItem: {
-        padding: 10,
-        backgroundColor: "#f0f0f0",
-        borderRadius: 5,
-        marginTop: 10,
-        width: "100%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 12,
+        marginVertical: 6,
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        width: '96%',
+        alignSelf: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    searchResultText: {
+        fontFamily: "Montserrat-Regular",
+        fontSize: 16,
+        marginLeft: 10,
+        flexDirection: "column",
+    },
+    username: {
+        fontFamily: "Montserrat-SemiBold",
+        fontSize: 16,
+        color: "#333",
+    },
+    name: {
+        fontFamily: "Montserrat-Regular",
+        fontSize: 14,
+        color: "#666",
     },
 });
