@@ -19,7 +19,7 @@ import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.88.200.186:4000/api";
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.100.171:3000/api";
 
 export default function Chats() {
     const navigation = useNavigation();
@@ -29,6 +29,9 @@ export default function Chats() {
     const [recentContacts, setRecentContacts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchUsername, setSearchUsername] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchLoading, setLoadingSearch] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -68,16 +71,56 @@ export default function Chats() {
         fetchContacts();
     }, []);
 
+    async function searchUsersByUsername(usernameTyped) {
+        setSearchUsername(usernameTyped);
+
+        try {
+            setLoadingSearch(true);
+
+            const endpoint = usernameTyped
+                ? `${API_URL}/users?username=${usernameTyped}`
+                : `${API_URL}/users?limit=10`;
+
+            const response = await fetch(endpoint);
+            if (!response.ok) {
+                throw new Error("Erro ao buscar usuários");
+            }
+
+            const data = await response.json();
+            console.log("Dados da busca de usuários:", data);
+
+            // Tratar resposta para garantir que é array
+            const usersArray = Array.isArray(data) ? data : (data.users || []);
+            setSearchResults(usersArray.slice(0, 10));
+        } catch (error) {
+            console.error("Erro ao buscar usuários:", error);
+            setSearchResults([]);
+        } finally {
+            setLoadingSearch(false);
+        }
+    }
+
+    useEffect(() => {
+        if (showAddUserModal) {
+            searchUsersByUsername("");
+        }
+    }, [showAddUserModal]);
+
+    if (!fontsLoaded) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <ActivityIndicator size="large" color="#000" />
+            </View>
+        );
+    }
+
     return (
         <ImageBackground
             source={require("../assets/img/background2-mobile-glamsync.png")}
             style={styles.background}
         >
             <Header />
-            <ScrollView
-                style={{ width: "100%" }}
-                showsVerticalScrollIndicator={false}
-            >
+            <ScrollView style={{ width: "100%" }} showsVerticalScrollIndicator={false}>
                 <View style={styles.top}>
                     <Text style={styles.title}>Messages</Text>
                     <View style={styles.circle}>
@@ -176,28 +219,37 @@ export default function Chats() {
                 animationType="fade"
                 onRequestClose={() => setShowAddUserModal(false)}
             >
-                <View
-                    style={{
-                        flex: 1,
-                        backgroundColor: "rgba(0,0,0,0.3)",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <View
-                        style={{
-                            backgroundColor: "#fff",
-                            borderRadius: 10,
-                            padding: 30,
-                            width: "80%",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Text
-                            style={{ fontFamily: "Montserrat-Bold", fontSize: 18, marginBottom: 20 }}
-                        >
-                            Adicionar Contato
-                        </Text>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Adicionar Contato</Text>
+
+                        <SearchInput
+                            placeholder="Pesquise por um username"
+                            style={styles.searchMobile}
+                            onChangeText={searchUsersByUsername}
+                        />
+
+                        {searchLoading ? (
+                            <ActivityIndicator size="small" color="#000" style={{ marginTop: 10 }} />
+                        ) : (
+                            searchResults.map((user) => (
+                                <TouchableOpacity
+                                    key={user.id}
+                                    onPress={() => {
+                                        console.log("Usuário selecionado:", user.username);
+                                        setShowAddUserModal(false);
+                                    }}
+                                    style={styles.searchResultItem}
+                                >
+                                    <Image
+                                        source={{ uri: user.photo.png }}
+                                        style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }}
+                                    />
+                                    <Text style={{ fontFamily: "Montserrat-Regular" }}>{user.username}</Text>
+                                </TouchableOpacity>
+                            ))
+                        )}
+
                         <TouchableOpacity onPress={() => setShowAddUserModal(false)} style={{ marginTop: 20 }}>
                             <Text style={{ color: "#FAAEA5", fontFamily: "Montserrat-Bold" }}>Fechar</Text>
                         </TouchableOpacity>
@@ -292,6 +344,37 @@ const styles = StyleSheet.create({
         backgroundColor: "#00D218",
     },
     touch: {
+        width: "100%",
+    },
+    searchMobile: {
+        width: "95%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.3)",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalContent: {
+        backgroundColor: "#fff",
+        borderRadius: 10,
+        padding: 30,
+        width: "80%",
+        alignItems: "center",
+    },
+    modalTitle: {
+        fontFamily: "Montserrat-Bold",
+        fontSize: 18,
+        marginBottom: 10,
+    },
+    searchResultItem: {
+        padding: 10,
+        backgroundColor: "#f0f0f0",
+        borderRadius: 5,
+        marginTop: 10,
         width: "100%",
     },
 });
