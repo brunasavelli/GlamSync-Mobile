@@ -17,8 +17,8 @@ import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://192.168.1.105:3000/api/posts";
-const API_URL_COMMENTS = "http://192.168.1.105:3000/api/comments";
+const API_URL = "http://192.168.0.13:3000/api/posts";
+const API_URL_COMMENTS = "http://192.168.0.13:3000/api/comments";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function InitialFeed() {
