@@ -95,7 +95,6 @@ export default function InitialFeed() {
 
     const handleComment = async (postId) => {
         setOpenCommentsModalId(postId);
-
         fetchComments(postId);
     }
 

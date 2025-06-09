@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, Dimensions, SafeAreaView, ScrollView } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -18,6 +18,7 @@ import axios from 'axios';
 import LikeButton from "../components/LikeButton";
 
 const API_URL = "http://192.168.1.105:3000/api/posts?categorie_id=2";
+const API_URL_COMMENTS = "http://192.168.1.105:3000/api/comments";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function HatFeed() {
@@ -27,6 +28,10 @@ export default function HatFeed() {
     const [likesCount, setLikesCount] = useState(0);
     const scrollRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [openCommentsModalId, setOpenCommentsModalId] = useState(null);
+    const [allComments, setAllComments] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [loadingComments, setLoadingComments] = useState(false);
 
     const [posts, setPosts] = useState([]);
 
@@ -42,6 +47,18 @@ export default function HatFeed() {
         fetchPosts();
     }, []);
 
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await axios.get(API_URL_COMMENTS);
+                setAllComments(response.data);
+            } catch (error) {
+                console.log("Erro ao buscar comentários: ", error);
+            }
+        }
+        fetchComments();
+    }, []);
+
     const handleLike = (index) => {
         setPosts((prev) =>
             prev.map((post, i) =>
@@ -55,6 +72,23 @@ export default function HatFeed() {
             )
         );
     };
+
+    const fetchComments = async (postId) => {
+        setLoadingComments(true);
+        try {
+            const response = await axios.get(`${API_URL_COMMENTS}/post/${postId}`);
+            setComments(response.data.comments);
+        } catch (error) {
+            console.log("Erro ao buscar comentários: ", error);
+        } finally {
+            setLoadingComments(false);
+        }
+    };
+
+    const handleComment = async (postId) => {
+        setOpenCommentsModalId(postId);
+        fetchComments(postId);
+    }
 
     const handleSave = (index) => {
         setPosts((prev) =>
@@ -157,8 +191,14 @@ export default function HatFeed() {
                                                     onPress={() => handleLike(index)}
                                                 />
                                                 <View>
-                                                    <TouchableOpacity style={styles.chat} onPress={() => openCommentsModal(post)}>
+                                                    <TouchableOpacity style={{
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                        alignItems: "center",
+                                                        gap: 5,
+                                                    }} onPress={() => handleComment(post.id)}>
                                                         <Ionicons name="chatbubble-outline" size={23} color="black" />
+                                                        <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.comments}</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
@@ -181,7 +221,66 @@ export default function HatFeed() {
                                     </View>
                                 </View>
                             ))}
-
+                            {openCommentsModalId && (
+                                <Modal
+                                    transparent={true}
+                                    visible={true}
+                                    animationType="slide"
+                                    onRequestClose={() => setOpenCommentsModalId(null)}
+                                >
+                                    <View style={{
+                                        flex: 1,
+                                        padding: 20,
+                                        alignItems: 'center'
+                                    }}>
+                                        <View style={{
+                                            backgroundColor: "#fff",
+                                            width: Dimensions.get('window').width,
+                                            height: "63%",
+                                            borderTopLeftRadius: 20,
+                                            borderTopRightRadius: 20,
+                                            padding: 20,
+                                            borderRadius: 10,
+                                            marginTop: 290,
+                                            shadowColor: "#363636",
+                                            shadowOffset: { width: 0, height: -2 },
+                                            shadowOpacity: 0.25,
+                                            shadowRadius: 4,
+                                        }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 18, fontFamily: 'Montserrat-SemiBold' }}>Comentários</Text>
+                                                <TouchableOpacity onPress={() => setOpenCommentsModalId(null)}>
+                                                    <AntDesign name="closecircleo" size={24} color="#F08080" />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <ScrollView style={{ marginTop: 20 }}>
+                                                {loadingComments ? (
+                                                    <Text>Carregando comentários...</Text>
+                                                ) : comments.length === 0 ? (
+                                                    <Text>Nenhum comentário ainda.</Text>
+                                                ) : (
+                                                    comments.map(comment => (
+                                                        <View key={comment.id} style={{ flexDirection: 'row', gap: 3, marginBottom: 5, alignItems: 'center' }}>
+                                                            <View style={{ gap: 10, alignItems: 'center', alignItems: 'center' }}>
+                                                                <Image source={
+                                                                    comment.user_photo
+                                                                        ? { uri: `http://192.168.1.105:3000/uploads/${comment.user_photo}.jpg` }
+                                                                        : require("../assets/img/usergray.png")
+                                                                }
+                                                                    style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'red' }} />
+                                                            </View>
+                                                            <View style={{ flexDirection: 'column', padding: 10 }}>
+                                                                <Text style={{ fontFamily: 'Montserrat-SemiBold' }}>{comment.user_name}</Text>
+                                                                <Text style={{ fontFamily: 'Montserrat-Regular' }}>{comment.text_comment}</Text>
+                                                            </View>
+                                                        </View>
+                                                    ))
+                                                )}
+                                            </ScrollView>
+                                        </View>
+                                    </View>
+                                </Modal>
+                            )}
                         </View>
                     </View>
                 </View>
