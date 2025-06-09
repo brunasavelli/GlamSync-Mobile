@@ -19,6 +19,7 @@ export default function DrawerNavigator() {
             drawerLabelStyle: {
                 fontSize: 15,
                 fontFamily: 'Montserrat-SemiBold',
+                
             },
             drawerItemStyle: {
                 marginVertical: 5,
