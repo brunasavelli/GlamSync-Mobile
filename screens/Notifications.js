@@ -28,18 +28,24 @@ export default function Notifications() {
     }, []);
 
     useEffect(() => {
-    axios.get(API_URL_USERS)
-        .then(response => {
-            console.log("API USERS:", response.data);
-            setUsers(Array.isArray(response.data) ? response.data : response.data.users || []);
-        })
-        .catch(() => setUsers([]));
-}, []);
+        axios.get(API_URL_USERS)
+            .then(response => {
+                setUsers(Array.isArray(response.data) ? response.data : response.data.users || []);
+            })
+            .catch(() => setUsers([]));
+    }, []);
 
     const getUserName = (userId) => {
         const user = users.find(u => u.id === userId);
         return user ? user.name : "User";
     };
+
+    const getUserPhoto = (userId) => {
+        const user = users.find(u => String(u.id) === String(userId));
+        return user && user.photo
+            ? { uri: `http://192.168.1.105:3000/uploads/${user.photo}.jpg` }
+            : require("../assets/img/usergray.png");
+    }
 
     return (
         <ImageBackground
@@ -57,8 +63,8 @@ export default function Notifications() {
                                         key={notificacao.id}
                                         username={getUserName(notificacao.user_id)}
                                         content={notificacao.message}
-                                        date={notificacao.date}
-                                        image={notificacao.image}
+                                        date={notificacao.created_at}
+                                        image={getUserPhoto(notificacao.user_id)}
                                         unread={notificacao.unread}
                                     />
                                 ))}
