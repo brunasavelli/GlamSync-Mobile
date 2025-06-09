@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, SafeAreaView, ImageBackground, Modal } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions, ImageBackground, Modal, Platform,  StatusBar as RNStatusBar } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -153,6 +153,16 @@ export default function InitialFeed() {
 
     return (
         <View style={styles.container}>
+            <View style={{
+                height: Platform.OS === 'ios' ? 44 : RNStatusBar.currentHeight,
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                width: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 10
+            }} />
+            <StatusBar style="light" translucent />
             <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={styles.scrollView}>
                 <Image source={require("../assets/img/backgroundInitialFeed.png")} style={styles.background} />
                 <ImageBackground source={require('../assets/img/logoGlamSync.png')} style={styles.logo}>
