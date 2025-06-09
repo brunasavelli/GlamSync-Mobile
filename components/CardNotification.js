@@ -8,9 +8,9 @@ export default function CardNotification({ image, username, content, date, unrea
             <View style={styles.textContainer}>
                 <Text style={styles.username}>{username}</Text>
                 <Text style={styles.content}>{content}</Text>
+                <Text style={styles.date}>{date}</Text>
             </View>
             <View style={styles.dateContainer}>
-                <Text style={styles.date}>{date}</Text>
                 {unread && <View style={styles.unreadDot}></View>}
             </View>
 
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingVertical: 10,
         marginBottom: 10,
-        gap: 10,
+        gap: 15,
         borderBottomWidth: 1,
         borderBottomColor: "#cdcdcd",
     },
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     image: {
         width: 60,
         height: 60,
-        borderRadius: 20,
+        borderRadius: 30,
     },
     dateContainer: {
         height: "100%",

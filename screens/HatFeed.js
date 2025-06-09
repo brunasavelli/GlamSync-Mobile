@@ -32,6 +32,7 @@ export default function HatFeed() {
     const [allComments, setAllComments] = useState([]);
     const [comments, setComments] = useState([]);
     const [loadingComments, setLoadingComments] = useState(false);
+    const [commentsCount, setCommentsCount] = useState({});
 
     const [posts, setPosts] = useState([]);
 
@@ -40,6 +41,17 @@ export default function HatFeed() {
             try {
                 const response = await axios.get(API_URL);
                 setPosts(response.data);
+
+                const counts = {};
+                await Promise.all(response.data.map(async (post) => {
+                    try {
+                        const res = await axios.get(`${API_URL_COMMENTS}/count/${post.id}`);
+                        counts[post.id] = res.data.count ?? 0;
+                    } catch {
+                        counts[post.id] = 0;
+                    }
+                }));
+                setCommentsCount(counts);
             } catch (error) {
                 console.log("Erro ao buscar posts: ", error);
             }
@@ -208,7 +220,7 @@ export default function HatFeed() {
                                                         gap: 5,
                                                     }} onPress={() => handleComment(post.id)}>
                                                         <Ionicons name="chatbubble-outline" size={23} color="black" />
-                                                        <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{post.comments}</Text>
+                                                        <Text style={{ marginLeft: 1, color: "#000", fontFamily: "Montserrat-SemiBold" }}>{commentsCount[post.id] ?? 0}</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
