@@ -175,7 +175,7 @@ export default function InitialFeed() {
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Notifications')}>
                         <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.openDrawer()}>
                         <Entypo name="dots-three-horizontal" size={20} color="brown" style={styles.icon} />
                     </TouchableOpacity>
                 </View>
