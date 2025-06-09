@@ -136,7 +136,7 @@ export default function ShoesFeed() {
                                             <View style={styles.userArea}>
                                                 <Image source={
                                                     post.user_photo
-                                                        ? { uri: `http://10.88.199.139:3000/uploads/${post.user_photo}.jpg` }
+                                                        ? { uri: `http://192.168.1.105:3000/uploads/${post.user_photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                     style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
@@ -147,7 +147,7 @@ export default function ShoesFeed() {
                                             </View>
                                         </View>
                                         <View style={styles.postContent}>
-                                            <Image source={{ uri: `http://10.88.199.139:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
+                                            <Image source={{ uri: `http://192.168.1.105:3000/uploads/${post.photo}.jpg` }} style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }} />
                                         </View>
                                         <View style={styles.interactions}>
                                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>

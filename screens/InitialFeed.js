@@ -17,8 +17,8 @@ import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://10.88.199.134:3000/api/posts";
-const API_URL_COMMENTS = "http://10.88.199.134:3000/api/comments";
+const API_URL = "http://192.168.1.105:3000/api/posts";
+const API_URL_COMMENTS = "http://192.168.1.105:3000/api/comments";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function InitialFeed() {
@@ -54,10 +54,6 @@ export default function InitialFeed() {
         }
         fetchPosts();
     }, []);
-
-    const openCommentsModal = (post) => {
-       
-    };
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -97,7 +93,7 @@ export default function InitialFeed() {
         }
     };
 
-    const handleComment = async (postId) => { 
+    const handleComment = async (postId) => {
         setOpenCommentsModalId(postId);
 
         fetchComments(postId);
@@ -231,7 +227,7 @@ export default function InitialFeed() {
                                         <View style={styles.userArea}>
                                             <Image source={
                                                 post.user_photo
-                                                    ? { uri: `http://10.88.199.134:3000/uploads/${post.user_photo}.jpg` }
+                                                    ? { uri: `http://192.168.1.105:3000/uploads/${post.user_photo}.jpg` }
                                                     : require("../assets/img/usergray.png")
                                             }
                                                 style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
@@ -243,7 +239,7 @@ export default function InitialFeed() {
                                     </View>
                                     <View style={styles.postContent}>
                                         <Image
-                                            source={{ uri: `http://10.88.199.134:3000/uploads/${post.photo}.jpg` }}
+                                            source={{ uri: `http://192.168.1.105:3000/uploads/${post.photo}.jpg` }}
                                             style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }}
                                         />
                                     </View>
@@ -318,9 +314,19 @@ export default function InitialFeed() {
                                                     <Text>Nenhum comentário ainda.</Text>
                                                 ) : (
                                                     comments.map(comment => (
-                                                        <View key={comment.id} style={{ marginBottom: 20 }}>
-                                                            <Text style={{ fontFamily: 'Montserrat-SemiBold', marginBottom: 5 }}>{comment.user_name}</Text>
-                                                            <Text>{comment.text_comment}</Text>
+                                                        <View key={comment.id} style={{ flexDirection: 'row', gap: 3, marginBottom: 5, alignItems: 'center' }}>
+                                                            <View style={{ gap: 10, alignItems: 'center', alignItems: 'center' }}>
+                                                                <Image source={
+                                                                    comment.user_photo
+                                                                        ? { uri: `http://192.168.1.105:3000/uploads/${comment.user_photo}.jpg` }
+                                                                        : require("../assets/img/usergray.png")
+                                                                }
+                                                                    style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'red' }} />
+                                                            </View>
+                                                            <View style={{ flexDirection: 'column', padding: 10 }}>
+                                                                <Text style={{ fontFamily: 'Montserrat-SemiBold' }}>{comment.user_name}</Text>
+                                                                <Text style={{ fontFamily: 'Montserrat-Regular' }}>{comment.text_comment}</Text>
+                                                            </View>
                                                         </View>
                                                     ))
                                                 )}

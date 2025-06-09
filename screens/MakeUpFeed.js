@@ -137,7 +137,7 @@ export default function MakeUpFeed() {
                                                 <Image
                                                     source={
                                                         post.user_photo
-                                                            ? { uri: `http://10.88.200.142:3000/uploads/${post.user_photo}.jpg` }
+                                                            ? { uri: `http://192.168.1.105:3000/uploads/${post.user_photo}.jpg` }
                                                             : require("../assets/img/usergray.png")
                                                     }
                                                     style={{ width: 30, height: 30, backgroundColor: 'red', borderRadius: 15 }}
@@ -150,7 +150,7 @@ export default function MakeUpFeed() {
                                         </View>
                                         <View style={styles.postContent}>
                                             <Image
-                                                source={{ uri: `http://10.88.200.142:3000/uploads/${post.photo}.jpg` }}
+                                                source={{ uri: `http://192.168.1.105:3000/uploads/${post.photo}.jpg` }}
                                                 style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }}
                                             />
                                         </View>
