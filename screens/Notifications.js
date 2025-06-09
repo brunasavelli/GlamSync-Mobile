@@ -4,15 +4,42 @@ import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
 import CardNotification from "../components/CardNotification";
 import Header from "../components/Header"
+import axios from "axios";
 
+const API_URL_NOTIFICATIONS = "http://192.168.1.105:3000/api/notification";
+const API_URL_USERS = "http://192.168.1.105:3000/api/users";
+// Aqui o Ip deve da máquina que o back está rodando
 
 export default function Notifications() {
-    const notificacoes = [
-        { id: 1, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "20min ago", unread: false },
-        { id: 2, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "30min ago", unread: false },
-        { id: 3, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "50min ago", unread: false },
-        { id: 4, image: require("../assets/img/usergray.png"), username: "@username", content: "Started following you", date: "1h ago", unread: false },
-    ];
+    const [notifications, setNotifications] = useState([]);
+    const [loadingNotifications, setLoadingNotifications] = useState(false);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const response = await axios.get(API_URL_NOTIFICATIONS);
+                setNotifications(response.data);
+            } catch (error) {
+                console.log("Erro ao buscar notificações: ", error);
+            }
+        }
+        fetchNotifications();
+    }, []);
+
+    useEffect(() => {
+    axios.get(API_URL_USERS)
+        .then(response => {
+            console.log("API USERS:", response.data);
+            setUsers(Array.isArray(response.data) ? response.data : response.data.users || []);
+        })
+        .catch(() => setUsers([]));
+}, []);
+
+    const getUserName = (userId) => {
+        const user = users.find(u => u.id === userId);
+        return user ? user.name : "User";
+    };
 
     return (
         <ImageBackground
@@ -25,16 +52,16 @@ export default function Notifications() {
                         <Text style={styles.h1}>Notifications Center</Text>
                         <View style={styles.cards}>
                             <View style={styles.section}>
-                                {notificacoes.map((notificacao) => (
-                                <CardNotification
-                                    key={notificacao.id}
-                                    username={notificacao.username}
-                                    content={notificacao.content}
-                                    date={notificacao.date}
-                                    image={notificacao.image}
-                                    unread={notificacao.unread}
-                                />
-                            ))}
+                                {notifications.map((notificacao) => (
+                                    <CardNotification
+                                        key={notificacao.id}
+                                        username={getUserName(notificacao.user_id)}
+                                        content={notificacao.message}
+                                        date={notificacao.date}
+                                        image={notificacao.image}
+                                        unread={notificacao.unread}
+                                    />
+                                ))}
                             </View>
                         </View>
                     </View>
