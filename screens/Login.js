@@ -29,8 +29,8 @@ export default function Login() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/login', {
-                email,
+            const response = await axios.post('http://192.168.1.105:3000/api/login', {
+                username,
                 senha: password,
             });
             const { token } = response.data;
@@ -43,7 +43,9 @@ export default function Login() {
             setError(null);
             setSuccess('Login realizado com sucesso!');
 
-            navigation.navigate('InitialFeed');
+            setTimeout(() => {
+                navigation.navigate('InitialFeed');
+            }, 1500)
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
             setError(errorMessage);
@@ -131,7 +133,6 @@ export default function Login() {
                                                 placeholderTextColor="#A4A4A4"
                                                 secureTextEntry={!showPassword}
                                                 value={password}
-                                                onChange={setPassword}
                                                 onChangeText={setPassword}
                                                 autoCapitalize="none"
                                                 autoCorrect={false}
