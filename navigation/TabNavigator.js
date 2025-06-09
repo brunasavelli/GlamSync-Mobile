@@ -7,6 +7,7 @@ import Profile from "../screens/Profile";
 import FeedStackNavigator from "../navigation/FeedStackNavigator";
 import ChatStackNavigator from "../navigation/ChatStackNavigator";
 import Post from "../screens/Post";
+import Notifications from "../screens/Notifications";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,14 @@ export default function TabNavigator() {
                     <Image source={require('../assets/img/plus-icon.png')} style={{ width: 35, height: 35 }} />
                 ),
             }} />
+            <Tab.Screen
+                name="Notifications"
+                component={Notifications}
+                options={{
+                    tabBarButton: () => null,
+                    tabBarItemStyle: { display: 'none' },
+                }}
+            />
             <Tab.Screen
                 name="ChatStack"
                 component={ChatStackNavigator}

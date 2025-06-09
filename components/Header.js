@@ -37,7 +37,9 @@ export default function Header({ height = 100, paddingTop = 50, backButton = fal
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Notifications')}>
                     <FontAwesome name="bell" size={20} color="brown" style={styles.icon} />
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.openDrawer()}>
                 <Entypo name="dots-three-horizontal" size={20} color="brown" style={styles.icon} />
+                </TouchableOpacity>
             </View>
             </View>
             <View style={styles.section}>
