@@ -20,7 +20,7 @@ import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.100.171:3000/api";
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.13:3000/api";
 
 export default function Chats() {
     const navigation = useNavigation();
@@ -59,8 +59,9 @@ export default function Chats() {
                 }
                 const data = await response.json();
 
-                setOnlineContacts(data.onlineContacts || []);
-                setRecentContacts(data.recentContacts || []);
+                const users = Array.isArray(data) ? data : (data.users || []);
+                setOnlineContacts(users.slice(0, 5));
+                setRecentContacts(users);
                 setError(null);
             } catch (err) {
                 setError(err.message);
@@ -87,8 +88,6 @@ export default function Chats() {
             }
 
             const data = await response.json();
-
-            // Tratar resposta para garantir que é array
             const usersArray = Array.isArray(data) ? data : (data.users || []);
             setSearchResults(usersArray.slice(0, 5));
         } catch (error) {
@@ -171,9 +170,12 @@ export default function Chats() {
                                             key={contact.id}
                                         >
                                             <OnlineContactCard
-                                                image={contact.image}
+                                                image={
+                                                    contact.photo
+                                                        ? { uri: `http://192.168.0.13:3000/uploads/${contact.photo}.jpg` }
+                                                        : require("../assets/img/usergray.png")
+                                                }
                                                 username={contact.username}
-                                                onPress={() => navigation.navigate("Message")}
                                             />
                                         </TouchableOpacity>
                                     ))
@@ -198,10 +200,13 @@ export default function Chats() {
                                         key={contact.id}
                                     >
                                         <CardNotification
-                                            image={contact.image}
+                                            image={
+                                                contact.photo
+                                                    ? { uri: `http://192.168.0.13:3000/uploads/${contact.photo}.jpg` }
+                                                    : require("../assets/img/usergray.png")
+                                            }
                                             username={contact.username}
-                                            content={contact.content}
-                                            date={contact.date}
+                                            content={contact.lastMessage}
                                             unread={contact.unread}
                                         />
                                     </TouchableOpacity>
@@ -211,7 +216,6 @@ export default function Chats() {
                     </>
                 )}
             </ScrollView>
-
 
             <Modal
                 visible={showAddUserModal}
@@ -249,7 +253,7 @@ export default function Chats() {
                                             <Image
                                                 source={
                                                     user.photo
-                                                        ? { uri: `http://192.168.100.171:3000/uploads/${user.photo}.jpg` }
+                                                        ? { uri: `http://192.168.0.13:3000/uploads/${user.photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                 style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: 'red' }}
@@ -273,6 +277,7 @@ export default function Chats() {
         </ImageBackground>
     );
 }
+
 
 const styles = StyleSheet.create({
     background: {
@@ -411,5 +416,11 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-Regular",
         fontSize: 14,
         color: "#666",
+    },
+    profileImage: {
+    width: 50,      
+    height: 50,      
+    borderRadius: 105, 
+    resizeMode: "cover",
     },
 });
