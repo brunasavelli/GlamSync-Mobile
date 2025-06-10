@@ -16,10 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import Header from "../components/Header";
-import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
-
+import SearchInput from "../components/SearchInput";
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.88.200.205:3000/api";
 
 export default function Chats() {
