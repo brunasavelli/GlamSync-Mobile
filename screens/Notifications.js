@@ -6,8 +6,8 @@ import CardNotification from "../components/CardNotification";
 import Header from "../components/Header"
 import axios from "axios";
 
-const API_URL_NOTIFICATIONS = "http://10.88.199.137:3000/api/notification";
-const API_URL_USERS = "http://10.88.199.137:3000/api/users";
+const API_URL_NOTIFICATIONS = "http://10.88.200.143:3000/api/notification";
+const API_URL_USERS = "http://10.88.200.143:3000/api/users";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function Notifications() {
@@ -43,7 +43,7 @@ export default function Notifications() {
     const getUserPhoto = (userId) => {
         const user = users.find(u => String(u.id) === String(userId));
         return user && user.photo
-            ? { uri: `http://10.88.199.137:3000/uploads/${user.photo}.jpg` }
+            ? { uri: `http://10.88.200.143:3000/uploads/${user.photo}.jpg` }
             : require("../assets/img/usergray.png");
     }
 

@@ -17,8 +17,8 @@ import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import LikeButton from "../components/LikeButton";
 
-const API_URL = "http://10.88.199.137:3000/api/posts";
-const API_URL_COMMENTS = "http://10.88.199.137:3000/api/comments";
+const API_URL = "http://10.88.200.143:3000/api/posts";
+const API_URL_COMMENTS = "http://10.88.200.143:3000/api/comments";
 // Aqui o Ip deve da máquina que o back está rodando
 
 export default function InitialFeed() {
@@ -238,7 +238,7 @@ export default function InitialFeed() {
                                         <View style={styles.userArea}>
                                             <Image source={
                                                 post.user_photo
-                                                    ? { uri: `http://10.88.199.137:3000/uploads/${post.user_photo}.jpg` }
+                                                    ? { uri: `http://10.88.200.143:3000/uploads/${post.user_photo}.jpg` }
                                                     : require("../assets/img/usergray.png")
                                             }
                                                 style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'red' }} />
@@ -250,7 +250,7 @@ export default function InitialFeed() {
                                     </View>
                                     <View style={styles.postContent}>
                                         <Image
-                                            source={{ uri: `http://10.88.199.137:3000/uploads/${post.photo}.jpg` }}
+                                            source={{ uri: `http://10.88.200.143:3000/uploads/${post.photo}.jpg` }}
                                             style={{ width: "100%", height: 400, marginTop: 10, backgroundColor: 'blue' }}
                                         />
                                     </View>
@@ -331,7 +331,7 @@ export default function InitialFeed() {
                                                             <View style={{ gap: 10, alignItems: 'center', alignItems: 'center' }}>
                                                                 <Image source={
                                                                     comment.user_photo
-                                                                        ? { uri: `http://10.88.199.137:3000/uploads/${comment.user_photo}.jpg` }
+                                                                        ? { uri: `http://10.88.200.143:3000/uploads/${comment.user_photo}.jpg` }
                                                                         : require("../assets/img/usergray.png")
                                                                 }
                                                                     style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'red' }} />
