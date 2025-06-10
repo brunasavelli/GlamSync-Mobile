@@ -16,7 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import Header from "../components/Header";
-import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
@@ -225,14 +224,7 @@ export default function Chats() {
                 >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>Adicionar Contato</Text>
-
-                            <SearchInput
-                                placeholder="Pesquise por um username"
-                                style={styles.searchMobile}
-                                onChangeText={searchUsersByUsername}
-                            />
-
+                            <Text style={styles.modalTitle}>Adicionar Contato</Text>''
                             {searchLoading ? (
                                 <ActivityIndicator size="small" color="#000" style={{ marginTop: 10 }} />
                             ) : (
