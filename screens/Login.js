@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ImageBackground, KeyboardAvoidingView, ScrollView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import * as Font from "expo-font";
@@ -42,10 +42,12 @@ export default function Login() {
 
             setError(null);
             setSuccess('Login realizado com sucesso!');
-
             setTimeout(() => {
-                navigation.navigate('InitialFeed');
-            }, 1500)
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'InitialFeed' }],
+                });
+            }, 1500);
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
             setError(errorMessage);
@@ -170,16 +172,16 @@ export default function Login() {
                                         }>Sign Up</Text>
                                     </View>
 
-                                    <View style={styles.lines}>
+                                    {/* <View style={styles.lines}>
                                         <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
                                         <Text style={styles.login}>Log In with</Text>
                                         <View style={{ width: 100, height: 1, backgroundColor: "#CDCDCD" }}></View>
-                                    </View>
+                                    </View> */}
 
-                                    <View style={styles.icons}>
+                                    {/* <View style={styles.icons}>
                                         <Image source={require('../assets/img/google.png')} style={styles.icon} />
                                         <Image source={require('../assets/img/apple.png')} style={styles.icon} />
-                                    </View>
+                                    </View> */}
                                 </View>
                             </View>
                         </ScrollView>
@@ -193,8 +195,8 @@ export default function Login() {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        height: "100%",
         resizeMode: "cover",
     },
     container: {
@@ -279,7 +281,11 @@ const styles = StyleSheet.create({
         height: 50,
         width: 330,
         backgroundColor: '#f9f9f9',
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
+        elevation: 2,
     },
     inputIcon: {
         marginRight: 10,
