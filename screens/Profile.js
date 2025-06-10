@@ -35,13 +35,13 @@ export default function Profile() {
             <Header />
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
             <View style={styles.top}>
-                <Text style={styles.username}>@username</Text>
+                <Text style={styles.username}>@samanthabr_</Text>
                 <FollowButton />
             </View>
             <View style={styles.middle}>
-                <Image source={require('../assets/img/profile-user.png')} style={{ width: 120, height: 120 }} />
+                <Image source={require('../assets/img/profile-image.jpeg')} style={{ width: 120, height: 120, borderRadius: 100, borderWidth: 1 }} />
                 <View style={styles.middleRight}>
-                    <Text style={styles.username}>Your Name</Text>
+                    <Text style={styles.username}>Samantha Rios</Text>
                     <View style={styles.section}>
                         <View style={styles.sectionItem}>
                             <Text style={styles.text}>18</Text>
