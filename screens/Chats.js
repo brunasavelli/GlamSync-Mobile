@@ -18,7 +18,7 @@ import * as Font from "expo-font";
 import Header from "../components/Header";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
-
+import SearchInput from "../components/SearchInput";
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.88.200.205:3000/api";
 
 export default function Chats() {
@@ -224,7 +224,14 @@ export default function Chats() {
                 >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>Adicionar Contato</Text>''
+                            <Text style={styles.modalTitle}>Adicionar Contato</Text>
+
+                            <SearchInput
+                                placeholder="Pesquise por um username"
+                                style={styles.searchMobile}
+                                onChangeText={searchUsersByUsername}
+                            />
+
                             {searchLoading ? (
                                 <ActivityIndicator size="small" color="#000" style={{ marginTop: 10 }} />
                             ) : (
