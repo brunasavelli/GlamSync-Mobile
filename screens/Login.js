@@ -27,32 +27,15 @@ export default function Login() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
-    const handleLogin = async () => {
-        try {
-            const response = await axios.post('http://192.168.1.105:3000/api/login', {
-                username,
-                senha: password,
-            });
-            const { token } = response.data;
-            if (!token) {
-                throw new Error('Token não enontrado na resposta');
-            }
-
-            await AsyncStorage.setItem('token', token);
-
-            setError(null);
-            setSuccess('Login realizado com sucesso!');
-            setTimeout(() => {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'InitialFeed' }],
-                });
-            }, 1500);
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
-            setError(errorMessage);
+    const handleLogin = () => {
+        if (!isUsernameValid || username.length === 0 || password.length === 0) {
+            setError('Preencha todos os campos corretamente.');
             setSuccess(null);
+            return;
         }
+    
+        setError(null);
+        setSuccess('Login realizado com sucesso!', navigation.navigate('InitialFeed'));
     };
 
     useEffect(() => {
