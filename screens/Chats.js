@@ -20,7 +20,7 @@ import SearchInput from "../components/SearchInput";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.13:3000/api";
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.88.200.205:3000/api";
 
 export default function Chats() {
     const navigation = useNavigation();
@@ -131,10 +131,6 @@ export default function Chats() {
                     </View>
                 </View>
 
-                <View style={styles.inputSection}>
-                    <SearchInput />
-                </View>
-
                 {loading && (
                     <View style={{ padding: 20 }}>
                         <ActivityIndicator size="large" color="#000" />
@@ -172,7 +168,7 @@ export default function Chats() {
                                             <OnlineContactCard
                                                 image={
                                                     contact.photo
-                                                        ? { uri: `http://192.168.0.13:3000/uploads/${contact.photo}.jpg` }
+                                                        ? { uri: `http://10.88.200.205:3000/uploads/${contact.photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                 username={contact.username}
@@ -202,7 +198,7 @@ export default function Chats() {
                                         <CardNotification
                                             image={
                                                 contact.photo
-                                                    ? { uri: `http://192.168.0.13:3000/uploads/${contact.photo}.jpg` }
+                                                    ? { uri: `http://10.88.200.205:3000/uploads/${contact.photo}.jpg` }
                                                     : require("../assets/img/usergray.png")
                                             }
                                             username={contact.username}
@@ -253,7 +249,7 @@ export default function Chats() {
                                             <Image
                                                 source={
                                                     user.photo
-                                                        ? { uri: `http://192.168.0.13:3000/uploads/${user.photo}.jpg` }
+                                                        ? { uri: `http://10.88.200.205:3000/uploads/${user.photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                 style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: 'red' }}
