@@ -19,12 +19,17 @@ Sou a Bruna, Scrum Master da equipe GlamSync. Neste projeto atuei cuidando do Mo
 
 # Ao Clonar o Projeto, Instale as Dependências e troque os IPs das APIs 🖥
 ## Instalando as Dependências:
-"npm install"
+```bash
+npm install
+```
 
 ## Trocando os IPs:
 Troque nos locais onde houver um link da API
 OBS: O IP deve ser o mesmo da máquina onde o backend  está sendo rodado.
-"const API_URL = "http://COLOQUE_SEU_ID_AQUI:3000/api/posts";"
-
+```bash
+const API_URL = "http://COLOQUE_SEU_ID_AQUI:3000/api/posts";
+```
 ## Rodando o Projeto:
-"npx expo start"
+```bash
+npx expo start
+```
