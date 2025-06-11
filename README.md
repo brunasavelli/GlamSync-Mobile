@@ -13,18 +13,18 @@ Sou a Alejandra, Product Owner da equipe GlamSync. Atualmente, atuo cuidando da 
 Sou a Bruna, Scrum Master da equipe GlamSync. Neste projeto atuei cuidando do Mobile e também ajudando a equipe com suas dificuldades em outras áreas do projeto.
 
 # 🛠 Tecnologias Utilizadas
-## JavaScript
-## React Native
-## Axios
+### JavaScript
+### React Native
+### Axios
 
 # Ao Clonar o Projeto, Instale as Dependências e troque os IPs das APIs 🖥
 ## Instalando as Dependências:
-npm install
+"npm install"
 
 ## Trocando os IPs:
 Troque nos locais onde houver um link da API
 OBS: O IP deve ser o mesmo da máquina onde o backend  está sendo rodado.
-const API_URL = "http://COLOQUE_SEU_ID_AQUI:3000/api/posts";
+"const API_URL = "http://COLOQUE_SEU_ID_AQUI:3000/api/posts";"
 
 ## Rodando o Projeto:
-npx expo start
+"npx expo start"
