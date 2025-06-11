@@ -19,7 +19,9 @@ import Header from "../components/Header";
 import OnlineContactCard from "../components/OnlineContactCard";
 import CardNotification from "../components/CardNotification";
 import SearchInput from "../components/SearchInput";
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.88.200.205:3000/api";
+
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.0.13:3000/api";
+const HEADERS = { "x-api-key": process.env.EXPO_PUBLIC_API_KEY };
 
 export default function Chats() {
     const navigation = useNavigation();
@@ -52,7 +54,9 @@ export default function Chats() {
         async function fetchContacts() {
             try {
                 setLoading(true);
-                const response = await fetch(`${API_URL}/users`);
+                const response = await fetch(`${API_URL}/users`,{
+                    headers: HEADERS
+                });
                 if (!response.ok) {
                     throw new Error("Erro ao buscar dados");
                 }
@@ -81,7 +85,9 @@ export default function Chats() {
                 ? `${API_URL}/users?username=${usernameTyped}`
                 : `${API_URL}/users?limit=5`;
 
-            const response = await fetch(endpoint);
+            const response = await fetch(endpoint, {
+                headers: HEADERS
+            });
             if (!response.ok) {
                 throw new Error("Erro ao buscar usuários");
             }
@@ -167,7 +173,7 @@ export default function Chats() {
                                             <OnlineContactCard
                                                 image={
                                                     contact.photo
-                                                        ? { uri: `http://10.88.200.205:3000/uploads/${contact.photo}.jpg` }
+                                                        ? { uri: `http://192.168.0.13:3000/uploads/${contact.photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                 username={contact.username}
@@ -197,7 +203,7 @@ export default function Chats() {
                                         <CardNotification
                                             image={
                                                 contact.photo
-                                                    ? { uri: `http://10.88.200.205:3000/uploads/${contact.photo}.jpg` }
+                                                    ? { uri: `http://192.168.0.13:3000/uploads/${contact.photo}.jpg` }
                                                     : require("../assets/img/usergray.png")
                                             }
                                             username={contact.username}
@@ -248,7 +254,7 @@ export default function Chats() {
                                             <Image
                                                 source={
                                                     user.photo
-                                                        ? { uri: `http://10.88.200.205:3000/uploads/${user.photo}.jpg` }
+                                                        ? { uri: `http://192.168.0.13:3000/uploads/${user.photo}.jpg` }
                                                         : require("../assets/img/usergray.png")
                                                 }
                                                 style={{ width: 50, height: 50, borderRadius: 30, backgroundColor: 'red' }}
