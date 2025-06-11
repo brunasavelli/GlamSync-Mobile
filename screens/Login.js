@@ -1,15 +1,14 @@
-import { StatusBar } from "expo-status-bar";
-import { 
-    StyleSheet, 
-    Text, 
-    View, 
-    TextInput, 
-    Image, 
-    TouchableOpacity, 
-    ImageBackground, 
-    KeyboardAvoidingView, 
-    Platform, 
-    TouchableWithoutFeedback, 
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
     Keyboard,
     Dimensions
 } from "react-native";
@@ -45,10 +44,10 @@ export default function Login() {
             setSuccess(null);
             return;
         }
-    
+
         setError(null);
         setSuccess('Login realizado com sucesso!');
-        
+
         // Navegação separada para evitar problemas
         setTimeout(() => {
             navigation.navigate('TabNavigator');
@@ -104,7 +103,6 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style="light" backgroundColor="transparent" translucent={true} />
             <ImageBackground
                 source={require("../assets/img/background-mobile-glamsync.png")}
                 style={styles.background}
@@ -117,18 +115,18 @@ export default function Login() {
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.contentContainer}>
-                            <TouchableOpacity 
-                                style={styles.backButton} 
+                            <TouchableOpacity
+                                style={styles.backButton}
                                 onPress={handleBackPress}
                                 activeOpacity={0.7}
                             >
                                 <Ionicons name="chevron-back" size={24} color="#DD776C" />
                             </TouchableOpacity>
-                            
+
                             <View style={styles.top}>
                                 <View style={styles.logoContainer}>
-                                    <Image 
-                                        source={require("../assets/img/logoGlamSync.png")} 
+                                    <Image
+                                        source={require("../assets/img/logoGlamSync.png")}
                                         style={styles.logo}
                                         resizeMode="contain"
                                     />
@@ -138,18 +136,18 @@ export default function Login() {
                                     </View>
                                 </View>
                             </View>
-                            
+
                             <View style={styles.main}>
                                 <Text style={styles.h1}>Welcome Back!</Text>
                                 <Text style={styles.logAccount}>Log in to your account</Text>
 
                                 <View style={styles.form}>
                                     <View style={styles.inputContainer}>
-                                        <FontAwesome 
-                                            name="user-circle-o" 
-                                            size={20} 
-                                            color="#BC7D7C" 
-                                            style={styles.inputIcon} 
+                                        <FontAwesome
+                                            name="user-circle-o"
+                                            size={20}
+                                            color="#BC7D7C"
+                                            style={styles.inputIcon}
                                         />
                                         <TextInput
                                             style={styles.input}
@@ -171,13 +169,13 @@ export default function Login() {
                                             />
                                         )}
                                     </View>
-                                    
+
                                     <View style={styles.inputContainer}>
-                                        <Ionicons 
-                                            name="lock-closed" 
-                                            size={20} 
-                                            color="#BC7D7C" 
-                                            style={styles.inputIcon} 
+                                        <Ionicons
+                                            name="lock-closed"
+                                            size={20}
+                                            color="#BC7D7C"
+                                            style={styles.inputIcon}
                                         />
                                         <TextInput
                                             style={styles.input}
@@ -192,24 +190,24 @@ export default function Login() {
                                             returnKeyType="done"
                                             onSubmitEditing={handleLogin}
                                         />
-                                        <TouchableOpacity 
-                                            onPress={() => setShowPassword(!showPassword)} 
+                                        <TouchableOpacity
+                                            onPress={() => setShowPassword(!showPassword)}
                                             style={styles.validationIcon}
                                             activeOpacity={0.7}
                                         >
-                                            <Ionicons 
-                                                name={showPassword ? "eye-off" : "eye"} 
-                                                size={20} 
-                                                color="#999" 
+                                            <Ionicons
+                                                name={showPassword ? "eye-off" : "eye"}
+                                                size={20}
+                                                color="#999"
                                             />
                                         </TouchableOpacity>
                                     </View>
-                                    
+
                                     {error && <Text style={styles.error}>{error}</Text>}
                                     {success && <Text style={styles.success}>{success}</Text>}
-                                    
+
                                     <View style={styles.checkboxContainer}>
-                                        <TouchableOpacity 
+                                        <TouchableOpacity
                                             style={styles.checkbox}
                                             onPress={() => setRememberMe(!rememberMe)}
                                             activeOpacity={0.7}
@@ -226,8 +224,8 @@ export default function Login() {
                                         </TouchableOpacity>
                                     </View>
 
-                                    <TouchableOpacity 
-                                        style={styles.button} 
+                                    <TouchableOpacity
+                                        style={styles.button}
                                         onPress={handleLogin}
                                         activeOpacity={0.8}
                                     >
@@ -240,6 +238,17 @@ export default function Login() {
                                     <TouchableOpacity onPress={handleSignUpPress} activeOpacity={0.7}>
                                         <Text style={styles.span}>Sign Up</Text>
                                     </TouchableOpacity>
+                                </View>
+                                <View style={styles.icons}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 10 }}>
+                                        <View style={{ width: 90, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                        <Text style={{ color: '#CDCDCD' }}>Log In with</Text>
+                                        <View style={{ width: 90, height: 1, backgroundColor: "#CDCDCD" }}></View>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                                        <Image source={require('../assets/img/google.png')} style={{ width: 25, height: 25 }} />
+                                        <Image source={require('../assets/img/apple.png')} style={{ width: 25, height: 25 }} />
+                                    </View>
                                 </View>
                             </View>
                         </View>
@@ -295,11 +304,11 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     top: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: Platform.OS === 'ios' ? 40 : 20,
-        maxHeight: screenHeight * 0.45,
+        maxHeight: screenHeight * 0.60,
+        width: '100%',
     },
     logoContainer: {
         alignItems: 'center',
@@ -343,6 +352,7 @@ const styles = StyleSheet.create({
         paddingBottom: 30,
         minHeight: screenHeight * 0.55,
         justifyContent: 'space-between',
+        height: '70%',
     },
     h1: {
         fontSize: Platform.OS === 'ios' ? 32 : 36,
