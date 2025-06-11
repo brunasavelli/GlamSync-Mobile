@@ -16,6 +16,7 @@ Sou a Bruna, Scrum Master da equipe GlamSync. Neste projeto atuei cuidando do Mo
 ### JavaScript
 ### React Native
 ### Axios
+## Expo Go
 
 # Ao Clonar o Projeto, Instale as Dependências e troque os IPs das APIs 🖥
 ## Instalando as Dependências:
